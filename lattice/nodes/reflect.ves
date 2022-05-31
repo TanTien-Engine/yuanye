@@ -1,0 +1,133 @@
+import "blueprint.blueprint" for Blueprint
+import "blueprint.node" for Node
+import "blueprint.pin" for Pin
+import "blueprint.node_param" for NodeParam
+import "blueprint.node_editor" for NodeEditor
+import "blueprint.variant" for Variant
+import "blueprint.nodes.array" for Array
+import "geograph.variant" for VAR_TYPE_GEO, VarGeo
+import "maths.vector" for Vector2
+import "geometry" for Polyline
+
+var EDITOR = nil
+var DRAW_SCALE = 100
+
+class Reflect is Node
+{
+	init()
+	{
+		super.init()
+
+		this.imports = [
+			Pin(this, "geo", VAR_TYPE_GEO),
+		]
+		this.exports = [
+			Pin(this, "geo", VAR_TYPE_GEO),
+		]
+
+		this.params.add(NodeParam("pos", Vector2(0, 0)))
+		this.params.add(NodeParam("dir", Vector2(0, 100)))
+
+		this.layout()
+
+		this.editor_pts = Array()
+	}
+
+	calc_value(idx)
+	{
+		var v_geo = Blueprint.calc_input_value(this, 0)
+		if (!v_geo) {
+			return nil
+		}
+
+		var shape = v_geo.value.shape
+
+		var pos = this.query_param("pos").value
+		var dir = this.query_param("dir").value.clone()
+		dir.normalize()
+		if (shape is Polyline) 
+		{
+			var verts = shape.get_vertices()
+			for (var i in 0 .. verts.count / 2)
+			{
+				var x = verts[i * 2]
+				var y = verts[i * 2 + 1]
+				var r_pos = this.calc_reflect_pos([ x, y ], pos, dir)
+				verts[i * 2] = r_pos[0]
+				verts[i * 2 + 1] = r_pos[1]
+			}
+
+			var shape = Polyline.init()
+			shape.set_vertices(verts)
+
+			var geo = VarGeo()
+			geo.shape = shape
+			return Variant(VAR_TYPE_GEO, geo)
+		}
+
+		return nil
+	}
+
+	calc_reflect_pos(pos, axis_pos, axis_dir)
+	{
+		var t = (pos[0] - axis_pos.x) * axis_dir.x + (pos[1] - axis_pos.y) * axis_dir.y
+		var x = pos[0] - 2 * t * axis_dir.x
+		var y = pos[1] - 2 * t * axis_dir.y
+		return [ x, y ]
+	}
+
+	bind_editor()
+	{
+		if (!EDITOR) {
+			EDITOR = NodeEditor("assets/blueprints/editorgraph/select_and_translate.ves")
+		}
+
+		var pos = this.query_param("pos").value
+		var dir = this.query_param("dir").value
+
+		System.print("++ %(pos), %(dir)")
+
+		this.editor_pts.list.clear()
+		this.editor_pts.list.add(Variant(Vector2(pos.x, pos.y)))
+		this.editor_pts.list.add(Variant(Vector2(dir.x, dir.y)))
+
+		Blueprint.connect(this.editor_pts.exports[0], EDITOR.editor_node.imports[1])
+
+		Blueprint.send_node_dirty_root(EDITOR.editor_node)
+
+		return true
+	}
+
+	draw_editor() 
+	{
+		if (EDITOR) {
+			EDITOR.draw()		
+		}
+	}
+
+	on_mouse_pressed(x, y, btn) 
+	{
+		EDITOR.on_mouse_pressed(x, y, btn)
+	}
+
+	on_mouse_released(x, y, btn) 
+	{
+		EDITOR.on_mouse_released(x, y, btn)
+	}
+
+	on_mouse_dragged(x, y, btn) 
+	{
+		EDITOR.on_mouse_dragged(x, y, btn)
+
+		var pos = this.query_param("pos").value
+		var dir = this.query_param("dir").value
+
+		var p = this.editor_pts.list[0].value
+		var d = this.editor_pts.list[1].value
+
+		pos.set(p.x, p.y)
+		dir.set(d.x, d.y)
+
+		Blueprint.send_pin_dirty_root(this.exports[0])
+	}	
+}
