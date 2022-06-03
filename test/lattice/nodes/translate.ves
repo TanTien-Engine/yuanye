@@ -1,0 +1,24 @@
+var node0 = ::geograph::nodes::polyline::Polyline()
+node0.query_param("vertices").value = [ 122.62734985352, -185.65476989746, -57.929382324219, -86.211486816406, -75, 133.5, 159, 374.5, 335, 153.5, 199, -7.5, -63, 126.5 ]
+node0.query_param("closed").value = false
+
+_editor.add_node(node0, -294.39750376008, 131.25131975069)
+
+var node1 = ::geograph::nodes::draw_geometry::DrawGeometry()
+node1.query_param("skip").value = false
+
+_editor.add_node(node1, 288.25416469795, 78.391782672326)
+
+var node2 = ::blueprint::nodes::merge::Merge()
+
+_editor.add_node(node2, 85, 50)
+
+var node3 = ::lattice::nodes::translate::Translate()
+node3.query_param("offset").value.set(120.3923, -2.7513)
+
+_editor.add_node(node3, -142.82644628099, -9.8324567993991)
+
+Blueprint.connect(node0, "geo", node3, "geo")
+Blueprint.connect(node0, "geo", node2, "in0")
+Blueprint.connect(node3, "geo", node2, "in1")
+Blueprint.connect(node2, "list", node1, "geos")

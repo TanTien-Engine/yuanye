@@ -6,13 +6,12 @@ import "blueprint.node_editor" for NodeEditor
 import "blueprint.variant" for Variant
 import "blueprint.nodes.array" for Array
 import "geograph.variant" for VAR_TYPE_GEO, VarGeo
-import "lattice.trans_helper" for TransHelper
 import "maths.vector" for Vector2
 import "geometry" for Polyline
 
 var EDITOR = nil
 
-class Reflect is Node
+class Translate is Node
 {
 	init()
 	{
@@ -25,8 +24,7 @@ class Reflect is Node
 			Pin(this, "geo", VAR_TYPE_GEO),
 		]
 
-		this.params.add(NodeParam("pos", Vector2(0, 0)))
-		this.params.add(NodeParam("dir", Vector2(0, 100)))
+		this.params.add(NodeParam("offset", Vector2(0, 0)))
 
 		this.layout()
 
@@ -42,18 +40,14 @@ class Reflect is Node
 
 		var shape = v_geo.value.shape
 
-		var axis_pos = this.query_param("pos").value
-		var axis_dir = this.query_param("dir").value.clone()
-		axis_dir.normalize()
+		var offset = this.query_param("offset").value
 		if (shape is Polyline) 
 		{
 			var verts = shape.get_vertices()
 			for (var i in 0 .. verts.count / 2)
 			{
-				var pos = [ verts[i * 2], verts[i * 2 + 1] ]
-				TransHelper.reflect_pos(pos, axis_pos, axis_dir)
-				verts[i * 2]     = pos[0]
-				verts[i * 2 + 1] = pos[1]
+				verts[i * 2] = verts[i * 2] + offset.x
+				verts[i * 2 + 1] = verts[i * 2 + 1] + offset.y
 			}
 
 			var shape = Polyline.init()
@@ -73,12 +67,10 @@ class Reflect is Node
 			EDITOR = NodeEditor("assets/blueprints/editorgraph/select_and_translate.ves")
 		}
 
-		var pos = this.query_param("pos").value
-		var dir = this.query_param("dir").value
+		var offset = this.query_param("offset").value
 
 		this.editor_pts.list.clear()
-		this.editor_pts.list.add(Variant(Vector2(pos.x, pos.y)))
-		this.editor_pts.list.add(Variant(Vector2(dir.x, dir.y)))
+		this.editor_pts.list.add(Variant(Vector2(offset.x, offset.y)))
 
 		Blueprint.connect(this.editor_pts.exports[0], EDITOR.editor_node.imports[1])
 
@@ -108,14 +100,10 @@ class Reflect is Node
 	{
 		EDITOR.on_mouse_dragged(x, y, btn)
 
-		var pos = this.query_param("pos").value
-		var dir = this.query_param("dir").value
-
+		var offset = this.query_param("offset").value
 		var p = this.editor_pts.list[0].value
-		var d = this.editor_pts.list[1].value
 
-		pos.set(p.x, p.y)
-		dir.set(d.x, d.y)
+		offset.set(p.x, p.y)
 
 		Blueprint.send_pin_dirty_root(this.exports[0])
 	}	

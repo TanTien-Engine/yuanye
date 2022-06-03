@@ -12,7 +12,7 @@ import "geometry" for Polyline
 
 var EDITOR = nil
 
-class Reflect is Node
+class GlideReflect is Node
 {
 	init()
 	{
@@ -27,6 +27,7 @@ class Reflect is Node
 
 		this.params.add(NodeParam("pos", Vector2(0, 0)))
 		this.params.add(NodeParam("dir", Vector2(0, 100)))
+		this.params.add(NodeParam("off", Vector2(100, 0)))
 
 		this.layout()
 
@@ -45,6 +46,14 @@ class Reflect is Node
 		var axis_pos = this.query_param("pos").value
 		var axis_dir = this.query_param("dir").value.clone()
 		axis_dir.normalize()
+
+		var off = this.query_param("off").value
+		var axis_dir_x = axis_dir.y
+		var axis_dir_y = -axis_dir.x
+		var dist = axis_dir_x * (off.x - axis_pos.x) + axis_dir_y * (off.y - axis_pos.y)
+		var dx = dist * axis_dir_x
+		var dy = dist * axis_dir_y
+
 		if (shape is Polyline) 
 		{
 			var verts = shape.get_vertices()
@@ -52,8 +61,8 @@ class Reflect is Node
 			{
 				var pos = [ verts[i * 2], verts[i * 2 + 1] ]
 				TransHelper.reflect_pos(pos, axis_pos, axis_dir)
-				verts[i * 2]     = pos[0]
-				verts[i * 2 + 1] = pos[1]
+				verts[i * 2]     = pos[0] + dx
+				verts[i * 2 + 1] = pos[1] + dy
 			}
 
 			var shape = Polyline.init()
@@ -75,10 +84,12 @@ class Reflect is Node
 
 		var pos = this.query_param("pos").value
 		var dir = this.query_param("dir").value
+		var off = this.query_param("off").value
 
 		this.editor_pts.list.clear()
 		this.editor_pts.list.add(Variant(Vector2(pos.x, pos.y)))
 		this.editor_pts.list.add(Variant(Vector2(dir.x, dir.y)))
+		this.editor_pts.list.add(Variant(Vector2(off.x, off.y)))
 
 		Blueprint.connect(this.editor_pts.exports[0], EDITOR.editor_node.imports[1])
 
@@ -110,12 +121,15 @@ class Reflect is Node
 
 		var pos = this.query_param("pos").value
 		var dir = this.query_param("dir").value
+		var off = this.query_param("off").value
 
 		var p = this.editor_pts.list[0].value
 		var d = this.editor_pts.list[1].value
+		var o = this.editor_pts.list[2].value
 
 		pos.set(p.x, p.y)
 		dir.set(d.x, d.y)
+		off.set(o.x, o.y)
 
 		Blueprint.send_pin_dirty_root(this.exports[0])
 	}	

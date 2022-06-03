@@ -1,5 +1,5 @@
 import "lattice.nodes.*"
 
 var LATTICE_NODES = [
-Reflect,
+Reflect, Translate, Rotate, GlideReflect,
 ]

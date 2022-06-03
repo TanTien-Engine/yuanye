@@ -6,13 +6,13 @@ import "blueprint.node_editor" for NodeEditor
 import "blueprint.variant" for Variant
 import "blueprint.nodes.array" for Array
 import "geograph.variant" for VAR_TYPE_GEO, VarGeo
-import "lattice.trans_helper" for TransHelper
 import "maths.vector" for Vector2
 import "geometry" for Polyline
+import "math" for Math
 
 var EDITOR = nil
 
-class Reflect is Node
+class Rotate is Node
 {
 	init()
 	{
@@ -25,8 +25,8 @@ class Reflect is Node
 			Pin(this, "geo", VAR_TYPE_GEO),
 		]
 
-		this.params.add(NodeParam("pos", Vector2(0, 0)))
-		this.params.add(NodeParam("dir", Vector2(0, 100)))
+		this.params.add(NodeParam("p0", Vector2(0, 0)))
+		this.params.add(NodeParam("p1", Vector2(0, 100)))
 
 		this.layout()
 
@@ -42,18 +42,19 @@ class Reflect is Node
 
 		var shape = v_geo.value.shape
 
-		var axis_pos = this.query_param("pos").value
-		var axis_dir = this.query_param("dir").value.clone()
-		axis_dir.normalize()
+		var p0 = this.query_param("p0").value
+		var p1 = this.query_param("p1").value
+		var angle = Math.atan2(p1.y - p0.y, p1.x - p0.x)
 		if (shape is Polyline) 
 		{
 			var verts = shape.get_vertices()
 			for (var i in 0 .. verts.count / 2)
 			{
-				var pos = [ verts[i * 2], verts[i * 2 + 1] ]
-				TransHelper.reflect_pos(pos, axis_pos, axis_dir)
-				verts[i * 2]     = pos[0]
-				verts[i * 2 + 1] = pos[1]
+				var x = verts[i * 2]
+				var y = verts[i * 2 + 1]
+				var r_pos = this.calc_rotate_pos([ x, y ], angle, p0)
+				verts[i * 2] = r_pos[0]
+				verts[i * 2 + 1] = r_pos[1]
 			}
 
 			var shape = Polyline.init()
@@ -67,18 +68,34 @@ class Reflect is Node
 		return nil
 	}
 
+	calc_rotate_pos(pos, rad, axis)
+	{
+		var s = Math.sin(rad)
+		var c = Math.cos(rad)
+
+		var old_x = pos[0]
+		var old_y = pos[1]
+		var x = old_x - axis.x
+		var y = old_y - axis.y
+
+		var new_x = x * c - y * s
+		var new_y = x * s + y * c
+
+		return [ new_x + axis.x, new_y + axis.y ]
+	}
+
 	bind_editor()
 	{
 		if (!EDITOR) {
 			EDITOR = NodeEditor("assets/blueprints/editorgraph/select_and_translate.ves")
 		}
 
-		var pos = this.query_param("pos").value
-		var dir = this.query_param("dir").value
+		var p0 = this.query_param("p0").value
+		var p1 = this.query_param("p1").value
 
 		this.editor_pts.list.clear()
-		this.editor_pts.list.add(Variant(Vector2(pos.x, pos.y)))
-		this.editor_pts.list.add(Variant(Vector2(dir.x, dir.y)))
+		this.editor_pts.list.add(Variant(Vector2(p0.x, p0.y)))
+		this.editor_pts.list.add(Variant(Vector2(p1.x, p1.y)))
 
 		Blueprint.connect(this.editor_pts.exports[0], EDITOR.editor_node.imports[1])
 
@@ -108,14 +125,14 @@ class Reflect is Node
 	{
 		EDITOR.on_mouse_dragged(x, y, btn)
 
-		var pos = this.query_param("pos").value
-		var dir = this.query_param("dir").value
+		var p0 = this.query_param("p0").value
+		var p1 = this.query_param("p1").value
 
-		var p = this.editor_pts.list[0].value
-		var d = this.editor_pts.list[1].value
+		var v0 = this.editor_pts.list[0].value
+		var v1 = this.editor_pts.list[1].value
 
-		pos.set(p.x, p.y)
-		dir.set(d.x, d.y)
+		p0.set(v0.x, v0.y)
+		p1.set(v1.x, v1.y)
 
 		Blueprint.send_pin_dirty_root(this.exports[0])
 	}	
