@@ -1,5 +1,7 @@
 import "lattice.nodes.*"
+import "lattice.nodes.crystal_system" for Oblique, Rectangular, Square, Hexagonal
 
 var LATTICE_NODES = [
 Reflect, Translate, Rotate, GlideReflect,
+Oblique, Rectangular, Square, Hexagonal,
 ]

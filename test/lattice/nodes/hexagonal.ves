@@ -1,0 +1,18 @@
+var node0 = ::geograph::nodes::polyline::Polyline()
+node0.query_param("vertices").value = [ -81.372650146484, 71.345230102539, -114.92938232422, 129.78851318359, -78, 182.5, -12, 180.5, 21, 120.5, -16, 68.5, -80, 72.5 ]
+node0.query_param("closed").value = false
+
+_editor.add_node(node0, -293.39750376008, 131.25131975069)
+
+var node1 = ::geograph::nodes::draw_geometry::DrawGeometry()
+node1.query_param("skip").value = false
+
+_editor.add_node(node1, 15.526891970677, 121.66450994506)
+
+var node2 = ::lattice::nodes::crystal_system::Hexagonal()
+node2.query_param("size").value = 70
+
+_editor.add_node(node2, -140, 136)
+
+Blueprint.connect(node0, "geo", node2, "geo")
+Blueprint.connect(node2, "geo", node1, "geos")

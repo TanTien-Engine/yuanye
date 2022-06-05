@@ -1,0 +1,219 @@
+import "blueprint.node" for Node
+import "blueprint.pin" for Pin
+import "blueprint.node_param" for NodeParam
+import "blueprint.blueprint" for Blueprint
+import "blueprint.variant_proxy" for VariantProxy
+import "blueprint.variant" for Variant
+import "geograph.variant" for VAR_TYPE_GEO, VarGeo
+import "lattice.trans_helper" for TransHelper
+import "lattice.nodes.translate" for Translate
+import "maths.vector" for Vector2
+import "math" for Math
+
+var CRYSTAL_NUM = 5
+
+class Oblique is Node
+{
+	init()
+	{
+		super.init()
+
+		this.imports = [
+			Pin(this, "geo", VAR_TYPE_GEO),
+		]
+		this.exports = [
+			Pin(this, "geo", VAR_TYPE_GEO),
+		]
+
+		this.params.add(NodeParam("size",  Vector2(100, 100)))
+		this.params.add(NodeParam("angle", Math.pi() / 3))
+
+		this.layout()
+	}
+
+	calc_value(idx)
+	{
+		var v_geo = Blueprint.calc_input_value(this, 0)
+		if (!v_geo) {
+			return nil
+		}
+
+		var ret_geos = []
+
+		var size = this.query_param("size").value
+		var angle = this.query_param("angle").value
+
+		var h  = size.y * Math.sin(angle)
+		var dx = size.y * Math.cos(angle)
+
+		var trans = Translate()
+		Blueprint.connect(VariantProxy(v_geo), "out", trans, "geo")
+
+		for (var i in 0..CRYSTAL_NUM) 
+		{
+			for (var j in 0..CRYSTAL_NUM) 
+			{
+				var y = h * i			
+				var x = size.x * j + dx * i
+				trans.query_param("offset").value.set(x, y)
+
+				var new = Blueprint.calc_output_value(trans, "geo")
+				ret_geos.add(new)
+			}
+		}
+
+		return Variant(ret_geos)
+	}
+}
+
+class Rectangular is Node
+{
+	init()
+	{
+		super.init()
+
+		this.imports = [
+			Pin(this, "geo", VAR_TYPE_GEO),
+		]
+		this.exports = [
+			Pin(this, "geo", VAR_TYPE_GEO),
+		]
+
+		this.params.add(NodeParam("size", Vector2(100, 100)))
+
+		this.layout()
+	}
+
+	calc_value(idx)
+	{
+		var v_geo = Blueprint.calc_input_value(this, 0)
+		if (!v_geo) {
+			return nil
+		}
+
+		var ret_geos = []
+
+		var size = this.query_param("size").value
+
+		var trans = Translate()
+		Blueprint.connect(VariantProxy(v_geo), "out", trans, "geo")
+
+		for (var i in 0..CRYSTAL_NUM) 
+		{
+			for (var j in 0..CRYSTAL_NUM) 
+			{
+				var y = size.y * i			
+				var x = size.x * j
+				trans.query_param("offset").value.set(x, y)
+
+				var new = Blueprint.calc_output_value(trans, "geo")
+				ret_geos.add(new)
+			}
+		}
+
+		return Variant(ret_geos)
+	}
+}
+
+class Square is Node
+{
+	init()
+	{
+		super.init()
+
+		this.imports = [
+			Pin(this, "geo", VAR_TYPE_GEO),
+		]
+		this.exports = [
+			Pin(this, "geo", VAR_TYPE_GEO),
+		]
+
+		this.params.add(NodeParam("size", 100))
+
+		this.layout()
+	}
+
+	calc_value(idx)
+	{
+		var v_geo = Blueprint.calc_input_value(this, 0)
+		if (!v_geo) {
+			return nil
+		}
+
+		var ret_geos = []
+
+		var size = this.query_param("size").value
+
+		var trans = Translate()
+		Blueprint.connect(VariantProxy(v_geo), "out", trans, "geo")
+
+		for (var i in 0..CRYSTAL_NUM) 
+		{
+			for (var j in 0..CRYSTAL_NUM) 
+			{
+				var y = size * i			
+				var x = size * j
+				trans.query_param("offset").value.set(x, y)
+
+				var new = Blueprint.calc_output_value(trans, "geo")
+				ret_geos.add(new)
+			}
+		}
+
+		return Variant(ret_geos)
+	}
+}
+
+class Hexagonal is Node
+{
+	init()
+	{
+		super.init()
+
+		this.imports = [
+			Pin(this, "geo", VAR_TYPE_GEO),
+		]
+		this.exports = [
+			Pin(this, "geo", VAR_TYPE_GEO),
+		]
+
+		this.params.add(NodeParam("size", 100))
+
+		this.layout()
+	}
+
+	calc_value(idx)
+	{
+		var v_geo = Blueprint.calc_input_value(this, 0)
+		if (!v_geo) {
+			return nil
+		}
+
+		var ret_geos = []
+
+		var size = this.query_param("size").value
+		var hx = size
+		var hy = size / 2 * Math.sqrt(3)
+
+		var trans = Translate()
+		Blueprint.connect(VariantProxy(v_geo), "out", trans, "geo")
+
+		for (var i in 0..CRYSTAL_NUM) 
+		{
+			for (var j in 0..CRYSTAL_NUM) 
+			{
+				var y = hy * 2 * i
+				if (Math.mod(j, 2) > 0) {
+					y = y + hy
+				}
+				var x = hx * 1.5 * j
+				trans.query_param("offset").value.set(x, y)
+
+				var new = Blueprint.calc_output_value(trans, "geo")
+				ret_geos.add(new)
+			}
+		}
+
+		return Variant(ret_geos)
+	}
+}
