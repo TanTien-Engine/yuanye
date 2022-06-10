@@ -1,50 +1,51 @@
-var node0 = ::lattice::nodes::crystal_system::Rectangular()
-node0.query_param("size").value.set(100, 200)
+var node0 = ::lattice::nodes::rotate::Rotate()
+node0.query_param("p0").value.set(-70, 100)
+node0.query_param("p1").value.set(-100, 100)
 
-_editor.add_node(node0, -55.363636363638, 254.63636363637)
+_editor.add_node(node0, -350.51883212003, 185.49389093573)
 
-var node1 = ::lattice::nodes::rotate::Rotate()
-node1.query_param("p0").value.set(-70, 100)
-node1.query_param("p1").value.set(-100, 100)
+var node1 = ::blueprint::nodes::merge::Merge()
 
-_editor.add_node(node1, -350.51883212003, 185.49389093573)
+_editor.add_node(node1, -207.73882224343, 263.85573508523)
 
-var node2 = ::blueprint::nodes::merge::Merge()
+var node2 = ::blueprint::nodes::input::Input()
 
-_editor.add_node(node2, -207.73882224343, 263.85573508523)
+node2.var_name = "geo"
+node2.var_type = "geo"
 
-var node3 = ::blueprint::nodes::input::Input()
+_editor.add_node(node2, -594.43713933771, 281.95003995028)
+
+var node3 = ::blueprint::nodes::output::Output()
 
 node3.var_name = "geo"
-node3.var_type = "geo"
+node3.var_type = "array"
 
-_editor.add_node(node3, -594.43713933771, 281.95003995028)
+_editor.add_node(node3, 86.47195295854, 289.22272838246)
 
-var node4 = ::blueprint::nodes::output::Output()
+var node4 = ::blueprint::nodes::input::Input()
 
-node4.var_name = "geo"
-node4.var_type = "array"
+node4.var_name = "p0"
+node4.var_type = "num2"
 
-_editor.add_node(node4, 86.47195295854, 289.22272838246)
+_editor.add_node(node4, -502.61892977628, 211.04092129794)
 
 var node5 = ::blueprint::nodes::input::Input()
 
-node5.var_name = "p0"
+node5.var_name = "p1"
 node5.var_type = "num2"
 
-_editor.add_node(node5, -502.61892977628, 211.04092129794)
+_editor.add_node(node5, -504.43714488636, 147.40454101562)
 
-var node6 = ::blueprint::nodes::input::Input()
+var node6 = ::lattice::nodes::crystal_system::Oblique()
+node6.query_param("size").value.set(100, 200)
+node6.query_param("angle").value = 1.0471975511966
 
-node6.var_name = "p1"
-node6.var_type = "num2"
+_editor.add_node(node6, -64, 235.5)
 
-_editor.add_node(node6, -504.43714488636, 147.40454101562)
-
-Blueprint.connect(node3, "var", node1, "geo")
-Blueprint.connect(node5, "var", node1, "p0")
-Blueprint.connect(node6, "var", node1, "p1")
-Blueprint.connect(node3, "var", node2, "in0")
-Blueprint.connect(node1, "geo", node2, "in1")
-Blueprint.connect(node2, "list", node0, "geo")
-Blueprint.connect(node0, "geo", node4, "var")
+Blueprint.connect(node2, "var", node0, "geo")
+Blueprint.connect(node4, "var", node0, "p0")
+Blueprint.connect(node5, "var", node0, "p1")
+Blueprint.connect(node2, "var", node1, "in0")
+Blueprint.connect(node0, "geo", node1, "in1")
+Blueprint.connect(node1, "list", node6, "geo")
+Blueprint.connect(node6, "geo", node3, "var")

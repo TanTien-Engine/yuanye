@@ -1,21 +1,22 @@
-var node0 = ::lattice::nodes::crystal_system::Rectangular()
-node0.query_param("size").value.set(100, 100)
+var node0 = ::blueprint::nodes::input::Input()
 
-_editor.add_node(node0, -55.363636363638, 254.63636363637)
+node0.var_name = "geo"
+node0.var_type = "geo"
 
-var node1 = ::blueprint::nodes::input::Input()
+_editor.add_node(node0, -223.28762769233, 280.44741034848)
+
+var node1 = ::blueprint::nodes::output::Output()
 
 node1.var_name = "geo"
-node1.var_type = "geo"
+node1.var_type = "array"
 
-_editor.add_node(node1, -223.28762769233, 280.44741034848)
+_editor.add_node(node1, 86.47195295854, 289.22272838246)
 
-var node2 = ::blueprint::nodes::output::Output()
+var node2 = ::lattice::nodes::crystal_system::Oblique()
+node2.query_param("size").value.set(100, 100)
+node2.query_param("angle").value = 1.0471975511966
 
-node2.var_name = "geo"
-node2.var_type = "array"
+_editor.add_node(node2, -65.651097942462, 243.20825817295)
 
-_editor.add_node(node2, 86.47195295854, 289.22272838246)
-
-Blueprint.connect(node1, "var", node0, "geo")
-Blueprint.connect(node0, "geo", node2, "var")
+Blueprint.connect(node0, "var", node2, "geo")
+Blueprint.connect(node2, "geo", node1, "var")
