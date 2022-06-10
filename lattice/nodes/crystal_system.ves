@@ -3,7 +3,8 @@ import "blueprint.pin" for Pin
 import "blueprint.node_param" for NodeParam
 import "blueprint.blueprint" for Blueprint
 import "blueprint.variant_proxy" for VariantProxy
-import "blueprint.variant" for Variant
+import "blueprint.variant" for Variant, VAR_TYPE_NUMBER, VAR_TYPE_NUMBER2
+import "blueprint.node_helper" for NodeHelper
 import "geograph.variant" for VAR_TYPE_GEO, VarGeo
 import "lattice.trans_helper" for TransHelper
 import "lattice.nodes.translate" for Translate
@@ -19,7 +20,9 @@ class Oblique is Node
 		super.init()
 
 		this.imports = [
-			Pin(this, "geo", VAR_TYPE_GEO),
+			Pin(this, "geo",   VAR_TYPE_GEO),
+			Pin(this, "size",  VAR_TYPE_NUMBER2),
+			Pin(this, "angle", VAR_TYPE_NUMBER),
 		]
 		this.exports = [
 			Pin(this, "geo", VAR_TYPE_GEO),
@@ -40,8 +43,8 @@ class Oblique is Node
 
 		var ret_geos = []
 
-		var size = this.query_param("size").value
-		var angle = this.query_param("angle").value
+		var size = NodeHelper.calc_prop_value(this, "size")
+		var angle = NodeHelper.calc_prop_value(this, "angle")
 
 		var h  = size.y * Math.sin(angle)
 		var dx = size.y * Math.cos(angle)
@@ -73,7 +76,8 @@ class Rectangular is Node
 		super.init()
 
 		this.imports = [
-			Pin(this, "geo", VAR_TYPE_GEO),
+			Pin(this, "geo",  VAR_TYPE_GEO),
+			Pin(this, "size", VAR_TYPE_NUMBER2),
 		]
 		this.exports = [
 			Pin(this, "geo", VAR_TYPE_GEO),
@@ -93,7 +97,7 @@ class Rectangular is Node
 
 		var ret_geos = []
 
-		var size = this.query_param("size").value
+		var size = NodeHelper.calc_prop_value(this, "size")
 
 		var trans = Translate()
 		Blueprint.connect(VariantProxy(v_geo), "out", trans, "geo")
@@ -122,7 +126,8 @@ class Square is Node
 		super.init()
 
 		this.imports = [
-			Pin(this, "geo", VAR_TYPE_GEO),
+			Pin(this, "geo",  VAR_TYPE_GEO),
+			Pin(this, "size", VAR_TYPE_NUMBER2),
 		]
 		this.exports = [
 			Pin(this, "geo", VAR_TYPE_GEO),
@@ -142,7 +147,7 @@ class Square is Node
 
 		var ret_geos = []
 
-		var size = this.query_param("size").value
+		var size = NodeHelper.calc_prop_value(this, "size")
 
 		var trans = Translate()
 		Blueprint.connect(VariantProxy(v_geo), "out", trans, "geo")
@@ -171,7 +176,8 @@ class Hexagonal is Node
 		super.init()
 
 		this.imports = [
-			Pin(this, "geo", VAR_TYPE_GEO),
+			Pin(this, "geo",  VAR_TYPE_GEO),
+			Pin(this, "size", VAR_TYPE_NUMBER2),
 		]
 		this.exports = [
 			Pin(this, "geo", VAR_TYPE_GEO),
@@ -191,7 +197,7 @@ class Hexagonal is Node
 
 		var ret_geos = []
 
-		var size = this.query_param("size").value
+		var size = NodeHelper.calc_prop_value(this, "size")
 		var hx = size
 		var hy = size / 2 * Math.sqrt(3)
 
