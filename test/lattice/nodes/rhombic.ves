@@ -1,0 +1,29 @@
+var node0 = ::geograph::nodes::polyline::Polyline()
+node0.query_param("vertices").value = [ -68.372650146484, 37.345230102539, -194.92938232422, 107.78851318359, -63, 190.5, -33, 189.5, 90, 113.5, -41, 36.5, -67, 38.5 ]
+node0.query_param("closed").value = false
+
+_editor.add_node(node0, -292.39750376008, 131.25131975069)
+
+var node1 = ::geograph::nodes::draw_geometry::DrawGeometry()
+node1.query_param("skip").value = false
+
+_editor.add_node(node1, 15.526891970677, 121.66450994506)
+
+var node2 = ::lattice::nodes::crystal_system::Rhombic()
+node2.query_param("size").value.set(173, 100)
+
+_editor.add_node(node2, -140, 136)
+
+var node3 = ::blueprint::nodes::camera2d::Camera2d()
+
+node3.x = 322.53686526878
+node3.y = 99.867328749321
+node3.scale = 2.357947691
+node3.speed = 0.01
+
+_editor.add_node(node3, -450.67654407182, 47.819535197651)
+
+Blueprint.connect(node3, "mat", node0, "cam_mat")
+Blueprint.connect(node0, "geo", node2, "geo")
+Blueprint.connect(node2, "geo", node1, "geos")
+Blueprint.connect(node3, "mat", node1, "cam_mat")

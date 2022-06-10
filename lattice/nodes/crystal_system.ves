@@ -169,7 +169,7 @@ class Square is Node
 	}
 }
 
-class Hexagonal is Node
+class Rhombic is Node
 {
 	init()
 	{
@@ -178,6 +178,61 @@ class Hexagonal is Node
 		this.imports = [
 			Pin(this, "geo",  VAR_TYPE_GEO),
 			Pin(this, "size", VAR_TYPE_NUMBER2),
+		]
+		this.exports = [
+			Pin(this, "geo", VAR_TYPE_GEO),
+		]
+
+		this.params.add(NodeParam("size", Vector2(173, 100)))
+
+		this.layout()
+	}
+
+	calc_value(idx)
+	{
+		var v_geo = Blueprint.calc_input_value(this, 0)
+		if (!v_geo) {
+			return nil
+		}
+
+		var ret_geos = []
+
+		var size = NodeHelper.calc_prop_value(this, "size")
+		var hx = size.x
+		var hy = size.y
+
+		var trans = Translate()
+		Blueprint.connect(VariantProxy(v_geo), "out", trans, "geo")
+
+		for (var i in 0..CRYSTAL_NUM) 
+		{
+			for (var j in 0..CRYSTAL_NUM) 
+			{
+				var y = hy * i
+				var x = hx * 2 * j
+				if (Math.mod(i, 2) > 0) {
+					x = x + hx
+				}
+				trans.query_param("offset").value.set(x, y)
+
+				var new = Blueprint.calc_output_value(trans, "geo")
+				ret_geos.add(new)
+			}
+		}
+
+		return Variant(ret_geos)
+	}
+}
+
+class Hexagonal is Node
+{
+	init()
+	{
+		super.init()
+
+		this.imports = [
+			Pin(this, "geo",  VAR_TYPE_GEO),
+			Pin(this, "size", VAR_TYPE_NUMBER),
 		]
 		this.exports = [
 			Pin(this, "geo", VAR_TYPE_GEO),
