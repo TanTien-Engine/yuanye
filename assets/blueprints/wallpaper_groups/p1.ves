@@ -1,0 +1,21 @@
+var node0 = ::lattice::nodes::crystal_system::Rectangular()
+node0.query_param("size").value.set(100, 100)
+
+_editor.add_node(node0, -55.363636363638, 254.63636363637)
+
+var node1 = ::blueprint::nodes::input::Input()
+
+node1.var_name = "geo"
+node1.var_type = "geo"
+
+_editor.add_node(node1, -223.28762769233, 280.44741034848)
+
+var node2 = ::blueprint::nodes::output::Output()
+
+node2.var_name = "geo"
+node2.var_type = "array"
+
+_editor.add_node(node2, 86.47195295854, 289.22272838246)
+
+Blueprint.connect(node1, "var", node0, "geo")
+Blueprint.connect(node0, "geo", node2, "var")

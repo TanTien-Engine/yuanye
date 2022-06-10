@@ -14,5 +14,16 @@ node2.query_param("size").value = 70
 
 _editor.add_node(node2, -140, 136)
 
+var node3 = ::blueprint::nodes::camera2d::Camera2d()
+
+node3.x = 0
+node3.y = 0
+node3.scale = 1
+node3.speed = 0.01
+
+_editor.add_node(node3, -450.67654407182, 47.819535197651)
+
+Blueprint.connect(node3, "mat", node0, "cam_mat")
 Blueprint.connect(node0, "geo", node2, "geo")
 Blueprint.connect(node2, "geo", node1, "geos")
+Blueprint.connect(node3, "mat", node1, "cam_mat")

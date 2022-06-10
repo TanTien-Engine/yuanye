@@ -1,0 +1,59 @@
+var node0 = ::lattice::nodes::crystal_system::Rectangular()
+node0.query_param("size").value.set(100, 200)
+
+_editor.add_node(node0, -55.363636363638, 254.63636363637)
+
+var node1 = ::blueprint::nodes::merge::Merge()
+
+_editor.add_node(node1, -207.73882224343, 263.85573508523)
+
+var node2 = ::blueprint::nodes::input::Input()
+
+node2.var_name = "geo"
+node2.var_type = "geo"
+
+_editor.add_node(node2, -540.80077570135, 310.1318581321)
+
+var node3 = ::blueprint::nodes::output::Output()
+
+node3.var_name = "geo"
+node3.var_type = "array"
+
+_editor.add_node(node3, 86.47195295854, 289.22272838246)
+
+var node4 = ::blueprint::nodes::input::Input()
+
+node4.var_name = "pos"
+node4.var_type = "num2"
+
+_editor.add_node(node4, -502.84708703182, 223.31502977195)
+
+var node5 = ::blueprint::nodes::input::Input()
+
+node5.var_name = "dir"
+node5.var_type = "num2"
+
+_editor.add_node(node5, -502.68927208308, 158.01824932829)
+
+var node6 = ::lattice::nodes::glide_reflect::GlideReflect()
+node6.query_param("pos").value.set(0, 0)
+node6.query_param("dir").value.set(0, 100)
+node6.query_param("off").value.set(100, 0)
+
+_editor.add_node(node6, -345.011893051, 152.01276673418)
+
+var node7 = ::blueprint::nodes::input::Input()
+
+node7.var_name = "off"
+node7.var_type = "num2"
+
+_editor.add_node(node7, -504.93433497634, 90.200046599493)
+
+Blueprint.connect(node2, "var", node6, "geo")
+Blueprint.connect(node4, "var", node6, "pos")
+Blueprint.connect(node5, "var", node6, "dir")
+Blueprint.connect(node7, "var", node6, "off")
+Blueprint.connect(node2, "var", node1, "in0")
+Blueprint.connect(node6, "geo", node1, "in1")
+Blueprint.connect(node1, "list", node0, "geo")
+Blueprint.connect(node0, "geo", node3, "var")
