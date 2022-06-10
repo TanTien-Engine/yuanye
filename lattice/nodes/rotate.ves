@@ -3,7 +3,9 @@ import "blueprint.node" for Node
 import "blueprint.pin" for Pin
 import "blueprint.node_param" for NodeParam
 import "blueprint.node_editor" for NodeEditor
-import "blueprint.variant" for Variant
+import "blueprint.variant" for Variant, VAR_TYPE_NUMBER2
+import "blueprint.variant_helper" for VariantHelper
+import "blueprint.node_helper" for NodeHelper
 import "blueprint.nodes.array" for Array
 import "geograph.variant" for VAR_TYPE_GEO, VarGeo
 import "maths.vector" for Vector2
@@ -20,6 +22,8 @@ class Rotate is Node
 
 		this.imports = [
 			Pin(this, "geo", VAR_TYPE_GEO),
+			Pin(this, "p0",  VAR_TYPE_NUMBER2),
+			Pin(this, "p1",  VAR_TYPE_NUMBER2),
 		]
 		this.exports = [
 			Pin(this, "geo", VAR_TYPE_GEO),
@@ -40,32 +44,37 @@ class Rotate is Node
 			return nil
 		}
 
-		var shape = v_geo.value.shape
-
-		var p0 = this.query_param("p0").value
-		var p1 = this.query_param("p1").value
+		var p0 = NodeHelper.calc_prop_value(this, "p0")
+		var p1 = NodeHelper.calc_prop_value(this, "p1")
 		var angle = Math.atan2(p1.y - p0.y, p1.x - p0.x)
-		if (shape is Polyline) 
+
+		var ret = []
+		var geos = VariantHelper.flatten_values(v_geo, VAR_TYPE_GEO)
+		for (var geo in geos)
 		{
-			var verts = shape.get_vertices()
-			for (var i in 0 .. verts.count / 2)
+			var shape = geo.shape
+			if (shape is Polyline) 
 			{
-				var x = verts[i * 2]
-				var y = verts[i * 2 + 1]
-				var r_pos = this.calc_rotate_pos([ x, y ], angle, p0)
-				verts[i * 2] = r_pos[0]
-				verts[i * 2 + 1] = r_pos[1]
+				var verts = shape.get_vertices()
+				for (var i in 0 .. verts.count / 2)
+				{
+					var x = verts[i * 2]
+					var y = verts[i * 2 + 1]
+					var r_pos = this.calc_rotate_pos([ x, y ], angle, p0)
+					verts[i * 2] = r_pos[0]
+					verts[i * 2 + 1] = r_pos[1]
+				}
+
+				var shape = Polyline.init()
+				shape.set_vertices(verts)
+
+				var geo = VarGeo()
+				geo.shape = shape
+				ret.add(Variant(VAR_TYPE_GEO, geo))
 			}
-
-			var shape = Polyline.init()
-			shape.set_vertices(verts)
-
-			var geo = VarGeo()
-			geo.shape = shape
-			return Variant(VAR_TYPE_GEO, geo)
 		}
 
-		return nil
+		return Variant(ret)
 	}
 
 	calc_rotate_pos(pos, rad, axis)

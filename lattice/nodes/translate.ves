@@ -3,7 +3,9 @@ import "blueprint.node" for Node
 import "blueprint.pin" for Pin
 import "blueprint.node_param" for NodeParam
 import "blueprint.node_editor" for NodeEditor
-import "blueprint.variant" for Variant
+import "blueprint.variant" for Variant, VAR_TYPE_NUMBER2
+import "blueprint.variant_helper" for VariantHelper
+import "blueprint.node_helper" for NodeHelper
 import "blueprint.nodes.array" for Array
 import "geograph.variant" for VAR_TYPE_GEO, VarGeo
 import "maths.vector" for Vector2
@@ -18,7 +20,8 @@ class Translate is Node
 		super.init()
 
 		this.imports = [
-			Pin(this, "geo", VAR_TYPE_GEO),
+			Pin(this, "geo",    VAR_TYPE_GEO),
+			Pin(this, "offset", VAR_TYPE_NUMBER2),
 		]
 		this.exports = [
 			Pin(this, "geo", VAR_TYPE_GEO),
@@ -38,27 +41,32 @@ class Translate is Node
 			return nil
 		}
 
-		var shape = v_geo.value.shape
+		var offset = NodeHelper.calc_prop_value(this, "offset")
 
-		var offset = this.query_param("offset").value
-		if (shape is Polyline) 
+		var ret = []
+		var geos = VariantHelper.flatten_values(v_geo, VAR_TYPE_GEO)
+		for (var geo in geos)
 		{
-			var verts = shape.get_vertices()
-			for (var i in 0 .. verts.count / 2)
+			var shape = geo.shape
+			if (shape is Polyline) 
 			{
-				verts[i * 2] = verts[i * 2] + offset.x
-				verts[i * 2 + 1] = verts[i * 2 + 1] + offset.y
+				var verts = shape.get_vertices()
+				for (var i in 0 .. verts.count / 2)
+				{
+					verts[i * 2] = verts[i * 2] + offset.x
+					verts[i * 2 + 1] = verts[i * 2 + 1] + offset.y
+				}
+
+				var shape = Polyline.init()
+				shape.set_vertices(verts)
+
+				var geo = VarGeo()
+				geo.shape = shape
+				ret.add(Variant(VAR_TYPE_GEO, geo))
 			}
-
-			var shape = Polyline.init()
-			shape.set_vertices(verts)
-
-			var geo = VarGeo()
-			geo.shape = shape
-			return Variant(VAR_TYPE_GEO, geo)
 		}
 
-		return nil
+		return Variant(ret)
 	}
 
 	bind_editor()

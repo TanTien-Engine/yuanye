@@ -3,7 +3,9 @@ import "blueprint.node" for Node
 import "blueprint.pin" for Pin
 import "blueprint.node_param" for NodeParam
 import "blueprint.node_editor" for NodeEditor
-import "blueprint.variant" for Variant
+import "blueprint.variant" for Variant, VAR_TYPE_NUMBER2
+import "blueprint.variant_helper" for VariantHelper
+import "blueprint.node_helper" for NodeHelper
 import "blueprint.nodes.array" for Array
 import "geograph.variant" for VAR_TYPE_GEO, VarGeo
 import "lattice.trans_helper" for TransHelper
@@ -20,6 +22,8 @@ class Reflect is Node
 
 		this.imports = [
 			Pin(this, "geo", VAR_TYPE_GEO),
+			Pin(this, "pos", VAR_TYPE_NUMBER2),
+			Pin(this, "dir", VAR_TYPE_NUMBER2),
 		]
 		this.exports = [
 			Pin(this, "geo", VAR_TYPE_GEO),
@@ -40,31 +44,36 @@ class Reflect is Node
 			return nil
 		}
 
-		var shape = v_geo.value.shape
-
-		var axis_pos = this.query_param("pos").value
-		var axis_dir = this.query_param("dir").value.clone()
+		var axis_pos = NodeHelper.calc_prop_value(this, "pos")
+		var axis_dir = NodeHelper.calc_prop_value(this, "dir").clone()
 		axis_dir.normalize()
-		if (shape is Polyline) 
+
+		var ret = []
+		var geos = VariantHelper.flatten_values(v_geo, VAR_TYPE_GEO)
+		for (var geo in geos)
 		{
-			var verts = shape.get_vertices()
-			for (var i in 0 .. verts.count / 2)
+			var shape = geo.shape
+			if (shape is Polyline) 
 			{
-				var pos = [ verts[i * 2], verts[i * 2 + 1] ]
-				TransHelper.reflect_pos(pos, axis_pos, axis_dir)
-				verts[i * 2]     = pos[0]
-				verts[i * 2 + 1] = pos[1]
+				var verts = shape.get_vertices()
+				for (var i in 0 .. verts.count / 2)
+				{
+					var pos = [ verts[i * 2], verts[i * 2 + 1] ]
+					TransHelper.reflect_pos(pos, axis_pos, axis_dir)
+					verts[i * 2]     = pos[0]
+					verts[i * 2 + 1] = pos[1]
+				}
+
+				var shape = Polyline.init()
+				shape.set_vertices(verts)
+
+				var geo = VarGeo()
+				geo.shape = shape
+				ret.add(Variant(VAR_TYPE_GEO, geo))
 			}
-
-			var shape = Polyline.init()
-			shape.set_vertices(verts)
-
-			var geo = VarGeo()
-			geo.shape = shape
-			return Variant(VAR_TYPE_GEO, geo)
 		}
 
-		return nil
+		return Variant(ret)
 	}
 
 	bind_editor()
