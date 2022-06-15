@@ -1,0 +1,60 @@
+var node0 = ::lattice::nodes::rotate::Rotate()
+node0.query_param("p0").value.set(29.1, 76.2)
+node0.query_param("p1").value.set(-20.4, -68.7)
+
+_editor.add_node(node0, -345.79155939276, 173.76661820846)
+
+var node1 = ::blueprint::nodes::merge::Merge()
+
+_editor.add_node(node1, -207.73882224343, 263.85573508523)
+
+var node2 = ::blueprint::nodes::input::Input()
+
+node2.var_name = "geo"
+node2.var_type = "geo"
+
+_editor.add_node(node2, -869.18544887941, 371.89130079312)
+
+var node3 = ::blueprint::nodes::output::Output()
+
+node3.var_name = "geo"
+node3.var_type = "array"
+
+_editor.add_node(node3, 361.0083165949, 282.15909201882)
+
+var node4 = ::lattice::nodes::crystal_system::Square()
+node4.query_param("size").value = 500
+
+_editor.add_node(node4, 223.83611706955, 262.77207745135)
+
+var node5 = ::lattice::nodes::rotate::Rotate()
+node5.query_param("p0").value.set(29.948760330579, 69.435537190083)
+node5.query_param("p1").value.set(-169.61487603306, 63.999173553719)
+
+_editor.add_node(node5, -61.120923029121, 170.75025457209)
+
+var node6 = ::blueprint::nodes::merge::Merge()
+
+_editor.add_node(node6, 80.125184492631, 262.89271961559)
+
+var node7 = ::lattice::nodes::reflect::Reflect()
+node7.query_param("pos").value.set(-29.090909090909, 114)
+node7.query_param("dir").value.set(72.727272727273, 116.36363636364)
+
+_editor.add_node(node7, -714.71212687889, 248.63155368169)
+
+var node8 = ::blueprint::nodes::merge::Merge()
+
+_editor.add_node(node8, -548.42645609264, 359.20796681668)
+
+Blueprint.connect(node2, "var", node7, "geo")
+Blueprint.connect(node2, "var", node8, "in0")
+Blueprint.connect(node7, "geo", node8, "in1")
+Blueprint.connect(node8, "list", node0, "geo")
+Blueprint.connect(node8, "list", node1, "in0")
+Blueprint.connect(node0, "geo", node1, "in1")
+Blueprint.connect(node1, "list", node5, "geo")
+Blueprint.connect(node1, "list", node6, "in0")
+Blueprint.connect(node5, "geo", node6, "in1")
+Blueprint.connect(node6, "list", node4, "geo")
+Blueprint.connect(node4, "geo", node3, "var")

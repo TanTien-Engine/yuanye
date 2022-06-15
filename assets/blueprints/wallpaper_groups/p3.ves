@@ -1,0 +1,42 @@
+var node0 = ::lattice::nodes::rotate::Rotate()
+node0.query_param("p0").value.set(-2.865454545455, 113.23)
+node0.query_param("p1").value.set(-56.012727272727, 37.063636363636)
+
+_editor.add_node(node0, -411.94883212003, 178.91389093573)
+
+var node1 = ::blueprint::nodes::merge::Merge()
+
+_editor.add_node(node1, -79.36882224343, 233.82573508523)
+
+var node2 = ::blueprint::nodes::input::Input()
+
+node2.var_name = "geo"
+node2.var_type = "geo"
+
+_editor.add_node(node2, -594.43713933771, 281.95003995028)
+
+var node3 = ::blueprint::nodes::output::Output()
+
+node3.var_name = "geo"
+node3.var_type = "array"
+
+_editor.add_node(node3, 211.05104386763, 264.12000110973)
+
+var node4 = ::lattice::nodes::crystal_system::Hexagonal()
+node4.query_param("size").value = 150
+
+_editor.add_node(node4, 62.145147624045, 242.59909388951)
+
+var node5 = ::lattice::nodes::rotate::Rotate()
+node5.query_param("p0").value.set(-16.341818181819, 121.71909090909)
+node5.query_param("p1").value.set(-120.57818181818, -172.49454545455)
+
+_editor.add_node(node5, -238.54550312003, 113.02060293573)
+
+Blueprint.connect(node2, "var", node0, "geo")
+Blueprint.connect(node0, "geo", node5, "geo")
+Blueprint.connect(node2, "var", node1, "in0")
+Blueprint.connect(node0, "geo", node1, "in1")
+Blueprint.connect(node5, "geo", node1, "in2")
+Blueprint.connect(node1, "list", node4, "geo")
+Blueprint.connect(node4, "geo", node3, "var")
