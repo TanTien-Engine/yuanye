@@ -1,0 +1,51 @@
+var node0 = ::blueprint::nodes::subgraph::Subgraph()
+node0.load_from_file(_editor, "rotate_with_angle.ves")
+
+_editor.add_node(node0, 6, 95)
+
+var node1 = ::blueprint::nodes::input::Input()
+
+node1.var_name = "geo"
+node1.var_type = "geo"
+
+_editor.add_node(node1, -188, 153.5)
+
+var node2 = ::blueprint::nodes::output::Output()
+
+node2.var_name = "geo"
+node2.var_type = "geo"
+
+_editor.add_node(node2, 198, 113.5)
+
+var node3 = ::blueprint::nodes::input::Input()
+
+node3.var_name = "pos"
+node3.var_type = "num2"
+
+_editor.add_node(node3, -186, 88.5)
+
+var node4 = ::blueprint::nodes::pi::Pi()
+
+_editor.add_node(node4, -460, 55.5)
+
+var node5 = ::blueprint::nodes::multiply::Multiply()
+
+_editor.add_node(node5, -316, 18.5)
+
+var node6 = ::blueprint::nodes::integer::Integer()
+
+node6.value = 2
+
+_editor.add_node(node6, -459, -57.5)
+
+var node7 = ::blueprint::nodes::negate::Negate()
+
+_editor.add_node(node7, -185, 28.5)
+
+Blueprint.connect(node4, "pi/3", node5, "a")
+Blueprint.connect(node6, "v", node5, "b")
+Blueprint.connect(node5, "v", node7, "v")
+Blueprint.connect(node1, "var", node0, "geo")
+Blueprint.connect(node3, "var", node0, "pos")
+Blueprint.connect(node7, "v", node0, "angle")
+Blueprint.connect(node0, "geo", node2, "var")

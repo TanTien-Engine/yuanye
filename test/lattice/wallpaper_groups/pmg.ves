@@ -1,13 +1,13 @@
 var node0 = ::geograph::nodes::polyline::Polyline()
-node0.query_param("vertices").value = [ -85.372650146484, 161.34523010254, -87.929382324219, 109.78851318359, -119, 110.5, -115, 183.5, -24, 177.5, -27, 109.5, -65, 134.5 ]
+node0.query_param("vertices").value = [ -16.120716094971, 87.261772155762, -15.456424713135, 14.76841545105, -56.190082550049, 15.479909896851, -55.411094665527, 99.753448486328, 56.525512695312, 98.585014343262, 53.525501251221, 14.479902267456, 17.136011123657, 53.974479675293 ]
 node0.query_param("closed").value = false
 
-_editor.add_node(node0, -319.85204921463, 113.06950156887)
+_editor.add_node(node0, -342.48841285099, -36.93049843113)
 
 var node1 = ::geograph::nodes::draw_geometry::DrawGeometry()
 node1.query_param("skip").value = false
 
-_editor.add_node(node1, 142.25416469795, -10.699126418581)
+_editor.add_node(node1, 55.25416469795, -48.699126418581)
 
 var node2 = ::blueprint::nodes::camera2d::Camera2d()
 
@@ -18,24 +18,12 @@ node2.speed = 0.01
 
 _editor.add_node(node2, -494.00726860614, -147.05683785431)
 
-var node3 = ::blueprint::nodes::number2::Number2()
+var node3 = ::blueprint::nodes::subgraph::Subgraph()
+node3.load_from_file(_editor, "../../../assets/blueprints/wallpaper_groups/pmg.ves")
 
-node3.value.set(-206.55365070692, 107.78109418756)
-
-_editor.add_node(node3, -320.80076460405, 23.768215179443)
-
-var node4 = ::blueprint::nodes::number2::Number2()
-
-node4.value.set(1.1428181135176, 31.724950481524)
-
-_editor.add_node(node4, -322.61894642223, -60.777239712802)
-
-var node5 = ::blueprint::nodes::subgraph::Subgraph()
-node5.load_from_file(_editor, "../../../assets/blueprints/wallpaper_groups/pmg.ves")
-
-_editor.add_node(node5, -69.728502151492, 34.099515060446)
+_editor.add_node(node3, -143.72850215149, -16.900484939554)
 
 Blueprint.connect(node2, "mat", node0, "cam_mat")
-Blueprint.connect(node0, "geo", node5, "geo")
-Blueprint.connect(node5, "geo", node1, "geos")
+Blueprint.connect(node0, "geo", node3, "geo")
+Blueprint.connect(node3, "geo", node1, "geos")
 Blueprint.connect(node2, "mat", node1, "cam_mat")

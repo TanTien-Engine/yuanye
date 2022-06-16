@@ -1,0 +1,43 @@
+var node0 = ::geograph::nodes::polyline::Polyline()
+node0.query_param("vertices").value = [ 122.62734985352, -185.65476989746, -57.929382324219, -86.211486816406, -75, 133.5, 159, 374.5, 335, 153.5, 199, -7.5, -63, 126.5 ]
+node0.query_param("closed").value = false
+
+_editor.add_node(node0, -132.40079977811, 222.64370968307)
+
+var node1 = ::geograph::nodes::draw_geometry::DrawGeometry()
+node1.query_param("skip").value = false
+
+_editor.add_node(node1, 404.05116469795, 222.13978267233)
+
+var node2 = ::blueprint::nodes::merge::Merge()
+
+_editor.add_node(node2, 263.354, 220.368)
+
+var node3 = ::blueprint::nodes::subgraph::Subgraph()
+node3.load_from_file(_editor, "../../../assets/blueprints/categories/rotate_with_angle.ves")
+
+_editor.add_node(node3, 82.683, 160.119)
+
+var node4 = ::blueprint::nodes::number2::Number2()
+
+node4.value.set(123, -183)
+
+_editor.add_node(node4, -134.73718482344, 134.7475379414)
+
+var node5 = ::blueprint::nodes::pi::Pi()
+
+_editor.add_node(node5, -134.16498891976, 3.2271132970234)
+
+var node6 = ::blueprint::nodes::subgraph::Subgraph()
+node6.load_from_file(_editor, "../../../assets/blueprints/categories/rotate120.ves")
+
+_editor.add_node(node6, 83.248685199098, 38.95792637115)
+
+Blueprint.connect(node0, "geo", node6, "geo")
+Blueprint.connect(node4, "v2", node6, "pos")
+Blueprint.connect(node0, "geo", node3, "geo")
+Blueprint.connect(node4, "v2", node3, "pos")
+Blueprint.connect(node5, "pi/3", node3, "angle")
+Blueprint.connect(node0, "geo", node2, "in0")
+Blueprint.connect(node3, "geo", node2, "in1")
+Blueprint.connect(node2, "list", node1, "geos")
