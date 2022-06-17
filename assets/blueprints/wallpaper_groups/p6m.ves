@@ -1,0 +1,80 @@
+var node0 = ::blueprint::nodes::input::Input()
+
+node0.var_name = "geo"
+node0.var_type = "geo"
+
+_editor.add_node(node0, -523.36116684278, 108.69963433728)
+
+var node1 = ::blueprint::nodes::output::Output()
+
+node1.var_name = "geo"
+node1.var_type = "array"
+
+_editor.add_node(node1, 1257.222965734, 50.625606349116)
+
+var node2 = ::lattice::nodes::crystal_system::Hexagonal()
+node2.query_param("size").value = 232
+
+_editor.add_node(node2, 1113.9873703869, 28.305310045764)
+
+var node3 = ::blueprint::nodes::merge::Merge()
+
+_editor.add_node(node3, 202.52012439387, 75.056408315382)
+
+var node4 = ::blueprint::nodes::subgraph::Subgraph()
+node4.load_from_file(_editor, "../categories/rotate120.ves")
+
+_editor.add_node(node4, 504.3670016209, -9.1310827822863)
+
+var node5 = ::blueprint::nodes::merge::Merge()
+
+_editor.add_node(node5, 970.29739657315, 16.391576089149)
+
+var node6 = ::blueprint::nodes::number2::Number2()
+
+node6.value.set(129, -79)
+
+_editor.add_node(node6, 282.96694214876, -108.97933884298)
+
+var node7 = ::blueprint::nodes::subgraph::Subgraph()
+node7.load_from_file(_editor, "../categories/rotate120.ves")
+
+_editor.add_node(node7, 755.14565990315, -83.744121943566)
+
+var node8 = ::blueprint::nodes::subgraph::Subgraph()
+node8.load_from_file(_editor, "../categories/rotate60.ves")
+
+_editor.add_node(node8, 10.971798299807, 12.890652757843)
+
+var node9 = ::blueprint::nodes::number2::Number2()
+
+node9.value.set(132.08026537048, -73.306578209839)
+
+_editor.add_node(node9, -199, -20.5)
+
+var node10 = ::lattice::nodes::reflect::Reflect()
+node10.query_param("pos").value.set(8.869482337893, -1.856045600462)
+node10.query_param("dir").value.set(33.843571291082, 56.809979447504)
+
+_editor.add_node(node10, -356.58240384522, 12.957311621082)
+
+var node11 = ::blueprint::nodes::merge::Merge()
+
+_editor.add_node(node11, -212.76558520452, 113.35443713045)
+
+Blueprint.connect(node0, "var", node10, "geo")
+Blueprint.connect(node0, "var", node11, "in0")
+Blueprint.connect(node10, "geo", node11, "in1")
+Blueprint.connect(node11, "list", node8, "geo")
+Blueprint.connect(node9, "v2", node8, "pos")
+Blueprint.connect(node11, "list", node3, "in0")
+Blueprint.connect(node8, "geo", node3, "in1")
+Blueprint.connect(node3, "list", node4, "geo")
+Blueprint.connect(node6, "v2", node4, "pos")
+Blueprint.connect(node4, "geo", node7, "geo")
+Blueprint.connect(node6, "v2", node7, "pos")
+Blueprint.connect(node3, "list", node5, "in0")
+Blueprint.connect(node4, "geo", node5, "in1")
+Blueprint.connect(node7, "geo", node5, "in2")
+Blueprint.connect(node5, "list", node2, "geo")
+Blueprint.connect(node2, "geo", node1, "var")

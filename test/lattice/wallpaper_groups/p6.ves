@@ -1,0 +1,29 @@
+var node0 = ::geograph::nodes::polyline::Polyline()
+node0.query_param("vertices").value = [ 3.0597069263458, 56.283187866211, 43.493991851807, -14.939270019531, -112.22103881836, -52.005424499512, -1.0849952697754, 129.71012878418, 117.49167633057, -69.921142578125, -98.147476196289, -64.99853515625 ]
+node0.query_param("closed").value = false
+
+_editor.add_node(node0, -296.70286739645, 41.160410659779)
+
+var node1 = ::geograph::nodes::draw_geometry::DrawGeometry()
+node1.query_param("skip").value = false
+
+_editor.add_node(node1, 142.25416469795, -10.699126418581)
+
+var node2 = ::blueprint::nodes::camera2d::Camera2d()
+
+node2.x = 761.32939427356
+node2.y = 353.52733154575
+node2.scale = 1.1
+node2.speed = 0.01
+
+_editor.add_node(node2, -495.47136860614, -147.05683785431)
+
+var node3 = ::blueprint::nodes::subgraph::Subgraph()
+node3.load_from_file(_editor, "../../../assets/blueprints/wallpaper_groups/p6.ves")
+
+_editor.add_node(node3, -88.305852448358, 62.715475542856)
+
+Blueprint.connect(node2, "mat", node0, "cam_mat")
+Blueprint.connect(node0, "geo", node3, "geo")
+Blueprint.connect(node3, "geo", node1, "geos")
+Blueprint.connect(node2, "mat", node1, "cam_mat")
