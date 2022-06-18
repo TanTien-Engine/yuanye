@@ -51,6 +51,13 @@ node9.load_from_file(_editor, "../categories/rotate120.ves")
 
 _editor.add_node(node9, 755.14565990315, -83.744121943566)
 
+var node10 = ::blueprint::nodes::input::Input()
+
+node10.var_name = "size"
+node10.var_type = "num"
+
+_editor.add_node(node10, 969.96771240234, -68.065032958985)
+
 Blueprint.connect(node1, "var", node0, "in0")
 Blueprint.connect(node0, "list", node4, "geo")
 Blueprint.connect(node0, "list", node5, "in0")
@@ -63,4 +70,5 @@ Blueprint.connect(node5, "list", node7, "in0")
 Blueprint.connect(node6, "geo", node7, "in1")
 Blueprint.connect(node9, "geo", node7, "in2")
 Blueprint.connect(node7, "list", node3, "geo")
+Blueprint.connect(node10, "var", node3, "size")
 Blueprint.connect(node3, "geo", node2, "var")

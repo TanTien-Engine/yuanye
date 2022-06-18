@@ -62,6 +62,13 @@ var node11 = ::blueprint::nodes::merge::Merge()
 
 _editor.add_node(node11, -212.76558520452, 113.35443713045)
 
+var node12 = ::blueprint::nodes::input::Input()
+
+node12.var_name = "size"
+node12.var_type = "num"
+
+_editor.add_node(node12, 970.96771240234, -71.065032958985)
+
 Blueprint.connect(node0, "var", node10, "geo")
 Blueprint.connect(node0, "var", node11, "in0")
 Blueprint.connect(node10, "geo", node11, "in1")
@@ -77,4 +84,5 @@ Blueprint.connect(node3, "list", node5, "in0")
 Blueprint.connect(node4, "geo", node5, "in1")
 Blueprint.connect(node7, "geo", node5, "in2")
 Blueprint.connect(node5, "list", node2, "geo")
+Blueprint.connect(node12, "var", node2, "size")
 Blueprint.connect(node2, "geo", node1, "var")

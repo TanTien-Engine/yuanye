@@ -18,5 +18,13 @@ node2.query_param("angle").value = 1.0471975511966
 
 _editor.add_node(node2, -65.651097942462, 243.20825817295)
 
+var node3 = ::blueprint::nodes::input::Input()
+
+node3.var_name = "size"
+node3.var_type = "num2"
+
+_editor.add_node(node3, -219, 212.5)
+
 Blueprint.connect(node0, "var", node2, "geo")
+Blueprint.connect(node3, "var", node2, "size")
 Blueprint.connect(node2, "geo", node1, "var")

@@ -41,10 +41,18 @@ node6.var_type = "num2"
 
 _editor.add_node(node6, -509.45110529119, 139.23537930575)
 
+var node7 = ::blueprint::nodes::input::Input()
+
+node7.var_name = "size"
+node7.var_type = "num2"
+
+_editor.add_node(node7, -207.03228759766, 187.93496704102)
+
 Blueprint.connect(node2, "var", node4, "geo")
 Blueprint.connect(node5, "var", node4, "pos")
 Blueprint.connect(node6, "var", node4, "dir")
 Blueprint.connect(node2, "var", node1, "in0")
 Blueprint.connect(node4, "geo", node1, "in1")
 Blueprint.connect(node1, "list", node0, "geo")
+Blueprint.connect(node7, "var", node0, "size")
 Blueprint.connect(node0, "geo", node3, "var")

@@ -14,7 +14,7 @@ var node2 = ::blueprint::nodes::output::Output()
 node2.var_name = "geo"
 node2.var_type = "array"
 
-_editor.add_node(node2, 86.47195295854, 289.22272838246)
+_editor.add_node(node2, 89.47195295854, 264.22272838246)
 
 var node3 = ::lattice::nodes::reflect::Reflect()
 node3.query_param("pos").value.set(0, 0)
@@ -39,7 +39,14 @@ _editor.add_node(node5, -509.45110529119, 139.23537930575)
 var node6 = ::lattice::nodes::crystal_system::Rhombic()
 node6.query_param("size").value.set(173, 100)
 
-_editor.add_node(node6, -60.054248148793, 256.86595797666)
+_editor.add_node(node6, -57.054248148793, 231.86595797666)
+
+var node7 = ::blueprint::nodes::input::Input()
+
+node7.var_name = "size"
+node7.var_type = "num2"
+
+_editor.add_node(node7, -208, 184.5)
 
 Blueprint.connect(node1, "var", node3, "geo")
 Blueprint.connect(node4, "var", node3, "pos")
@@ -47,4 +54,5 @@ Blueprint.connect(node5, "var", node3, "dir")
 Blueprint.connect(node1, "var", node0, "in0")
 Blueprint.connect(node3, "geo", node0, "in1")
 Blueprint.connect(node0, "list", node6, "geo")
+Blueprint.connect(node7, "var", node6, "size")
 Blueprint.connect(node6, "geo", node2, "var")
