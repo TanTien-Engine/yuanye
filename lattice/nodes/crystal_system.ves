@@ -156,8 +156,8 @@ class Square is Node
 		{
 			for (var j in 0..CRYSTAL_NUM) 
 			{
-				var y = size * i			
-				var x = size * j
+				var y = size.y * i
+				var x = size.x * j
 				trans.query_param("offset").value.set(x, y)
 
 				var new = Blueprint.calc_output_value(trans, "geo")
