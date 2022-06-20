@@ -1,0 +1,201 @@
+import "blueprint.node" for Node
+import "blueprint.pin" for Pin
+import "blueprint.node_param" for NodeParam
+import "blueprint.variant" for Variant, VAR_TYPE_NUMBER2
+import "blueprint.blackboard" for BLACKBOARD
+import "geograph.variant" for VAR_TYPE_GEO, VarGeo
+import "editor.colors" for Colors
+import "maths.vector" for Vector2
+import "graphics" for Painter, Graphics
+import "math" for Math
+import "gui" for MOUSE_LEFT, MOUSE_RIGHT
+import "geometry" for Line
+
+var NODE_RADIUS = 3
+
+class Canvas is Node
+{
+	init()
+	{
+		super.init()
+
+		this.exports = [
+			Pin(this, "geo",  VAR_TYPE_GEO),
+			Pin(this, "size", VAR_TYPE_NUMBER2),
+		]
+
+		this.params.add(NodeParam("type", "square", { "combo" : [ "square", "rectangle" ] }))
+		this.params.add(NodeParam("size", Vector2(100, 100)))
+		this.params.add(NodeParam("dist", 20))
+
+		this.layout()
+
+		this.conn_segs = []
+
+		this.last_sel = nil
+		this.curr_pos = nil
+
+		this.v_geo = nil
+	}
+
+	calc_value(idx)
+	{
+		if (idx == 0)
+		{
+			if (!this.v_geo) {
+				this.v_geo = this.build_ret_geo()
+			}
+			return this.v_geo
+		}
+		else if (idx == 1)
+		{
+			var size = this.query_param("size").value
+			return Variant(size)
+		}
+
+		return nil
+	}
+
+	to_string(name) 
+	{
+		var ret = super.to_string(name)
+		ret = ret + "\n%(name).conn_segs = %(this.conn_segs)\n"
+		return ret
+	}
+
+	draw_editor() 
+	{
+		var pt = Painter.init()
+
+		// border
+		var size = this.query_param("size").value
+		pt.add_rect(nil, [0, 0, size.x, size.y], Colors.select_red(), 2)
+
+		// points
+		var dist = this.query_param("dist").value
+		for (var y = 0; y <= size.y; y = y + dist) {
+			for (var x = 0; x <= size.x; x = x + dist) {
+				pt.add_circle_filled(nil, x, y, NODE_RADIUS, [255, 0, 0, 255], 8)
+			}
+		}
+
+		// conn_segs
+		for (var i = 0; i < this.conn_segs.count; i = i + 2)
+		{
+			var p0 = this.conn_segs[i]
+			var p1 = this.conn_segs[i + 1]
+			var line = [ p0.x * dist, p0.y * dist, p1.x * dist, p1.y * dist ]
+			pt.add_line(nil, line, [255, 255, 255], 2)
+		}
+
+		// curr line
+		if (this.last_sel and this.curr_pos) 
+		{
+			var line = [ this.last_sel.x * dist, this.last_sel.y * dist, this.curr_pos.x, this.curr_pos.y ]
+			pt.add_line(nil, line, [255, 255, 255], 2)
+		}
+
+		Graphics.draw_painter(pt)
+	}
+
+	on_mouse_pressed(x, y, btn) 
+	{
+		if (btn == MOUSE_LEFT) 
+		{
+			var pos = BLACKBOARD.editor_cam.screen2world(Vector2(x, y))
+			this.last_sel = this.query_node_by_pos(pos)
+		}
+		else if (btn == MOUSE_RIGHT)
+		{
+			var pos = BLACKBOARD.editor_cam.screen2world(Vector2(x, y))
+			var node = this.query_node_by_pos(pos)
+			this.remove_segment(node)
+
+			this.v_geo = nil
+		}
+	}
+
+	on_mouse_released(x, y, btn) 
+	{
+		import "blueprint.blackboard" for BLACKBOARD
+		var pos = BLACKBOARD.editor_cam.screen2world(Vector2(x, y))
+
+		var ipos = this.query_node_by_pos(pos)
+		if (this.last_sel and ipos)
+		{
+			this.conn_segs.add(this.last_sel)
+			this.conn_segs.add(ipos)
+
+			this.v_geo = nil
+		}
+
+		this.last_sel = nil
+		this.curr_pos = nil
+	}
+
+	on_mouse_dragged(x, y, btn) 
+	{
+		this.curr_pos = BLACKBOARD.editor_cam.screen2world(Vector2(x, y))
+	}
+
+	query_node_by_pos(pos)
+	{
+		var region = NODE_RADIUS * 2
+
+		var size = this.query_param("size").value
+		if (pos.x < -region or pos.x > size.x + region or pos.y < -region or pos.y > size.y + region) {
+			return nil
+		}
+
+		var dist = this.query_param("dist").value
+		var ix = Math.round(pos.x / dist)
+		var iy = Math.round(pos.y / dist)
+		var dx = Math.abs(pos.x - dist * ix)
+		var dy = Math.abs(pos.y - dist * iy)
+		if (dx < region and dy < region) {
+			return Vector2(ix, iy)
+		} else {
+			return nil
+		}
+	}
+
+	remove_segment(node)
+	{
+		var find = nil
+
+		for (var i = 0; i < this.conn_segs.count; i = i + 2)
+		{
+			var end = this.conn_segs[i + 1]
+			if (end.x == node.x and end.y == node.y) {
+				find = i
+			}
+		}
+
+		if (find) 
+		{
+			this.conn_segs.removeAt(find)
+			this.conn_segs.removeAt(find)
+
+			this.remove_segment(node)
+		}
+	}
+
+	build_ret_geo()
+	{
+		var dist = this.query_param("dist").value
+
+		var geos = []
+		for (var i = 0; i < this.conn_segs.count; i = i + 2)
+		{
+			var p0 = this.conn_segs[i]
+			var p1 = this.conn_segs[i + 1]
+
+			var geo = VarGeo()
+			geo.shape = Line.init()
+			geo.shape.set(p0.x * dist, p0.y * dist, p1.x * dist, p1.y * dist)
+			geos.add(Variant(VAR_TYPE_GEO, geo))
+		}
+
+		return Variant(geos)
+	}
+}

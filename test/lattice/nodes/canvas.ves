@@ -1,0 +1,32 @@
+var node0 = ::geograph::nodes::draw_geometry::DrawGeometry()
+node0.query_param("skip").value = false
+
+_editor.add_node(node0, -7.6955655117354, 125.07957722189)
+
+var node1 = ::lattice::nodes::crystal_system::Square()
+node1.query_param("size").value = 110
+
+_editor.add_node(node1, -155.79808073219, 148.91890581244)
+
+var node2 = ::lattice::nodes::canvas::Canvas()
+node2.query_param("type").value = "square"
+node2.query_param("size").value.set(100, 100)
+node2.query_param("dist").value = 20
+
+node2.conn_segs = [ ::maths::vector::Vector2(-0, 2), ::maths::vector::Vector2(2, 2), ::maths::vector::Vector2(2, 2), ::maths::vector::Vector2(2, 4), ::maths::vector::Vector2(2, 4), ::maths::vector::Vector2(3, 4), ::maths::vector::Vector2(3, 4), ::maths::vector::Vector2(3, 2), ::maths::vector::Vector2(3, 2), ::maths::vector::Vector2(5, 2), ::maths::vector::Vector2(5, 2), ::maths::vector::Vector2(5, 5), ::maths::vector::Vector2(0, 2), ::maths::vector::Vector2(0, 0) ]
+
+_editor.add_node(node2, -308.64107642921, 118.34116522095)
+
+var node3 = ::blueprint::nodes::camera2d::Camera2d()
+
+node3.x = 344.611737138
+node3.y = 265.124594316
+node3.scale = 0.90909090909091
+node3.speed = 0.01
+
+_editor.add_node(node3, -153.63307598795, 66.818718217613)
+
+Blueprint.connect(node2, "geo", node1, "geo")
+Blueprint.connect(node2, "size", node1, "size")
+Blueprint.connect(node1, "geo", node0, "geos")
+Blueprint.connect(node3, "mat", node0, "cam_mat")
