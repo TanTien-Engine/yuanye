@@ -106,7 +106,7 @@ class Rectangular is Node
 		{
 			for (var j in 0..CRYSTAL_NUM) 
 			{
-				var y = size.y * i			
+				var y = size.y * i
 				var x = size.x * j
 				trans.query_param("offset").value.set(x, y)
 
