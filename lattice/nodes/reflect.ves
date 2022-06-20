@@ -10,7 +10,7 @@ import "blueprint.nodes.array" for Array
 import "geograph.variant" for VAR_TYPE_GEO, VarGeo
 import "lattice.trans_helper" for TransHelper
 import "maths.vector" for Vector2
-import "geometry" for Polyline
+import "geometry" for Polyline, Line
 
 var EDITOR = nil
 
@@ -66,6 +66,23 @@ class Reflect is Node
 
 				var shape = Polyline.init()
 				shape.set_vertices(verts)
+
+				var geo = VarGeo()
+				geo.shape = shape
+				ret.add(Variant(VAR_TYPE_GEO, geo))
+			}
+			else if (shape is Line)
+			{
+				var verts = shape.get()
+
+				var pos_s = [ verts[0], verts[1] ]
+				TransHelper.reflect_pos(pos_s, axis_pos, axis_dir)
+
+				var pos_e = [ verts[2], verts[3] ]
+				TransHelper.reflect_pos(pos_e, axis_pos, axis_dir)
+
+				var shape = Line.init()
+				shape.set(pos_s[0], pos_s[1], pos_e[0], pos_e[1])
 
 				var geo = VarGeo()
 				geo.shape = shape
