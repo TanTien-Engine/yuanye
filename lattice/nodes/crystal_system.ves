@@ -23,6 +23,7 @@ class Oblique is Node
 			Pin(this, "geo",   VAR_TYPE_GEO),
 			Pin(this, "size",  VAR_TYPE_NUMBER2),
 			Pin(this, "angle", VAR_TYPE_NUMBER),
+			Pin(this, "grids", VAR_TYPE_NUMBER2),
 		]
 		this.exports = [
 			Pin(this, "geo", VAR_TYPE_GEO),
@@ -52,9 +53,17 @@ class Oblique is Node
 		var trans = Translate()
 		Blueprint.connect(VariantProxy(v_geo), "out", trans, "geo")
 
-		for (var i in 0..CRYSTAL_NUM) 
+		var nx = CRYSTAL_NUM
+		var ny = CRYSTAL_NUM
+		var grids = NodeHelper.calc_prop_value(this, "grids")
+		if (grids) {
+			nx = grids.x
+			ny = grids.y
+		}
+
+		for (var i in 0..ny) 
 		{
-			for (var j in 0..CRYSTAL_NUM) 
+			for (var j in 0..nx)
 			{
 				var y = h * i			
 				var x = size.x * j + dx * i
@@ -76,8 +85,9 @@ class Rectangular is Node
 		super.init()
 
 		this.imports = [
-			Pin(this, "geo",  VAR_TYPE_GEO),
-			Pin(this, "size", VAR_TYPE_NUMBER2),
+			Pin(this, "geo",   VAR_TYPE_GEO),
+			Pin(this, "size",  VAR_TYPE_NUMBER2),
+			Pin(this, "grids", VAR_TYPE_NUMBER2),
 		]
 		this.exports = [
 			Pin(this, "geo", VAR_TYPE_GEO),
@@ -102,9 +112,17 @@ class Rectangular is Node
 		var trans = Translate()
 		Blueprint.connect(VariantProxy(v_geo), "out", trans, "geo")
 
-		for (var i in 0..CRYSTAL_NUM) 
+		var nx = CRYSTAL_NUM
+		var ny = CRYSTAL_NUM
+		var grids = NodeHelper.calc_prop_value(this, "grids")
+		if (grids) {
+			nx = grids.x
+			ny = grids.y
+		}
+
+		for (var i in 0..ny) 
 		{
-			for (var j in 0..CRYSTAL_NUM) 
+			for (var j in 0..nx)
 			{
 				var y = size.y * i
 				var x = size.x * j
@@ -126,8 +144,9 @@ class Square is Node
 		super.init()
 
 		this.imports = [
-			Pin(this, "geo",  VAR_TYPE_GEO),
-			Pin(this, "size", VAR_TYPE_NUMBER2),
+			Pin(this, "geo",   VAR_TYPE_GEO),
+			Pin(this, "size",  VAR_TYPE_NUMBER2),
+			Pin(this, "grids", VAR_TYPE_NUMBER2),
 		]
 		this.exports = [
 			Pin(this, "geo", VAR_TYPE_GEO),
@@ -152,9 +171,17 @@ class Square is Node
 		var trans = Translate()
 		Blueprint.connect(VariantProxy(v_geo), "out", trans, "geo")
 
-		for (var i in 0..CRYSTAL_NUM) 
+		var nx = CRYSTAL_NUM
+		var ny = CRYSTAL_NUM
+		var grids = NodeHelper.calc_prop_value(this, "grids")
+		if (grids) {
+			nx = grids.x
+			ny = grids.y
+		}
+
+		for (var i in 0..ny) 
 		{
-			for (var j in 0..CRYSTAL_NUM) 
+			for (var j in 0..nx)
 			{
 				var y = size.y * i
 				var x = size.x * j
@@ -176,8 +203,9 @@ class Rhombic is Node
 		super.init()
 
 		this.imports = [
-			Pin(this, "geo",  VAR_TYPE_GEO),
-			Pin(this, "size", VAR_TYPE_NUMBER2),
+			Pin(this, "geo",   VAR_TYPE_GEO),
+			Pin(this, "size",  VAR_TYPE_NUMBER2),
+			Pin(this, "grids", VAR_TYPE_NUMBER2),
 		]
 		this.exports = [
 			Pin(this, "geo", VAR_TYPE_GEO),
@@ -204,9 +232,17 @@ class Rhombic is Node
 		var trans = Translate()
 		Blueprint.connect(VariantProxy(v_geo), "out", trans, "geo")
 
-		for (var i in 0..CRYSTAL_NUM) 
+		var nx = CRYSTAL_NUM
+		var ny = CRYSTAL_NUM
+		var grids = NodeHelper.calc_prop_value(this, "grids")
+		if (grids) {
+			nx = grids.x
+			ny = grids.y
+		}
+
+		for (var i in 0..ny) 
 		{
-			for (var j in 0..CRYSTAL_NUM) 
+			for (var j in 0..nx)
 			{
 				var y = hy * i
 				var x = hx * 2 * j
@@ -231,8 +267,9 @@ class Hexagonal is Node
 		super.init()
 
 		this.imports = [
-			Pin(this, "geo",  VAR_TYPE_GEO),
-			Pin(this, "size", VAR_TYPE_NUMBER),
+			Pin(this, "geo",   VAR_TYPE_GEO),
+			Pin(this, "size",  VAR_TYPE_NUMBER),
+			Pin(this, "grids", VAR_TYPE_NUMBER2),
 		]
 		this.exports = [
 			Pin(this, "geo", VAR_TYPE_GEO),
@@ -259,9 +296,17 @@ class Hexagonal is Node
 		var trans = Translate()
 		Blueprint.connect(VariantProxy(v_geo), "out", trans, "geo")
 
-		for (var i in 0..CRYSTAL_NUM) 
+		var nx = CRYSTAL_NUM
+		var ny = CRYSTAL_NUM
+		var grids = NodeHelper.calc_prop_value(this, "grids")
+		if (grids) {
+			nx = grids.x
+			ny = grids.y
+		}
+
+		for (var i in 0..ny) 
 		{
-			for (var j in 0..CRYSTAL_NUM) 
+			for (var j in 0..nx)
 			{
 				var y = hy * 2 * i
 				if (Math.mod(j, 2) > 0) {

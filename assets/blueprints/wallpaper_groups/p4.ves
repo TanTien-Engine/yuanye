@@ -42,6 +42,13 @@ node7.var_type = "num2"
 
 _editor.add_node(node7, 198.96771240234, 185.93496704102)
 
+var node8 = ::blueprint::nodes::property::Property()
+
+node8.var_name = "grids"
+node8.var_type = "num2"
+
+_editor.add_node(node8, 200.33313997127, 120.66134492228)
+
 Blueprint.connect(node1, "var", node5, "geo")
 Blueprint.connect(node1, "var", node0, "in0")
 Blueprint.connect(node5, "geo", node0, "in1")
@@ -50,4 +57,5 @@ Blueprint.connect(node0, "list", node4, "in0")
 Blueprint.connect(node6, "geo", node4, "in1")
 Blueprint.connect(node4, "list", node3, "geo")
 Blueprint.connect(node7, "var", node3, "size")
+Blueprint.connect(node8, "var", node3, "grids")
 Blueprint.connect(node3, "geo", node2, "var")
