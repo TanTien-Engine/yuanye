@@ -10,8 +10,8 @@ _editor.add_node(node1, -155.79808073219, 148.91890581244)
 
 var node2 = ::lattice::nodes::canvas::Canvas()
 node2.query_param("type").value = "quad"
-node2.query_param("size").value.set(100, 100)
-node2.query_param("dist").value = 20
+node2.query_param("size").value.set(5, 5)
+node2.query_param("unit").value = 20
 
 node2.conn_segs = [ ::maths::vector::Vector2(-0, 2), ::maths::vector::Vector2(2, 2), ::maths::vector::Vector2(2, 2), ::maths::vector::Vector2(2, 4), ::maths::vector::Vector2(2, 4), ::maths::vector::Vector2(3, 4), ::maths::vector::Vector2(3, 4), ::maths::vector::Vector2(3, 2), ::maths::vector::Vector2(3, 2), ::maths::vector::Vector2(5, 2), ::maths::vector::Vector2(5, 2), ::maths::vector::Vector2(5, 5), ::maths::vector::Vector2(0, 2), ::maths::vector::Vector2(0, 0) ]
 
