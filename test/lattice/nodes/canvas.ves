@@ -9,7 +9,7 @@ node1.query_param("size").value = 110
 _editor.add_node(node1, -155.79808073219, 148.91890581244)
 
 var node2 = ::lattice::nodes::canvas::Canvas()
-node2.query_param("type").value = "square"
+node2.query_param("type").value = "quad"
 node2.query_param("size").value.set(100, 100)
 node2.query_param("dist").value = 20
 
