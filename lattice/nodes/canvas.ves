@@ -5,11 +5,11 @@ import "blueprint.variant" for Variant, VAR_TYPE_NUMBER2
 import "blueprint.blackboard" for BLACKBOARD
 import "geograph.variant" for VAR_TYPE_GEO, VarGeo
 import "editor.colors" for Colors
-import "maths.vector" for Vector2
+import "maths.vector" for Vector2, Vector3
 import "graphics" for Painter, Graphics
 import "math" for Math
-import "gui" for MOUSE_LEFT, MOUSE_RIGHT
-import "geometry" for Line
+import "gui" for MOUSE_LEFT, MOUSE_RIGHT, MOUSE_MIDDLE
+import "geometry" for Line, Polyline
 
 var NODE_RADIUS = 3
 
@@ -34,6 +34,7 @@ class Canvas is Node
 
 		this.last_sel = nil
 		this.curr_pos = nil
+		this.draw_arc = false
 
 		this.v_geo = nil
 	}
@@ -87,8 +88,27 @@ class Canvas is Node
 		{
 			var p0 = this.conn_segs[i]
 			var p1 = this.conn_segs[i + 1]
-			var line = [ p0.x * unit, p0.y * unit, p1.x * unit, p1.y * unit ]
-			pt.add_line(nil, line, [255, 255, 255], 2)
+			if (p0.z == 1 and p1.z == 1)
+			{
+				var x0 = p0.x * unit
+				var y0 = p0.y * unit
+				var x1 = p1.x * unit
+				var y1 = p1.y * unit
+
+				var dx = Math.abs(x1 - x0)
+				var dy = Math.abs(y1 - y0)
+				var r = (dx + dy) / 2
+				var cx = p0.x * unit
+				var cy = p1.y * unit
+				var s = Math.atan2(y0 - cy, x0 - cx)
+				var e = Math.atan2(y1 - cy, x1 - cx)
+				pt.add_arc(nil, cx, cy, r, s, e, [255, 255, 255], 2, 12)
+			}
+			else
+			{
+				var line = [ p0.x * unit, p0.y * unit, p1.x * unit, p1.y * unit ]
+				pt.add_line(nil, line, [255, 255, 255], 2)
+			}
 		}
 
 		// curr line
@@ -103,10 +123,14 @@ class Canvas is Node
 
 	on_mouse_pressed(x, y, btn) 
 	{
-		if (btn == MOUSE_LEFT) 
+		if (btn == MOUSE_LEFT or btn == MOUSE_MIDDLE)
 		{
 			var pos = BLACKBOARD.editor_cam.screen2world(Vector2(x, y))
 			this.last_sel = this.query_node_by_pos(pos)
+
+			if (btn == MOUSE_MIDDLE) {
+				this.draw_arc = true
+			}
 		}
 		else if (btn == MOUSE_RIGHT)
 		{
@@ -126,14 +150,23 @@ class Canvas is Node
 		var ipos = this.query_node_by_pos(pos)
 		if (this.last_sel and ipos)
 		{
-			this.conn_segs.add(this.last_sel)
-			this.conn_segs.add(ipos)
+			var s = Vector3(this.last_sel.x, this.last_sel.y, 0)
+			var e = Vector3(ipos.x, ipos.y, 0)
+
+			if (this.draw_arc) {
+				s.z = 1
+				e.z = 1
+			}
+
+			this.conn_segs.add(s)
+			this.conn_segs.add(e)
 
 			this.v_geo = nil
 		}
 
 		this.last_sel = nil
 		this.curr_pos = nil
+		this.draw_arc = false
 	}
 
 	on_mouse_dragged(x, y, btn) 
@@ -195,12 +228,53 @@ class Canvas is Node
 			var p0 = this.conn_segs[i]
 			var p1 = this.conn_segs[i + 1]
 
+			var shape = nil
+			if (p0.z == 1 and p1.z == 1)
+			{
+				shape = this.build_arc_polyline(p0.x * unit, p0.y * unit, p1.x * unit, p1.y * unit)
+			}
+			else
+			{
+				shape = Line.init()
+				shape.set(p0.x * unit, p0.y * unit, p1.x * unit, p1.y * unit)
+			}
+
 			var geo = VarGeo()
-			geo.shape = Line.init()
-			geo.shape.set(p0.x * unit, p0.y * unit, p1.x * unit, p1.y * unit)
+			geo.shape = shape
 			geos.add(Variant(VAR_TYPE_GEO, geo))
 		}
 
 		return Variant(geos)
+	}
+
+	build_arc_polyline(x0, y0, x1, y1)
+	{
+		var dx = x1 - x0
+		var dy = y1 - y0
+
+//		var r = Math.sqrt(dx * dx + dy * dy) / 2
+//		var cx = (x0 + x1) / 2
+//		var cy = (y0 + y1) / 2
+
+		var r = (Math.abs(dx) + Math.abs(dy)) / 2
+		var cx = x0
+		var cy = y1
+
+		var verts = []
+
+		var s_angle = Math.atan2(y0 - cy, x0 - cx)
+		var e_angle = Math.atan2(y1 - cy, x1 - cx)
+		var num = 5
+		for (var i = 0; i <= num; i = i + 1)
+		{
+			var a = s_angle + (e_angle - s_angle) / num * i
+			verts.add(cx + Math.cos(a) * r)
+			verts.add(cy + Math.sin(a) * r)
+		}
+
+		var shape = Polyline.init()
+		shape.set_vertices(verts)
+
+		return shape
 	}
 }

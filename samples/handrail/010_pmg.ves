@@ -17,7 +17,7 @@ node2.query_param("type").value = "quad"
 node2.query_param("size").value.set(3, 10)
 node2.query_param("unit").value = 15
 
-node2.conn_segs = [ ::maths::vector::Vector2(-0, 10), ::maths::vector::Vector2(-0, 8), ::maths::vector::Vector2(1, 6), ::maths::vector::Vector2(1, 0), ::maths::vector::Vector2(1, 2), ::maths::vector::Vector2(-0, 2), ::maths::vector::Vector2(3, 8), ::maths::vector::Vector2(3, 5), ::maths::vector::Vector2(0, 8), ::maths::vector::Vector2(3, 8), ::maths::vector::Vector2(0, 6), ::maths::vector::Vector2(3, 6), ::maths::vector::Vector2(0, 10), ::maths::vector::Vector2(3, 10), ::maths::vector::Vector2(-0, 0), ::maths::vector::Vector2(3, 0) ]
+node2.conn_segs = [ ::maths::vector::Vector3(-0, 10, 0), ::maths::vector::Vector3(-0, 8, 0), ::maths::vector::Vector3(1, 6, 0), ::maths::vector::Vector3(1, 0, 0), ::maths::vector::Vector3(1, 2, 0), ::maths::vector::Vector3(-0, 2, 0), ::maths::vector::Vector3(3, 8, 0), ::maths::vector::Vector3(3, 5, 0), ::maths::vector::Vector3(0, 8, 0), ::maths::vector::Vector3(3, 8, 0), ::maths::vector::Vector3(0, 6, 0), ::maths::vector::Vector3(3, 6, 0), ::maths::vector::Vector3(0, 10, 0), ::maths::vector::Vector3(3, 10, 0), ::maths::vector::Vector3(-0, 0, 0), ::maths::vector::Vector3(3, 0, 0) ]
 
 _editor.add_node(node2, -310.22457179228, 49.619962140975)
 
