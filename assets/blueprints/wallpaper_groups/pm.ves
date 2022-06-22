@@ -23,44 +23,28 @@ _editor.add_node(node3, 86.47195295854, 289.22272838246)
 
 var node4 = ::lattice::nodes::reflect::Reflect()
 node4.query_param("pos").value.set(0, 0)
-node4.query_param("dir").value.set(0, 100)
+node4.query_param("dir").value.set(0, 1)
 
-_editor.add_node(node4, -360.55942771218, 156.86089089134)
+_editor.add_node(node4, -367.32126092029, 174.14113131208)
 
 var node5 = ::blueprint::nodes::input::Input()
 
-node5.var_name = "pos"
+node5.var_name = "size"
 node5.var_type = "num2"
 
-_editor.add_node(node5, -510.36023504084, 203.78084494851)
+_editor.add_node(node5, -207.03228759766, 187.93496704102)
 
-var node6 = ::blueprint::nodes::input::Input()
+var node6 = ::blueprint::nodes::property::Property()
 
-node6.var_name = "dir"
+node6.var_name = "grids"
 node6.var_type = "num2"
 
-_editor.add_node(node6, -509.45110529119, 139.23537930575)
-
-var node7 = ::blueprint::nodes::input::Input()
-
-node7.var_name = "size"
-node7.var_type = "num2"
-
-_editor.add_node(node7, -207.03228759766, 187.93496704102)
-
-var node8 = ::blueprint::nodes::property::Property()
-
-node8.var_name = "grids"
-node8.var_type = "num2"
-
-_editor.add_node(node8, -208.32460029998, 122.44638240364)
+_editor.add_node(node6, -208.32460029998, 122.44638240364)
 
 Blueprint.connect(node2, "var", node4, "geo")
-Blueprint.connect(node5, "var", node4, "pos")
-Blueprint.connect(node6, "var", node4, "dir")
 Blueprint.connect(node2, "var", node1, "in0")
 Blueprint.connect(node4, "geo", node1, "in1")
 Blueprint.connect(node1, "list", node0, "geo")
-Blueprint.connect(node7, "var", node0, "size")
-Blueprint.connect(node8, "var", node0, "grids")
+Blueprint.connect(node5, "var", node0, "size")
+Blueprint.connect(node6, "var", node0, "grids")
 Blueprint.connect(node0, "geo", node3, "var")
