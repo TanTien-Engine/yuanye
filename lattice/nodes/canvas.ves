@@ -24,7 +24,7 @@ class Canvas is Node
 			Pin(this, "size", VAR_TYPE_NUMBER2),
 		]
 
-		this.params.add(NodeParam("type", "quad", { "combo" : [ "quad", "tri" ] }))
+		this.params.add(NodeParam("type", "quad", { "combo" : [ "quad", "tri4", "tri8" ] }))
 		this.params.add(NodeParam("size", Vector2(4, 4)))
 		this.params.add(NodeParam("unit", 25))
 
@@ -69,9 +69,26 @@ class Canvas is Node
 	{
 		var pt = Painter.init()
 
-		// border
 		var size = this.query_param("size").value
 		var unit = this.query_param("unit").value
+
+		var type = this.query_param("type").value
+		if (type == "quad") {
+			this.draw_quad_canvas(pt, size, unit)
+		} else if (type == "tri4") {
+			this.draw_tri4_canvas(pt, size, unit)
+		} else if (type == "tri8") {
+			this.draw_tri8_canvas(pt, size, unit)
+		}
+
+		this.draw_edited_shapes(pt, unit)
+
+		Graphics.draw_painter(pt)
+	}
+
+	draw_quad_canvas(pt, size, unit)
+	{
+		// border
 		var width  = size.x * unit
 		var height = size.y * unit
 		pt.add_rect(nil, [0, 0, width, height], Colors.select_red(), 2)
@@ -79,10 +96,54 @@ class Canvas is Node
 		// points
 		for (var y = 0; y <= size.y; y = y + 1) {
 			for (var x = 0; x <= size.x; x = x + 1) {
-				pt.add_circle_filled(nil, x * unit, y * unit, NODE_RADIUS, [255, 0, 0, 255], 8)
+				this.draw_ctrl_pos(pt, x * unit, y * unit)
 			}
 		}
+	}
 
+	draw_tri4_canvas(pt, size, unit)
+	{
+		// border
+		var width  = size.x * unit
+		var height = size.y * unit
+		var verts = [ 0, 0, width, 0, 0, height ]
+		pt.add_polygon(nil, verts, Colors.select_red(), 2)
+
+		// points
+		for (var y = 0; y <= size.y; y = y + 1) {
+			for (var x = 0; x <= size.x; x = x + 1) {
+				if ((size.x - x) >= y) {
+					this.draw_ctrl_pos(pt, x * unit, y * unit)
+				}
+			}
+		}
+	}
+
+	draw_tri8_canvas(pt, size, unit)
+	{
+		// border
+		var width  = size.x * unit
+		var height = size.y * unit
+		var verts = [ 0, 0, width, 0, width, height ]
+		pt.add_polygon(nil, verts, Colors.select_red(), 2)
+
+		// points
+		for (var y = 0; y <= size.y; y = y + 1) {
+			for (var x = 0; x <= size.x; x = x + 1) {
+				if (x >= y) {
+					this.draw_ctrl_pos(pt, x * unit, y * unit)
+				}
+			}
+		}
+	}
+
+	draw_ctrl_pos(pt, x, y)
+	{
+		pt.add_circle_filled(nil, x, y, NODE_RADIUS, [255, 0, 0, 255], 8)
+	}
+
+	draw_edited_shapes(pt, unit)
+	{
 		// conn_segs
 		for (var i = 0; i < this.conn_segs.count; i = i + 2)
 		{
@@ -117,8 +178,6 @@ class Canvas is Node
 			var line = [ this.last_sel.x * unit, this.last_sel.y * unit, this.curr_pos.x, this.curr_pos.y ]
 			pt.add_line(nil, line, [255, 255, 255], 2)
 		}
-
-		Graphics.draw_painter(pt)
 	}
 
 	on_mouse_pressed(x, y, btn) 
