@@ -156,11 +156,11 @@ class Canvas is Node
 				var x1 = p1.x * unit
 				var y1 = p1.y * unit
 
-				var dx = Math.abs(x1 - x0)
-				var dy = Math.abs(y1 - y0)
-				var r = (dx + dy) / 2
-				var cx = p0.x * unit
-				var cy = p1.y * unit
+				var arc = this.calc_arc_params(x0, y0, x1, y1)
+				var r = arc[0]
+				var cx = arc[1]
+				var cy = arc[2]
+
 				var s = Math.atan2(y0 - cy, x0 - cx)
 				var e = Math.atan2(y1 - cy, x1 - cx)
 				pt.add_arc(nil, cx, cy, r, s, e, [255, 255, 255], 2, 12)
@@ -306,20 +306,39 @@ class Canvas is Node
 		return Variant(geos)
 	}
 
-	build_arc_polyline(x0, y0, x1, y1)
+	// [ r, cx, cy ]
+	calc_arc_params(x0, y0, x1, y1)
 	{
 		var dx = x1 - x0
 		var dy = y1 - y0
 
-//		var r = Math.sqrt(dx * dx + dy * dy) / 2
-//		var cx = (x0 + x1) / 2
-//		var cy = (y0 + y1) / 2
+		var r = 0
+		var cx = 0
+		var cy = 0
+		if (dx == 0 or dy == 0)
+		{
+			r = (dx + dy) / 2
+			cx = (x0 + x1) / 2
+			cy = (y0 + y1) / 2
+		}
+		else
+		{
+			r = (Math.abs(dx) + Math.abs(dy)) / 2
+			cx = x0
+			cy = y1
+		}
 
-		var r = (Math.abs(dx) + Math.abs(dy)) / 2
-		var cx = x0
-		var cy = y1
+		return [ r, cx, cy ]
+	}
 
+	build_arc_polyline(x0, y0, x1, y1)
+	{
 		var verts = []
+
+		var arc = this.calc_arc_params(x0, y0, x1, y1)
+		var r = arc[0]
+		var cx = arc[1]
+		var cy = arc[2]
 
 		var s_angle = Math.atan2(y0 - cy, x0 - cx)
 		var e_angle = Math.atan2(y1 - cy, x1 - cx)
