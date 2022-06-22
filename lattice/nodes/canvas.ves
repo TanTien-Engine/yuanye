@@ -24,7 +24,7 @@ class Canvas is Node
 			Pin(this, "size", VAR_TYPE_NUMBER2),
 		]
 
-		this.params.add(NodeParam("type", "quad", { "combo" : [ "quad", "tri4", "tri8" ] }))
+		this.params.add(NodeParam("type", "quad", { "combo" : [ "quad", "tri4", "tri8", "tri3" ] }))
 		this.params.add(NodeParam("size", Vector2(4, 4)))
 		this.params.add(NodeParam("unit", 25))
 
@@ -79,6 +79,8 @@ class Canvas is Node
 			this.draw_tri4_canvas(pt, size, unit)
 		} else if (type == "tri8") {
 			this.draw_tri8_canvas(pt, size, unit)
+		} else if (type == "tri3") {
+			this.draw_tri3_canvas(pt, size, unit)
 		}
 
 		this.draw_edited_shapes(pt, unit)
@@ -131,6 +133,26 @@ class Canvas is Node
 		for (var y = 0; y <= size.y; y = y + 1) {
 			for (var x = 0; x <= size.x; x = x + 1) {
 				if (x >= y) {
+					this.draw_ctrl_pos(pt, x * unit, y * unit)
+				}
+			}
+		}
+	}
+
+	draw_tri3_canvas(pt, size, unit)
+	{
+		// border
+		var width  = size.x * unit
+		var hw = width / 2.0
+		var height = hw / 1.732
+		var verts = [ 0, 0, width, 0, hw, height ]
+		pt.add_polygon(nil, verts, Colors.select_red(), 2)
+
+		// points
+		var h = size.x / 2.0 / 1.5
+		for (var y = 0; y <= size.y; y = y + 1) {
+			for (var x = 0; x <= size.x; x = x + 1) {
+				if (y < h) {
 					this.draw_ctrl_pos(pt, x * unit, y * unit)
 				}
 			}
