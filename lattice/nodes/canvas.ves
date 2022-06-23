@@ -202,8 +202,10 @@ class Canvas is Node
 				var cx = arc[1]
 				var cy = arc[2]
 
-				var s = Math.atan2(y0 - cy, x0 - cx)
-				var e = Math.atan2(y1 - cy, x1 - cx)
+				var angle = this.calc_arc_angle(x0, y0, x1, y1, cx, cy)
+				var s = angle[0]
+				var e = angle[1]
+
 				pt.add_arc(nil, cx, cy, r, s, e, [255, 255, 255], 2, 12)
 			}
 			else
@@ -381,8 +383,10 @@ class Canvas is Node
 		var cx = arc[1]
 		var cy = arc[2]
 
-		var s_angle = Math.atan2(y0 - cy, x0 - cx)
-		var e_angle = Math.atan2(y1 - cy, x1 - cx)
+		var angle = this.calc_arc_angle(x0, y0, x1, y1, cx, cy)
+		var s_angle = angle[0]
+		var e_angle = angle[1]
+
 		var num = 5
 		for (var i = 0; i <= num; i = i + 1)
 		{
@@ -395,5 +399,18 @@ class Canvas is Node
 		shape.set_vertices(verts)
 
 		return shape
+	}
+
+	calc_arc_angle(x0, y0, x1, y1, cx, cy)
+	{
+		var s = Math.atan2(y0 - cy, x0 - cx)
+		var e = Math.atan2(y1 - cy, x1 - cx)
+		if (e - s > Math.pi()) 
+		{
+			var t = s
+			s = e
+			e = t + Math.pi() * 2
+		}
+		return [ s, e ]
 	}
 }
