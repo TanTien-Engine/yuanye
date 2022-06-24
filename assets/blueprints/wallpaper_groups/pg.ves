@@ -1,7 +1,7 @@
 var node0 = ::lattice::nodes::crystal_system::Rectangular()
 node0.query_param("size").value.set(100, 200)
 
-_editor.add_node(node0, -58.778703640463, 224.58377160031)
+_editor.add_node(node0, 61.121296359537, -98.816228399691)
 
 var node1 = ::blueprint::nodes::merge::Merge()
 
@@ -19,57 +19,117 @@ var node3 = ::blueprint::nodes::output::Output()
 node3.var_name = "geo"
 node3.var_type = "array"
 
-_editor.add_node(node3, 78.958804949524, 255.75506906957)
+_editor.add_node(node3, 198.85880494952, -67.644930930431)
 
-var node4 = ::blueprint::nodes::input::Input()
+var node4 = ::lattice::nodes::glide_reflect::GlideReflect()
+node4.query_param("pos").value.set(0, 0)
+node4.query_param("dir").value.set(0, 0)
+node4.query_param("off").value.set(0, 0)
 
-node4.var_name = "pos"
-node4.var_type = "num2"
-
-_editor.add_node(node4, -502.84708703182, 223.31502977195)
+_editor.add_node(node4, -345.011893051, 152.01276673418)
 
 var node5 = ::blueprint::nodes::input::Input()
 
-node5.var_name = "dir"
+node5.var_name = "size"
 node5.var_type = "num2"
 
-_editor.add_node(node5, -502.68927208308, 158.01824932829)
+_editor.add_node(node5, -770.73867702257, 539.44290891537)
 
-var node6 = ::lattice::nodes::glide_reflect::GlideReflect()
-node6.query_param("pos").value.set(0, 0)
-node6.query_param("dir").value.set(0, 100)
-node6.query_param("off").value.set(100, 0)
+var node6 = ::blueprint::nodes::property::Property()
 
-_editor.add_node(node6, -345.011893051, 152.01276673418)
+node6.var_name = "grids"
+node6.var_type = "num2"
 
-var node7 = ::blueprint::nodes::input::Input()
+_editor.add_node(node6, -102.26801366197, -259.19966301348)
 
-node7.var_name = "off"
-node7.var_type = "num2"
+var node7 = ::blueprint::nodes::number2::Number2()
 
-_editor.add_node(node7, -504.93433497634, 90.200046599493)
+node7.value.set(0, 1)
 
-var node8 = ::blueprint::nodes::input::Input()
+_editor.add_node(node7, -546.1327150657, 60.53453513406)
 
-node8.var_name = "size"
-node8.var_type = "num2"
+var node8 = ::blueprint::nodes::split::Split()
 
-_editor.add_node(node8, -207.97867702257, 188.87290891537)
+_editor.add_node(node8, -638.89626953125, 510.36446533203)
 
-var node9 = ::blueprint::nodes::property::Property()
+var node9 = ::blueprint::nodes::store::Store()
 
-node9.var_name = "grids"
-node9.var_type = "num2"
+node9.var_name = "w"
 
-_editor.add_node(node9, -204.56801366197, 124.70033698652)
+_editor.add_node(node9, -498.53623291016, 557.554453125)
 
-Blueprint.connect(node2, "var", node6, "geo")
-Blueprint.connect(node4, "var", node6, "pos")
-Blueprint.connect(node5, "var", node6, "dir")
-Blueprint.connect(node7, "var", node6, "off")
+var node10 = ::blueprint::nodes::store::Store()
+
+node10.var_name = "h"
+
+_editor.add_node(node10, -499.74623291016, 489.79446289062)
+
+var node11 = ::blueprint::nodes::load::Load()
+
+node11.var_name = "w"
+
+_editor.add_node(node11, -810.9362512207, 268.47450683594)
+
+var node12 = ::blueprint::nodes::negate::Negate()
+
+_editor.add_node(node12, -681.46623046875, 268.4744921875)
+
+var node13 = ::blueprint::nodes::combine::Combine()
+
+_editor.add_node(node13, -545.94628417969, 191.03442382812)
+
+var node14 = ::blueprint::nodes::load::Load()
+
+node14.var_name = "h"
+
+_editor.add_node(node14, -914.99622558594, 203.13447509766)
+
+var node15 = ::blueprint::nodes::subgraph::Subgraph()
+node15.load_from_file(_editor, "../../../../tantien/assets/blueprints/tools/half.ves")
+
+_editor.add_node(node15, -731.07624023437, 203.13447998047)
+
+var node16 = ::blueprint::nodes::load::Load()
+
+node16.var_name = "w"
+
+_editor.add_node(node16, -534.8420933207, -57.176725664061)
+
+var node17 = ::blueprint::nodes::subgraph::Subgraph()
+node17.load_from_file(_editor, "../../../../tantien/assets/blueprints/tools/double.ves")
+
+_editor.add_node(node17, -352.49504667187, -55.180269810548)
+
+var node18 = ::blueprint::nodes::load::Load()
+
+node18.var_name = "h"
+
+_editor.add_node(node18, -302.14784058594, -120.28774190234)
+
+var node19 = ::blueprint::nodes::combine::Combine()
+
+_editor.add_node(node19, -170.25052909375, -134.26932376563)
+
+Blueprint.connect(node5, "var", node8, "xyzw")
+Blueprint.connect(node8, "y", node10, "var")
+Blueprint.connect(node10, "var", node18, "var")
+Blueprint.connect(node10, "var", node14, "var")
+Blueprint.connect(node14, "var", node15, "val")
+Blueprint.connect(node8, "x", node9, "var")
+Blueprint.connect(node9, "var", node16, "var")
+Blueprint.connect(node16, "var", node17, "val")
+Blueprint.connect(node17, "val", node19, "x")
+Blueprint.connect(node18, "var", node19, "y")
+Blueprint.connect(node9, "var", node11, "var")
+Blueprint.connect(node11, "var", node12, "v")
+Blueprint.connect(node12, "v", node13, "x")
+Blueprint.connect(node15, "val", node13, "y")
+Blueprint.connect(node2, "var", node4, "geo")
+Blueprint.connect(node13, "xy", node4, "pos")
+Blueprint.connect(node7, "v2", node4, "dir")
 Blueprint.connect(node2, "var", node1, "in0")
-Blueprint.connect(node6, "geo", node1, "in1")
+Blueprint.connect(node4, "geo", node1, "in1")
 Blueprint.connect(node1, "list", node0, "geo")
-Blueprint.connect(node8, "var", node0, "size")
-Blueprint.connect(node9, "var", node0, "grids")
+Blueprint.connect(node19, "xy", node0, "size")
+Blueprint.connect(node6, "var", node0, "grids")
 Blueprint.connect(node0, "geo", node3, "var")

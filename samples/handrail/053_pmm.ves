@@ -1,0 +1,33 @@
+var node0 = ::geograph::nodes::draw_geometry::DrawGeometry()
+node0.query_param("skip").value = false
+
+_editor.add_node(node0, 223.24379655369, 172.96571204874)
+
+var node1 = ::blueprint::nodes::camera2d::Camera2d()
+
+node1.x = 303.55467201232
+node1.y = 84.190896433146
+node1.scale = 1.331
+node1.speed = 0.01
+
+_editor.add_node(node1, 52.805128088071, 98.56134396387)
+
+var node2 = ::lattice::nodes::canvas::Canvas()
+node2.query_param("type").value = "quad"
+node2.query_param("size").value.set(16, 14)
+node2.query_param("unit").value = 8
+
+node2.conn_segs = [ ::maths::vector::Vector3(16, 13, 0), ::maths::vector::Vector3(16, 13, 0), ::maths::vector::Vector3(15, 8, 1), ::maths::vector::Vector3(16, 8, 1), ::maths::vector::Vector3(6, 1, 1), ::maths::vector::Vector3(6, 0, 1), ::maths::vector::Vector3(6, 1, 0), ::maths::vector::Vector3(15, 8, 0), ::maths::vector::Vector3(5, 14, 0), ::maths::vector::Vector3(5, 12, 0), ::maths::vector::Vector3(7, 12, 0), ::maths::vector::Vector3(14, -0, 0), ::maths::vector::Vector3(-0, 12, 0), ::maths::vector::Vector3(7, 12, 0) ]
+
+_editor.add_node(node2, -199.3, 172.5)
+
+var node3 = ::blueprint::nodes::subgraph::Subgraph()
+node3.load_from_file(_editor, "../../assets/blueprints/wallpaper_groups/pmm.ves")
+node3.set_prop_value("grids", [ 4, 2 ])
+
+_editor.add_node(node3, 20.305785123967, 218.09917355372)
+
+Blueprint.connect(node2, "geo", node3, "geo")
+Blueprint.connect(node2, "size", node3, "size")
+Blueprint.connect(node3, "geo", node0, "geos")
+Blueprint.connect(node1, "mat", node0, "cam_mat")
