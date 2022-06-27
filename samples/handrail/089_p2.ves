@@ -1,0 +1,33 @@
+var node0 = ::geograph::nodes::draw_geometry::DrawGeometry()
+node0.query_param("skip").value = false
+
+_editor.add_node(node0, 210.57287243649, 206.79591490373)
+
+var node1 = ::blueprint::nodes::camera2d::Camera2d()
+
+node1.x = 293.23038961254
+node1.y = 210.27361015556
+node1.scale = 0.31863081771035
+node1.speed = 0.015564945526421
+
+_editor.add_node(node1, 62.82090569889, 136.12708400895)
+
+var node2 = ::lattice::nodes::canvas::Canvas()
+node2.query_param("type").value = "quad"
+node2.query_param("size").value.set(12, 16)
+node2.query_param("unit").value = 8
+
+node2.conn_segs = [ ::maths::vector::Vector3(0, 16, 0), ::maths::vector::Vector3(12, 8, 0), ::maths::vector::Vector3(12, 8, 0), ::maths::vector::Vector3(-0, -0, 0), ::maths::vector::Vector3(-0, 8, 0), ::maths::vector::Vector3(6, 12, 0), ::maths::vector::Vector3(6, 8, 0), ::maths::vector::Vector3(-0, 4, 0), ::maths::vector::Vector3(6, 4, 0), ::maths::vector::Vector3(12, -0, 0), ::maths::vector::Vector3(6, 16, 0), ::maths::vector::Vector3(12, 12, 0), ::maths::vector::Vector3(-0, 16, 0), ::maths::vector::Vector3(12, 16, 0), ::maths::vector::Vector3(0, -0, 0), ::maths::vector::Vector3(12, -0, 0), ::maths::vector::Vector3(-0, 16, 0), ::maths::vector::Vector3(-0, -0, 0), ::maths::vector::Vector3(0, 12, 0), ::maths::vector::Vector3(3, 14, 0), ::maths::vector::Vector3(3, 10, 0), ::maths::vector::Vector3(9, 6, 0), ::maths::vector::Vector3(12, 12, 0), ::maths::vector::Vector3(9, 10, 0), ::maths::vector::Vector3(9, 2, 0), ::maths::vector::Vector3(12, 4, 0), ::maths::vector::Vector3(3, 2, 0), ::maths::vector::Vector3(6, -0, 0) ]
+
+_editor.add_node(node2, -195.2509596339, 230.54501120763)
+
+var node3 = ::blueprint::nodes::subgraph::Subgraph()
+node3.load_from_file(_editor, "../../assets/blueprints/wallpaper_groups/p2.ves")
+node3.set_prop_value("grids", [ 1, 1 ])
+
+_editor.add_node(node3, 13.902990722656, 268.11597290039)
+
+Blueprint.connect(node2, "geo", node3, "geo")
+Blueprint.connect(node2, "size", node3, "size")
+Blueprint.connect(node3, "geo", node0, "geos")
+Blueprint.connect(node1, "mat", node0, "cam_mat")
