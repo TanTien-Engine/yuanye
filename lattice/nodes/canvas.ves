@@ -354,22 +354,22 @@ class Canvas is Node
 	{
 		var dx = x1 - x0
 		var dy = y1 - y0
+		var h_len = Math.sqrt(dx * dx + dy * dy) * 0.5
 
-		var r = 0
-		var cx = 0
-		var cy = 0
-		if (dx == 0 or dy == 0)
-		{
-			r = (dx + dy) / 2
-			cx = (x0 + x1) / 2
-			cy = (y0 + y1) / 2
-		}
-		else
-		{
-			r = (Math.abs(dx) + Math.abs(dy)) / 2
-			cx = x0
-			cy = y1
-		}
+		var angle_level = 1
+		var c_angle = (Math.pi() - Math.pi() / (angle_level + 1) * angle_level) * 0.5
+		var cx = h_len
+		var cy = - h_len * Math.tan(c_angle)
+
+		var r = h_len / Math.cos(c_angle)
+
+		var angle = Math.atan2(y1 - y0, x1 - x0)
+		var s = Math.sin(angle)
+		var c = Math.cos(angle)
+		var cx2 = cx * c - cy * s
+		var cy2 = cx * s + cy * c
+		cx = x0 + cx2
+		cy = y0 + cy2
 
 		return [ r, cx, cy ]
 	}

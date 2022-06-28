@@ -5,21 +5,21 @@ _editor.add_node(node0, 248.24379655369, 169.23843932147)
 
 var node1 = ::blueprint::nodes::camera2d::Camera2d()
 
-node1.x = 256.41294710744
-node1.y = 30.507515702479
-node1.scale = 1.21
+node1.x = 337.77976034364
+node1.y = 78.452471805455
+node1.scale = 1.1
 node1.speed = 0.01
 
-_editor.add_node(node1, 44.909734703367, 83.794723452357)
+_editor.add_node(node1, 45.909734703367, 83.794723452357)
 
 var node2 = ::lattice::nodes::canvas::Canvas()
 node2.query_param("type").value = "tri8"
 node2.query_param("size").value.set(8, 8)
 node2.query_param("unit").value = 15
 
-node2.conn_segs = [ ::maths::vector::Vector3(3, 0, 0), ::maths::vector::Vector3(3, 1, 0), ::maths::vector::Vector3(4, 2, 1), ::maths::vector::Vector3(3, 1, 1), ::maths::vector::Vector3(5, 3, 1), ::maths::vector::Vector3(5, 3, 1), ::maths::vector::Vector3(5, 3, 1), ::maths::vector::Vector3(4, 2, 1), ::maths::vector::Vector3(5, 3, 0), ::maths::vector::Vector3(8, 3, 0), ::maths::vector::Vector3(4, 4, 0), ::maths::vector::Vector3(4, 4, 0), ::maths::vector::Vector3(4, 4, 0), ::maths::vector::Vector3(4, 4, 0), ::maths::vector::Vector3(4, 4, 0), ::maths::vector::Vector3(7, 1, 0), ::maths::vector::Vector3(7, 1, 1), ::maths::vector::Vector3(7, 1, 1), ::maths::vector::Vector3(7, -0, 1), ::maths::vector::Vector3(7, 1, 1) ]
+node2.conn_segs = [ ::maths::vector::Vector3(5, 3, 1), ::maths::vector::Vector3(5, 3, 1), ::maths::vector::Vector3(5, 3, 0), ::maths::vector::Vector3(8, 3, 0), ::maths::vector::Vector3(4, 4, 0), ::maths::vector::Vector3(4, 4, 0), ::maths::vector::Vector3(4, 4, 0), ::maths::vector::Vector3(4, 4, 0), ::maths::vector::Vector3(3, 1, 0), ::maths::vector::Vector3(3, -0, 0), ::maths::vector::Vector3(3, 1, 1), ::maths::vector::Vector3(3, 1, 1), ::maths::vector::Vector3(4, 2, 1), ::maths::vector::Vector3(4, 2, 1), ::maths::vector::Vector3(3, 1, 1), ::maths::vector::Vector3(4, 2, 1), ::maths::vector::Vector3(4, 2, 1), ::maths::vector::Vector3(5, 3, 1), ::maths::vector::Vector3(7, 1, 0), ::maths::vector::Vector3(4, 4, 0), ::maths::vector::Vector3(7, 1, 1), ::maths::vector::Vector3(7, 0, 1) ]
 
-_editor.add_node(node2, -194.3, 173.5)
+_editor.add_node(node2, -193.3, 173.5)
 
 var node3 = ::blueprint::nodes::subgraph::Subgraph()
 node3.load_from_file(_editor, "../../assets/blueprints/wallpaper_groups/p4m.ves")

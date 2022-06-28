@@ -5,9 +5,9 @@ _editor.add_node(node0, 242.24379655369, 193.96571204874)
 
 var node1 = ::blueprint::nodes::camera2d::Camera2d()
 
-node1.x = 234.0628391
-node1.y = 84.5852125
-node1.scale = 1
+node1.x = 276.43548
+node1.y = 98.21152
+node1.scale = 0.90909090909091
 node1.speed = 0.01
 
 _editor.add_node(node1, 74.909734703367, 106.52199617963)
@@ -17,7 +17,7 @@ node2.query_param("type").value = "quad"
 node2.query_param("size").value.set(8, 8)
 node2.query_param("unit").value = 15
 
-node2.conn_segs = [ ::maths::vector::Vector3(2, 6, 0), ::maths::vector::Vector3(2, 6, 0), ::maths::vector::Vector3(0, 8, 0), ::maths::vector::Vector3(0, 2, 0), ::maths::vector::Vector3(-0, 2, 0), ::maths::vector::Vector3(4, 2, 0), ::maths::vector::Vector3(4, 2, 1), ::maths::vector::Vector3(4, 2, 1), ::maths::vector::Vector3(4, 2, 1), ::maths::vector::Vector3(5, 3, 1), ::maths::vector::Vector3(5, 3, 1), ::maths::vector::Vector3(6, 4, 1), ::maths::vector::Vector3(6, 4, 0), ::maths::vector::Vector3(6, 8, 0), ::maths::vector::Vector3(3, 3, 0), ::maths::vector::Vector3(3, 0, 0), ::maths::vector::Vector3(4, 4, 1), ::maths::vector::Vector3(3, 3, 1), ::maths::vector::Vector3(5, 5, 1), ::maths::vector::Vector3(4, 4, 1), ::maths::vector::Vector3(5, 5, 0), ::maths::vector::Vector3(8, 5, 0) ]
+node2.conn_segs = [ ::maths::vector::Vector3(2, 6, 0), ::maths::vector::Vector3(2, 6, 0), ::maths::vector::Vector3(0, 8, 0), ::maths::vector::Vector3(0, 2, 0), ::maths::vector::Vector3(-0, 2, 0), ::maths::vector::Vector3(4, 2, 0), ::maths::vector::Vector3(4, 2, 1), ::maths::vector::Vector3(4, 2, 1), ::maths::vector::Vector3(6, 4, 0), ::maths::vector::Vector3(6, 8, 0), ::maths::vector::Vector3(3, 3, 0), ::maths::vector::Vector3(3, 0, 0), ::maths::vector::Vector3(5, 5, 0), ::maths::vector::Vector3(8, 5, 0), ::maths::vector::Vector3(3, 3, 1), ::maths::vector::Vector3(4, 4, 1), ::maths::vector::Vector3(4, 4, 1), ::maths::vector::Vector3(5, 5, 1), ::maths::vector::Vector3(6, 4, 1), ::maths::vector::Vector3(5, 3, 1), ::maths::vector::Vector3(5, 3, 1), ::maths::vector::Vector3(4, 2, 1) ]
 
 _editor.add_node(node2, -196.3, 173.5)
 
