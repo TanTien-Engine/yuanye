@@ -190,14 +190,14 @@ class Canvas is Node
 		{
 			var p0 = this.conn_segs[i]
 			var p1 = this.conn_segs[i + 1]
-			if (p0.z == 1 and p1.z == 1)
+			if (p0.z > 0 and p1.z > 0)
 			{
 				var x0 = p0.x * unit
 				var y0 = p0.y * unit
 				var x1 = p1.x * unit
 				var y1 = p1.y * unit
 
-				var arc = this.calc_arc_params(x0, y0, x1, y1)
+				var arc = this.calc_arc_params(x0, y0, x1, y1, p0.z)
 				var r = arc[0]
 				var cx = arc[1]
 				var cy = arc[2]
@@ -331,9 +331,9 @@ class Canvas is Node
 			var p1 = this.conn_segs[i + 1]
 
 			var shape = nil
-			if (p0.z == 1 and p1.z == 1)
+			if (p0.z > 0 and p1.z > 0)
 			{
-				shape = this.build_arc_polyline(p0.x * unit, p0.y * unit, p1.x * unit, p1.y * unit)
+				shape = this.build_arc_polyline(p0.x * unit, p0.y * unit, p1.x * unit, p1.y * unit, p0.z)
 			}
 			else
 			{
@@ -350,13 +350,12 @@ class Canvas is Node
 	}
 
 	// [ r, cx, cy ]
-	calc_arc_params(x0, y0, x1, y1)
+	calc_arc_params(x0, y0, x1, y1, angle_level)
 	{
 		var dx = x1 - x0
 		var dy = y1 - y0
 		var h_len = Math.sqrt(dx * dx + dy * dy) * 0.5
 
-		var angle_level = 1
 		var c_angle = (Math.pi() - Math.pi() / (angle_level + 1) * angle_level) * 0.5
 		var cx = h_len
 		var cy = - h_len * Math.tan(c_angle)
@@ -374,11 +373,11 @@ class Canvas is Node
 		return [ r, cx, cy ]
 	}
 
-	build_arc_polyline(x0, y0, x1, y1)
+	build_arc_polyline(x0, y0, x1, y1, angle_level)
 	{
 		var verts = []
 
-		var arc = this.calc_arc_params(x0, y0, x1, y1)
+		var arc = this.calc_arc_params(x0, y0, x1, y1, angle_level)
 		var r = arc[0]
 		var cx = arc[1]
 		var cy = arc[2]
