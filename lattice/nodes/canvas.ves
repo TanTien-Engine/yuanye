@@ -387,7 +387,7 @@ class Canvas is Node
 		var s_angle = angle[0]
 		var e_angle = angle[1]
 
-		var num = 5
+		var num = 12
 		for (var i = 0; i <= num; i = i + 1)
 		{
 			var a = s_angle + (e_angle - s_angle) / num * i
