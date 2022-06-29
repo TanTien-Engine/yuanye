@@ -68,7 +68,7 @@ node12.load_from_file(_editor, "../../../../tantien/assets/blueprints/tools/half
 
 _editor.add_node(node12, -810.62248696571, 101.46295683049)
 
-var node13 = ::blueprint::nodes::property::Property()
+var node13 = ::blueprint::nodes::input::Input()
 
 node13.var_name = "grids"
 node13.var_type = "num2"

@@ -14,7 +14,6 @@ _editor.add_node(node1, -57.429414386053, -23.029045415889)
 
 var node2 = ::blueprint::nodes::subgraph::Subgraph()
 node2.load_from_file(_editor, "../../assets/blueprints/wallpaper_groups/pmg.ves")
-node2.set_prop_value("grids", [ 5, 1 ])
 
 _editor.add_node(node2, -109.59662417025, 89.591726071863)
 
@@ -27,7 +26,14 @@ node3.conn_segs = [ ::maths::vector::Vector3(2, -0, 0), ::maths::vector::Vector3
 
 _editor.add_node(node3, -310.22457179228, 49.619962140975)
 
+var node4 = ::blueprint::nodes::number2::Number2()
+
+node4.value.set(5, 1)
+
+_editor.add_node(node4, -304.58509305041, -65.996692110057)
+
 Blueprint.connect(node3, "geo", node2, "geo")
 Blueprint.connect(node3, "size", node2, "size")
+Blueprint.connect(node4, "v2", node2, "grids")
 Blueprint.connect(node2, "geo", node0, "geos")
 Blueprint.connect(node1, "mat", node0, "cam_mat")

@@ -49,7 +49,7 @@ node8.load_from_file(_editor, "../../../../tantien/assets/blueprints/tools/doubl
 
 _editor.add_node(node8, 251.86033307916, 199.41510487654)
 
-var node9 = ::blueprint::nodes::property::Property()
+var node9 = ::blueprint::nodes::input::Input()
 
 node9.var_name = "grids"
 node9.var_type = "num2"

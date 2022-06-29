@@ -40,7 +40,7 @@ node7.load_from_file(_editor, "../categories/rotate60.ves")
 
 _editor.add_node(node7, 10.971798299807, 12.890652757843)
 
-var node8 = ::blueprint::nodes::property::Property()
+var node8 = ::blueprint::nodes::input::Input()
 
 node8.var_name = "grids"
 node8.var_type = "num2"

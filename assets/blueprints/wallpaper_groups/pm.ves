@@ -34,7 +34,7 @@ node5.var_type = "num2"
 
 _editor.add_node(node5, -371.57774214311, 68.844057950111)
 
-var node6 = ::blueprint::nodes::property::Property()
+var node6 = ::blueprint::nodes::input::Input()
 
 node6.var_name = "grids"
 node6.var_type = "num2"

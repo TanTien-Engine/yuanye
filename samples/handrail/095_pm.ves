@@ -23,12 +23,18 @@ _editor.add_node(node2, -195.2509596339, 230.54501120763)
 
 var node3 = ::blueprint::nodes::subgraph::Subgraph()
 node3.load_from_file(_editor, "../../assets/blueprints/wallpaper_groups/pm.ves")
-node3.set_prop_value("grids", [ 2.3684210777283, 0.78947371244431 ])
 node3.set_prop_value("hori", true)
 
 _editor.add_node(node3, 7.82, 261.15)
 
+var node4 = ::blueprint::nodes::number2::Number2()
+
+node4.value.set(3, 1)
+
+_editor.add_node(node4, -191.45990722656, 107.78207336426)
+
 Blueprint.connect(node2, "geo", node3, "geo")
 Blueprint.connect(node2, "size", node3, "size")
+Blueprint.connect(node4, "v2", node3, "grids")
 Blueprint.connect(node3, "geo", node0, "geos")
 Blueprint.connect(node1, "mat", node0, "cam_mat")

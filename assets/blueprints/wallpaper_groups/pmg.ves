@@ -95,7 +95,7 @@ node17.load_from_file(_editor, "../../../../tantien/assets/blueprints/tools/doub
 
 _editor.add_node(node17, 181.4551488359, 84.186161026408)
 
-var node18 = ::blueprint::nodes::property::Property()
+var node18 = ::blueprint::nodes::input::Input()
 
 node18.var_name = "grids"
 node18.var_type = "num2"
