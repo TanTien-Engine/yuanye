@@ -1,7 +1,7 @@
 var node0 = ::lattice::nodes::crystal_system::Rectangular()
 node0.query_param("size").value.set(100, 200)
 
-_editor.add_node(node0, 210.09090909091, 181.9090909091)
+_editor.add_node(node0, 582.99090909091, 158.8090909091)
 
 var node1 = ::blueprint::nodes::merge::Merge()
 
@@ -19,7 +19,7 @@ var node3 = ::blueprint::nodes::output::Output()
 node3.var_name = "geo"
 node3.var_type = "array"
 
-_editor.add_node(node3, 351.92649841309, 216.49545565519)
+_editor.add_node(node3, 1003.9211984131, 45.644155655189)
 
 var node4 = ::lattice::nodes::reflect::Reflect()
 node4.query_param("pos").value.set(0, 0)
@@ -39,7 +39,7 @@ var node6 = ::blueprint::nodes::input::Input()
 node6.var_name = "grids"
 node6.var_type = "num2"
 
-_editor.add_node(node6, 71.923333584318, 138.89266339538)
+_editor.add_node(node6, 373.32333358432, 134.49266339538)
 
 var node7 = ::blueprint::nodes::property::Property()
 
@@ -76,7 +76,7 @@ _editor.add_node(node12, -243.84158741344, 75.294797030361)
 
 var node13 = ::blueprint::nodes::branch_f::BranchF()
 
-_editor.add_node(node13, 348.94085209292, -38.290224245141)
+_editor.add_node(node13, 356.94085209292, -58.290224245141)
 
 var node14 = ::blueprint::nodes::load::Load()
 
@@ -102,10 +102,63 @@ var node18 = ::blueprint::nodes::combine::Combine()
 
 _editor.add_node(node18, 181.53930664062, -164.9719543457)
 
+var node19 = ::blueprint::nodes::subgraph::Subgraph()
+node19.load_from_file(_editor, "../tools/handrail_frame.ves")
+node19.set_prop_value("offset_x", true)
+node19.set_prop_value("offset_y", false)
+
+_editor.add_node(node19, 515.98226836724, -271.03291421544)
+
+var node20 = ::blueprint::nodes::merge::Merge()
+
+_editor.add_node(node20, 858.05478300781, 18.801281787108)
+
+var node21 = ::blueprint::nodes::subgraph::Subgraph()
+node21.load_from_file(_editor, "../../../../tantien/assets/blueprints/tools/half.ves")
+
+_editor.add_node(node21, -28.94369873047, -478.55906811523)
+
+var node22 = ::blueprint::nodes::combine::Combine()
+
+_editor.add_node(node22, 207.00629272461, -553.57907666016)
+
+var node23 = ::blueprint::nodes::branch_f::BranchF()
+
+_editor.add_node(node23, 882.16248798323, -349.86715977482)
+
+var node24 = ::blueprint::nodes::subgraph::Subgraph()
+node24.load_from_file(_editor, "../../../../tantien/assets/blueprints/tools/half.ves")
+
+_editor.add_node(node24, -25.821855755263, -306.31330778465)
+
+var node25 = ::blueprint::nodes::combine::Combine()
+
+_editor.add_node(node25, 210.12813569982, -381.33331632958)
+
+var node26 = ::blueprint::nodes::subgraph::Subgraph()
+node26.load_from_file(_editor, "../tools/handrail_frame.ves")
+node26.set_prop_value("offset_x", false)
+node26.set_prop_value("offset_y", true)
+
+_editor.add_node(node26, 511.90600991495, -494.34147920417)
+
 Blueprint.connect(node7, "var", node10, "var")
 Blueprint.connect(node10, "var", node14, "var")
 Blueprint.connect(node10, "var", node11, "var")
 Blueprint.connect(node5, "var", node12, "xy")
+Blueprint.connect(node12, "y", node24, "val")
+Blueprint.connect(node12, "x", node25, "x")
+Blueprint.connect(node24, "val", node25, "y")
+Blueprint.connect(node25, "xy", node19, "size")
+Blueprint.connect(node6, "var", node19, "grids")
+Blueprint.connect(node12, "x", node21, "val")
+Blueprint.connect(node21, "val", node22, "x")
+Blueprint.connect(node12, "y", node22, "y")
+Blueprint.connect(node22, "xy", node26, "size")
+Blueprint.connect(node6, "var", node26, "grids")
+Blueprint.connect(node14, "var", node23, "cond")
+Blueprint.connect(node19, "geo", node23, "true")
+Blueprint.connect(node26, "geo", node23, "false")
 Blueprint.connect(node12, "y", node17, "val")
 Blueprint.connect(node12, "x", node18, "x")
 Blueprint.connect(node17, "val", node18, "y")
@@ -125,4 +178,6 @@ Blueprint.connect(node8, "result", node1, "in1")
 Blueprint.connect(node1, "list", node0, "geo")
 Blueprint.connect(node13, "result", node0, "size")
 Blueprint.connect(node6, "var", node0, "grids")
-Blueprint.connect(node0, "geo", node3, "var")
+Blueprint.connect(node0, "geo", node20, "in0")
+Blueprint.connect(node23, "result", node20, "in1")
+Blueprint.connect(node20, "list", node3, "var")

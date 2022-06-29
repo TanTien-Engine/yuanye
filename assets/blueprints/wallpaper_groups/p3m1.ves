@@ -10,7 +10,7 @@ var node1 = ::blueprint::nodes::output::Output()
 node1.var_name = "geo"
 node1.var_type = "array"
 
-_editor.add_node(node1, 1328.094304226, 59.969542711922)
+_editor.add_node(node1, 1455.694304226, -41.230457288078)
 
 var node2 = ::lattice::nodes::crystal_system::Hexagonal()
 node2.query_param("size").value = 265
@@ -53,7 +53,7 @@ var node9 = ::blueprint::nodes::input::Input()
 node9.var_name = "grids"
 node9.var_type = "num2"
 
-_editor.add_node(node9, 973.06042127373, -134.71055716522)
+_editor.add_node(node9, 931.26042127373, -141.31055716522)
 
 var node10 = ::blueprint::nodes::split::Split()
 
@@ -135,9 +135,34 @@ node25.value = 0
 
 _editor.add_node(node25, 124.93052978516, -214.41743469238)
 
+var node26 = ::blueprint::nodes::subgraph::Subgraph()
+node26.load_from_file(_editor, "../tools/handrail_frame.ves")
+node26.set_prop_value("offset_x", false)
+node26.set_prop_value("offset_y", false)
+
+_editor.add_node(node26, 1139.8483896484, -134.2566418457)
+
+var node27 = ::blueprint::nodes::merge::Merge()
+
+_editor.add_node(node27, 1318.3075195312, -57.324273681641)
+
+var node28 = ::blueprint::nodes::multiply::Multiply()
+
+_editor.add_node(node28, 903.60751953125, -324.62426757813)
+
+var node29 = ::blueprint::nodes::number::Number()
+
+node29.value = 0.866
+
+_editor.add_node(node29, 744.10750732422, -368.62426757812)
+
 Blueprint.connect(node18, "v", node17, "v")
 Blueprint.connect(node17, "v", node21, "x")
 Blueprint.connect(node22, "v", node21, "y")
+Blueprint.connect(node8, "var", node28, "a")
+Blueprint.connect(node29, "v", node28, "b")
+Blueprint.connect(node28, "v", node26, "size")
+Blueprint.connect(node9, "var", node26, "grids")
 Blueprint.connect(node8, "var", node10, "xy")
 Blueprint.connect(node10, "x", node11, "var")
 Blueprint.connect(node11, "var", node23, "var")
@@ -167,4 +192,6 @@ Blueprint.connect(node7, "geo", node6, "in2")
 Blueprint.connect(node6, "list", node2, "geo")
 Blueprint.connect(node8, "var", node2, "size")
 Blueprint.connect(node9, "var", node2, "grids")
-Blueprint.connect(node2, "geo", node1, "var")
+Blueprint.connect(node2, "geo", node27, "in0")
+Blueprint.connect(node26, "geo", node27, "in1")
+Blueprint.connect(node27, "list", node1, "var")

@@ -14,7 +14,7 @@ var node2 = ::blueprint::nodes::output::Output()
 node2.var_name = "geo"
 node2.var_type = "array"
 
-_editor.add_node(node2, 86.47195295854, 289.22272838246)
+_editor.add_node(node2, 1092.8355893222, 27.404546564277)
 
 var node3 = ::lattice::nodes::crystal_system::Oblique()
 node3.query_param("size").value.set(200, 250)
@@ -178,6 +178,22 @@ var node32 = ::blueprint::nodes::combine::Combine()
 
 _editor.add_node(node32, 131.87764024969, -239.17331673394)
 
+var node33 = ::blueprint::nodes::subgraph::Subgraph()
+node33.load_from_file(_editor, "../tools/handrail_frame.ves")
+node33.set_prop_value("offset_x", false)
+node33.set_prop_value("offset_y", false)
+
+_editor.add_node(node33, 755.28188809482, -13.545307506215)
+
+var node34 = ::blueprint::nodes::merge::Merge()
+
+_editor.add_node(node34, 949.38080943715, 7.489682284267)
+
+var node35 = ::blueprint::nodes::subgraph::Subgraph()
+node35.load_from_file(_editor, "../../../../tantien/assets/blueprints/tools/half.ves")
+
+_editor.add_node(node35, 443.07385055702, -71.448115298974)
+
 Blueprint.connect(node26, "var", node19, "var")
 Blueprint.connect(node19, "var", node27, "var")
 Blueprint.connect(node19, "var", node20, "var")
@@ -204,6 +220,9 @@ Blueprint.connect(node17, "var", node18, "y")
 Blueprint.connect(node27, "var", node28, "cond")
 Blueprint.connect(node32, "xy", node28, "true")
 Blueprint.connect(node18, "xy", node28, "false")
+Blueprint.connect(node28, "result", node35, "val")
+Blueprint.connect(node35, "val", node33, "size")
+Blueprint.connect(node7, "var", node33, "grids")
 Blueprint.connect(node9, "var", node11, "var")
 Blueprint.connect(node11, "var", node14, "x")
 Blueprint.connect(node13, "val", node14, "y")
@@ -218,4 +237,6 @@ Blueprint.connect(node4, "geo", node0, "in1")
 Blueprint.connect(node0, "list", node3, "geo")
 Blueprint.connect(node28, "result", node3, "size")
 Blueprint.connect(node7, "var", node3, "grids")
-Blueprint.connect(node3, "geo", node2, "var")
+Blueprint.connect(node3, "geo", node34, "in0")
+Blueprint.connect(node33, "geo", node34, "in1")
+Blueprint.connect(node34, "list", node2, "var")

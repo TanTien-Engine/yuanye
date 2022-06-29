@@ -5,9 +5,9 @@ _editor.add_node(node0, 84.993421206753, 37.107469007713)
 
 var node1 = ::blueprint::nodes::camera2d::Camera2d()
 
-node1.x = 375.82951818182
-node1.y = -10.585954545455
-node1.scale = 1.1
+node1.x = 464.69189881818
+node1.y = 0.30735863636308
+node1.scale = 0.90909090909091
 node1.speed = 0.36021009087563
 
 _editor.add_node(node1, -57.429414386053, -23.029045415889)
@@ -17,9 +17,9 @@ node2.query_param("type").value = "quad"
 node2.query_param("size").value.set(7, 7)
 node2.query_param("unit").value = 15
 
-node2.conn_segs = [ ::maths::vector::Vector3(7, 7, 0), ::maths::vector::Vector3(-0, -0, 0), ::maths::vector::Vector3(-0, 3, 0), ::maths::vector::Vector3(3, 3, 0), ::maths::vector::Vector3(4, 4, 0), ::maths::vector::Vector3(7, 4, 0), ::maths::vector::Vector3(7, 4, 0), ::maths::vector::Vector3(7, -0, 0), ::maths::vector::Vector3(-0, 7, 0), ::maths::vector::Vector3(7, 7, 0), ::maths::vector::Vector3(-0, 3, 0), ::maths::vector::Vector3(0, 7, 0) ]
+node2.conn_segs = [ ::maths::vector::Vector3(7, 7, 0), ::maths::vector::Vector3(-0, -0, 0), ::maths::vector::Vector3(-0, 3, 0), ::maths::vector::Vector3(3, 3, 0), ::maths::vector::Vector3(4, 4, 0), ::maths::vector::Vector3(7, 4, 0), ::maths::vector::Vector3(7, 4, 0), ::maths::vector::Vector3(7, -0, 0), ::maths::vector::Vector3(-0, 3, 0), ::maths::vector::Vector3(0, 7, 0) ]
 
-_editor.add_node(node2, -310.22457179228, 48.619962140975)
+_editor.add_node(node2, -310.22457179228, 49.619962140975)
 
 var node3 = ::blueprint::nodes::subgraph::Subgraph()
 node3.load_from_file(_editor, "../../assets/blueprints/wallpaper_groups/pmg.ves")

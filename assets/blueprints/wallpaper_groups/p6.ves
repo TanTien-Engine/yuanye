@@ -10,12 +10,12 @@ var node1 = ::blueprint::nodes::output::Output()
 node1.var_name = "geo"
 node1.var_type = "array"
 
-_editor.add_node(node1, 1217.0540927169, -11.239736315348)
+_editor.add_node(node1, 1601.1296018078, -76.840536315348)
 
 var node2 = ::lattice::nodes::crystal_system::Hexagonal()
 node2.query_param("size").value = 265
 
-_editor.add_node(node2, 1086.9873703869, -40.694689954236)
+_editor.add_node(node2, 1136.2343703869, -12.743689954236)
 
 var node3 = ::blueprint::nodes::merge::Merge()
 
@@ -107,9 +107,32 @@ node19.value = 3
 
 _editor.add_node(node19, -342.38298360703, -203.69801021875)
 
+var node20 = ::blueprint::nodes::subgraph::Subgraph()
+node20.load_from_file(_editor, "../tools/handrail_frame.ves")
+node20.set_prop_value("offset_x", false)
+node20.set_prop_value("offset_y", false)
+
+_editor.add_node(node20, 1279.4804901456, -146.26993505859)
+
+var node21 = ::blueprint::nodes::merge::Merge()
+
+_editor.add_node(node21, 1467.6970184659, -96.63259375)
+
+var node22 = ::blueprint::nodes::multiply::Multiply()
+
+_editor.add_node(node22, 1091.2338075284, -165.65186073442)
+
+var node23 = ::blueprint::nodes::number::Number()
+
+node23.value = 1/1.732
+
+_editor.add_node(node23, 962.15866870722, -225.70251666613)
+
 Blueprint.connect(node19, "v", node18, "v")
 Blueprint.connect(node9, "var", node13, "var")
 Blueprint.connect(node13, "var", node14, "var")
+Blueprint.connect(node14, "var", node22, "a")
+Blueprint.connect(node23, "v", node22, "b")
 Blueprint.connect(node13, "var", node10, "var")
 Blueprint.connect(node10, "var", node11, "val")
 Blueprint.connect(node11, "val", node12, "var")
@@ -118,6 +141,8 @@ Blueprint.connect(node15, "var", node16, "a")
 Blueprint.connect(node18, "v", node16, "b")
 Blueprint.connect(node15, "var", node17, "x")
 Blueprint.connect(node16, "v", node17, "y")
+Blueprint.connect(node22, "v", node20, "size")
+Blueprint.connect(node8, "var", node20, "grids")
 Blueprint.connect(node0, "var", node7, "geo")
 Blueprint.connect(node17, "xy", node7, "pos")
 Blueprint.connect(node0, "var", node3, "in0")
@@ -132,4 +157,6 @@ Blueprint.connect(node6, "geo", node5, "in2")
 Blueprint.connect(node5, "list", node2, "geo")
 Blueprint.connect(node14, "var", node2, "size")
 Blueprint.connect(node8, "var", node2, "grids")
-Blueprint.connect(node2, "geo", node1, "var")
+Blueprint.connect(node2, "geo", node21, "in0")
+Blueprint.connect(node20, "geo", node21, "in1")
+Blueprint.connect(node21, "list", node1, "var")

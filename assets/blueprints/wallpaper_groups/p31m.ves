@@ -14,12 +14,12 @@ var node2 = ::blueprint::nodes::output::Output()
 node2.var_name = "geo"
 node2.var_type = "array"
 
-_editor.add_node(node2, 1254.514576188, -34.42409581948)
+_editor.add_node(node2, 1507.3988968521, -92.67780540103)
 
 var node3 = ::lattice::nodes::crystal_system::Hexagonal()
 node3.query_param("size").value = 265
 
-_editor.add_node(node3, 1115.8055522051, -65.3310535906)
+_editor.add_node(node3, 1138.9489833373, -41.623148528341)
 
 var node4 = ::blueprint::nodes::subgraph::Subgraph()
 node4.load_from_file(_editor, "../categories/rotate120.ves")
@@ -67,7 +67,7 @@ var node12 = ::blueprint::nodes::input::Input()
 node12.var_name = "grids"
 node12.var_type = "num2"
 
-_editor.add_node(node12, 970.41575130747, -117.27254139293)
+_editor.add_node(node12, 945.62236287772, -145.37171494665)
 
 var node13 = ::lattice::nodes::translate::Translate()
 node13.query_param("offset").value.set(0, 0)
@@ -178,12 +178,37 @@ node33.var_name = "h_sz"
 
 _editor.add_node(node33, 159.6132664762, -148.24074108944)
 
+var node34 = ::blueprint::nodes::subgraph::Subgraph()
+node34.load_from_file(_editor, "../tools/handrail_frame.ves")
+node34.set_prop_value("offset_x", false)
+node34.set_prop_value("offset_y", false)
+
+_editor.add_node(node34, 1182.7680856199, -148.21594694477)
+
+var node35 = ::blueprint::nodes::merge::Merge()
+
+_editor.add_node(node35, 1374.7135099796, -110.13299320828)
+
+var node36 = ::blueprint::nodes::multiply::Multiply()
+
+_editor.add_node(node36, 976.78081417872, -256.73233259217)
+
+var node37 = ::blueprint::nodes::number::Number()
+
+node37.value = 1/1.732
+
+_editor.add_node(node37, 810.66509707112, -280.69926213036)
+
 Blueprint.connect(node20, "v", node19, "v")
 Blueprint.connect(node19, "v", node30, "var")
 Blueprint.connect(node30, "var", node32, "var")
 Blueprint.connect(node30, "var", node31, "var")
 Blueprint.connect(node11, "var", node14, "var")
 Blueprint.connect(node14, "var", node22, "var")
+Blueprint.connect(node22, "var", node36, "a")
+Blueprint.connect(node37, "v", node36, "b")
+Blueprint.connect(node36, "v", node34, "size")
+Blueprint.connect(node12, "var", node34, "grids")
 Blueprint.connect(node14, "var", node15, "var")
 Blueprint.connect(node15, "var", node16, "val")
 Blueprint.connect(node16, "val", node27, "var")
@@ -223,4 +248,6 @@ Blueprint.connect(node10, "geo", node9, "in2")
 Blueprint.connect(node9, "list", node3, "geo")
 Blueprint.connect(node22, "var", node3, "size")
 Blueprint.connect(node12, "var", node3, "grids")
-Blueprint.connect(node3, "geo", node2, "var")
+Blueprint.connect(node3, "geo", node35, "in0")
+Blueprint.connect(node34, "geo", node35, "in1")
+Blueprint.connect(node35, "list", node2, "var")

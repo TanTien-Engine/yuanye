@@ -5,9 +5,9 @@ _editor.add_node(node0, 223.24379655369, 172.96571204874)
 
 var node1 = ::blueprint::nodes::camera2d::Camera2d()
 
-node1.x = 327.7184081
-node1.y = -6.8729866
-node1.scale = 0.82644628099174
+node1.x = 350.729273801
+node1.y = 15.633686214
+node1.scale = 0.68301345536507
 node1.speed = 0.01
 
 _editor.add_node(node1, 52.805128088071, 98.56134396387)
@@ -17,7 +17,7 @@ node2.query_param("type").value = "quad"
 node2.query_param("size").value.set(8, 12)
 node2.query_param("unit").value = 10
 
-node2.conn_segs = [ ::maths::vector::Vector3(0, 1, 0), ::maths::vector::Vector3(7, 1, 0), ::maths::vector::Vector3(7, 1, 0), ::maths::vector::Vector3(0, 9, 0), ::maths::vector::Vector3(8, 2, 0), ::maths::vector::Vector3(0, 11, 0), ::maths::vector::Vector3(0, 11, 0), ::maths::vector::Vector3(8, 11, 0), ::maths::vector::Vector3(2, 11, 0), ::maths::vector::Vector3(2, 12, 0), ::maths::vector::Vector3(2, 7, 0), ::maths::vector::Vector3(3, 8, 0), ::maths::vector::Vector3(5, 3, 0), ::maths::vector::Vector3(6, 4, 0), ::maths::vector::Vector3(0, 1, 0), ::maths::vector::Vector3(0, 4, 0), ::maths::vector::Vector3(0, 4, 0), ::maths::vector::Vector3(3, 6, 0), ::maths::vector::Vector3(-0, 12, 0), ::maths::vector::Vector3(8, 12, 0), ::maths::vector::Vector3(8, 11, 0), ::maths::vector::Vector3(8, 8, 0), ::maths::vector::Vector3(8, 8, 0), ::maths::vector::Vector3(5, 6, 0), ::maths::vector::Vector3(5, 1, 0), ::maths::vector::Vector3(5, -0, 0) ]
+node2.conn_segs = [ ::maths::vector::Vector3(0, 1, 0), ::maths::vector::Vector3(7, 1, 0), ::maths::vector::Vector3(7, 1, 0), ::maths::vector::Vector3(0, 9, 0), ::maths::vector::Vector3(8, 2, 0), ::maths::vector::Vector3(0, 11, 0), ::maths::vector::Vector3(0, 11, 0), ::maths::vector::Vector3(8, 11, 0), ::maths::vector::Vector3(2, 11, 0), ::maths::vector::Vector3(2, 12, 0), ::maths::vector::Vector3(2, 7, 0), ::maths::vector::Vector3(3, 8, 0), ::maths::vector::Vector3(5, 3, 0), ::maths::vector::Vector3(6, 4, 0), ::maths::vector::Vector3(0, 1, 0), ::maths::vector::Vector3(0, 4, 0), ::maths::vector::Vector3(0, 4, 0), ::maths::vector::Vector3(3, 6, 0), ::maths::vector::Vector3(8, 11, 0), ::maths::vector::Vector3(8, 8, 0), ::maths::vector::Vector3(8, 8, 0), ::maths::vector::Vector3(5, 6, 0), ::maths::vector::Vector3(5, 1, 0), ::maths::vector::Vector3(5, -0, 0) ]
 
 _editor.add_node(node2, -197.81315811823, 172.5)
 

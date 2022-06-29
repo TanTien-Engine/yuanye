@@ -5,12 +5,12 @@ _editor.add_node(node0, 242.24379655369, 193.96571204874)
 
 var node1 = ::blueprint::nodes::camera2d::Camera2d()
 
-node1.x = 192.44787949186
-node1.y = -26.583150805063
-node1.scale = 0.38554328942953
+node1.x = 238.60164036403
+node1.y = -5.2460910936927
+node1.scale = 0.26333125430608
 node1.speed = 0.01
 
-_editor.add_node(node1, 77.119734703367, 106.52199617963)
+_editor.add_node(node1, 77.119734703367, 107.73199617963)
 
 var node2 = ::lattice::nodes::canvas::Canvas()
 node2.query_param("type").value = "quad"

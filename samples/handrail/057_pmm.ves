@@ -5,9 +5,9 @@ _editor.add_node(node0, 242.24379655369, 193.96571204874)
 
 var node1 = ::blueprint::nodes::camera2d::Camera2d()
 
-node1.x = 279.14752661339
-node1.y = -1.3547246334201
-node1.scale = 0.75131480090158
+node1.x = 354.9885072022
+node1.y = 20.200783193562
+node1.scale = 0.62092132305916
 node1.speed = 0.01
 
 _editor.add_node(node1, 76.119734703367, 106.52199617963)
@@ -17,7 +17,7 @@ node2.query_param("type").value = "quad"
 node2.query_param("size").value.set(9, 15)
 node2.query_param("unit").value = 8
 
-node2.conn_segs = [ ::maths::vector::Vector3(7, 9, 0), ::maths::vector::Vector3(-0, 13, 0), ::maths::vector::Vector3(0, 2, 0), ::maths::vector::Vector3(4, -0, 0), ::maths::vector::Vector3(7, 2, 0), ::maths::vector::Vector3(4, 0, 0), ::maths::vector::Vector3(7, 2, 0), ::maths::vector::Vector3(7, 9, 0), ::maths::vector::Vector3(3, 7, 0), ::maths::vector::Vector3(9, 3, 0), ::maths::vector::Vector3(-0, 15, 0), ::maths::vector::Vector3(10, 15, 0), ::maths::vector::Vector3(3, 7, 0), ::maths::vector::Vector3(3, 15, 0) ]
+node2.conn_segs = [ ::maths::vector::Vector3(7, 9, 0), ::maths::vector::Vector3(-0, 13, 0), ::maths::vector::Vector3(0, 2, 0), ::maths::vector::Vector3(4, -0, 0), ::maths::vector::Vector3(7, 2, 0), ::maths::vector::Vector3(4, 0, 0), ::maths::vector::Vector3(7, 2, 0), ::maths::vector::Vector3(7, 9, 0), ::maths::vector::Vector3(3, 7, 0), ::maths::vector::Vector3(9, 3, 0), ::maths::vector::Vector3(3, 7, 0), ::maths::vector::Vector3(3, 15, 0) ]
 
 _editor.add_node(node2, -196.3, 173.5)
 

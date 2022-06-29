@@ -25,7 +25,7 @@ var node3 = ::blueprint::nodes::subgraph::Subgraph()
 node3.load_from_file(_editor, "../../assets/blueprints/wallpaper_groups/pg.ves")
 node3.set_prop_value("vert", true)
 
-_editor.add_node(node3, 30.090909090909, 227.09090909091)
+_editor.add_node(node3, 30.090909090909, 228.09090909091)
 
 var node4 = ::blueprint::nodes::number2::Number2()
 

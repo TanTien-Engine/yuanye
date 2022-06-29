@@ -5,9 +5,9 @@ _editor.add_node(node0, 210.57287243649, 206.79591490373)
 
 var node1 = ::blueprint::nodes::camera2d::Camera2d()
 
-node1.x = 304.07678658354
-node1.y = 131.61651042788
-node1.scale = 0.56447393005377
+node1.x = 319.78446524189
+node1.y = 135.23270692521
+node1.scale = 0.5131581182307
 node1.speed = 0.015564945526421
 
 _editor.add_node(node1, 62.82090569889, 136.12708400895)

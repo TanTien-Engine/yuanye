@@ -19,7 +19,7 @@ var node3 = ::blueprint::nodes::output::Output()
 node3.var_name = "geo"
 node3.var_type = "array"
 
-_editor.add_node(node3, 783.52575555399, 187.85477376871)
+_editor.add_node(node3, 999.35800744935, 130.48164351804)
 
 var node4 = ::blueprint::nodes::merge::Merge()
 
@@ -102,6 +102,19 @@ node18.var_type = "num2"
 
 _editor.add_node(node18, 471.61531124215, 72.859615747235)
 
+var node19 = ::blueprint::nodes::subgraph::Subgraph()
+node19.load_from_file(_editor, "../tools/handrail_frame.ves")
+node19.set_prop_value("offset_x", false)
+node19.set_prop_value("offset_y", true)
+
+_editor.add_node(node19, 663.81183256712, 8.6742774583722)
+
+var node20 = ::blueprint::nodes::merge::Merge()
+
+_editor.add_node(node20, 868.79105788813, 106.25546921232)
+
+Blueprint.connect(node7, "var", node19, "size")
+Blueprint.connect(node18, "var", node19, "grids")
 Blueprint.connect(node7, "var", node17, "val")
 Blueprint.connect(node7, "var", node8, "xy")
 Blueprint.connect(node8, "x", node9, "var")
@@ -123,4 +136,6 @@ Blueprint.connect(node6, "geo", node4, "in1")
 Blueprint.connect(node4, "list", node0, "geo")
 Blueprint.connect(node17, "val", node0, "size")
 Blueprint.connect(node18, "var", node0, "grids")
-Blueprint.connect(node0, "geo", node3, "var")
+Blueprint.connect(node0, "geo", node20, "in0")
+Blueprint.connect(node19, "geo", node20, "in1")
+Blueprint.connect(node20, "list", node3, "var")

@@ -14,7 +14,7 @@ var node2 = ::blueprint::nodes::output::Output()
 node2.var_name = "geo"
 node2.var_type = "array"
 
-_editor.add_node(node2, 387.43109142399, 79.73403859475)
+_editor.add_node(node2, 637.24109142399, -9.0359614052502)
 
 var node3 = ::blueprint::nodes::merge::Merge()
 
@@ -73,8 +73,84 @@ var node12 = ::blueprint::nodes::multiply::Multiply()
 
 _editor.add_node(node12, 60.849160787221, -44.711924581972)
 
+var node13 = ::blueprint::nodes::subgraph::Subgraph()
+node13.load_from_file(_editor, "../tools/handrail_frame.ves")
+node13.set_prop_value("offset_x", false)
+node13.set_prop_value("offset_y", true)
+
+_editor.add_node(node13, 303.86587451172, -92.380255859374)
+
+var node14 = ::blueprint::nodes::merge::Merge()
+
+_editor.add_node(node14, 492.93118530273, -26.378520507813)
+
+var node15 = ::blueprint::nodes::split::Split()
+
+_editor.add_node(node15, -2.4339054488849, -376.86232697955)
+
+var node16 = ::blueprint::nodes::subtract::Subtract()
+
+_editor.add_node(node16, 274.55257075859, -311.01259176826)
+
+var node17 = ::blueprint::nodes::combine::Combine()
+
+_editor.add_node(node17, 563.89592118697, -396.03662872315)
+
+var node18 = ::blueprint::nodes::number::Number()
+
+node18.value = 0.5
+
+_editor.add_node(node18, 148.62319391424, -349.85480291193)
+
+var node19 = ::blueprint::nodes::subtract::Subtract()
+
+_editor.add_node(node19, 283.22867894793, -464.87292234678)
+
+var node20 = ::blueprint::nodes::property::Property()
+
+node20.var_name = "sub_x"
+node20.var_type = "bool"
+
+_editor.add_node(node20, 276.07499223189, -243.13431119052)
+
+var node21 = ::blueprint::nodes::property::Property()
+
+node21.var_name = "sub_y"
+node21.var_type = "bool"
+
+_editor.add_node(node21, 280.32284677734, -395.96760209961)
+
+var node22 = ::blueprint::nodes::branch_f::BranchF()
+
+_editor.add_node(node22, 412.17516534979, -304.67420265892)
+
+var node23 = ::blueprint::nodes::number::Number()
+
+node23.value = 0.5
+
+_editor.add_node(node23, 135.70773936878, -506.66289382102)
+
+var node24 = ::blueprint::nodes::branch_f::BranchF()
+
+_editor.add_node(node24, 423.20356534979, -423.48800265892)
+
 Blueprint.connect(node9, "var", node10, "val")
 Blueprint.connect(node11, "v2", node10, "default")
+Blueprint.connect(node6, "var", node15, "xyzw")
+Blueprint.connect(node15, "y", node19, "a")
+Blueprint.connect(node23, "v", node19, "b")
+Blueprint.connect(node21, "var", node24, "cond")
+Blueprint.connect(node19, "v", node24, "true")
+Blueprint.connect(node15, "y", node24, "false")
+Blueprint.connect(node15, "x", node16, "a")
+Blueprint.connect(node18, "v", node16, "b")
+Blueprint.connect(node20, "var", node22, "cond")
+Blueprint.connect(node16, "v", node22, "true")
+Blueprint.connect(node15, "x", node22, "false")
+Blueprint.connect(node22, "result", node17, "x")
+Blueprint.connect(node24, "result", node17, "y")
+Blueprint.connect(node5, "var", node13, "size")
+Blueprint.connect(node17, "xy", node13, "grids")
 Blueprint.connect(node5, "var", node12, "a")
 Blueprint.connect(node10, "val", node12, "b")
 Blueprint.connect(node1, "var", node7, "geo")
@@ -86,4 +162,6 @@ Blueprint.connect(node8, "geo", node3, "in1")
 Blueprint.connect(node3, "list", node4, "geo")
 Blueprint.connect(node12, "v", node4, "size")
 Blueprint.connect(node6, "var", node4, "grids")
-Blueprint.connect(node4, "geo", node2, "var")
+Blueprint.connect(node4, "geo", node14, "in0")
+Blueprint.connect(node13, "geo", node14, "in1")
+Blueprint.connect(node14, "list", node2, "var")

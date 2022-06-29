@@ -1,7 +1,7 @@
 var node0 = ::lattice::nodes::crystal_system::Rectangular()
 node0.query_param("size").value.set(100, 200)
 
-_editor.add_node(node0, 61.121296359537, -98.816228399691)
+_editor.add_node(node0, 462.82129635954, -33.516228399691)
 
 var node1 = ::blueprint::nodes::merge::Merge()
 
@@ -19,7 +19,7 @@ var node3 = ::blueprint::nodes::output::Output()
 node3.var_name = "geo"
 node3.var_type = "array"
 
-_editor.add_node(node3, 198.85880494952, -67.644930930431)
+_editor.add_node(node3, 756.08096873615, -97.761910644931)
 
 var node4 = ::lattice::nodes::glide_reflect::GlideReflect()
 node4.query_param("pos").value.set(0, 0)
@@ -180,6 +180,33 @@ var node32 = ::blueprint::nodes::combine::Combine()
 
 _editor.add_node(node32, -177.42545324511, 113.84254935779)
 
+var node33 = ::blueprint::nodes::subgraph::Subgraph()
+node33.load_from_file(_editor, "../tools/handrail_frame.ves")
+node33.set_prop_value("offset_x", false)
+node33.set_prop_value("offset_y", false)
+
+_editor.add_node(node33, 422.22974609375, -377.46338989258)
+
+var node34 = ::blueprint::nodes::merge::Merge()
+
+_editor.add_node(node34, 619.71695511701, -116.52045290723)
+
+var node35 = ::blueprint::nodes::subgraph::Subgraph()
+node35.load_from_file(_editor, "../../../../tantien/assets/blueprints/tools/half.ves")
+
+_editor.add_node(node35, 156.16610826561, -195.24490961953)
+
+var node36 = ::blueprint::nodes::branch_f::BranchF()
+
+_editor.add_node(node36, 636.06672613016, -305.22984034642)
+
+var node37 = ::blueprint::nodes::subgraph::Subgraph()
+node37.load_from_file(_editor, "../tools/handrail_frame.ves")
+node37.set_prop_value("offset_x", false)
+node37.set_prop_value("offset_y", true)
+
+_editor.add_node(node37, 414.51954609375, -253.50688989258)
+
 Blueprint.connect(node5, "var", node8, "xyzw")
 Blueprint.connect(node8, "y", node10, "var")
 Blueprint.connect(node10, "var", node31, "var")
@@ -203,6 +230,14 @@ Blueprint.connect(node18, "var", node19, "y")
 Blueprint.connect(node20, "var", node28, "cond")
 Blueprint.connect(node32, "xy", node28, "true")
 Blueprint.connect(node19, "xy", node28, "false")
+Blueprint.connect(node28, "result", node35, "val")
+Blueprint.connect(node35, "val", node37, "size")
+Blueprint.connect(node6, "var", node37, "grids")
+Blueprint.connect(node35, "val", node33, "size")
+Blueprint.connect(node6, "var", node33, "grids")
+Blueprint.connect(node20, "var", node36, "cond")
+Blueprint.connect(node37, "geo", node36, "true")
+Blueprint.connect(node33, "geo", node36, "false")
 Blueprint.connect(node9, "var", node11, "var")
 Blueprint.connect(node11, "var", node12, "v")
 Blueprint.connect(node12, "v", node13, "x")
@@ -221,4 +256,6 @@ Blueprint.connect(node21, "result", node1, "in1")
 Blueprint.connect(node1, "list", node0, "geo")
 Blueprint.connect(node28, "result", node0, "size")
 Blueprint.connect(node6, "var", node0, "grids")
-Blueprint.connect(node0, "geo", node3, "var")
+Blueprint.connect(node0, "geo", node34, "in0")
+Blueprint.connect(node36, "result", node34, "in1")
+Blueprint.connect(node34, "list", node3, "var")
