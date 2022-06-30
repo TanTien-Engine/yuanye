@@ -5,9 +5,9 @@ _editor.add_node(node0, 253.24379655369, 171.96571204874)
 
 var node1 = ::blueprint::nodes::camera2d::Camera2d()
 
-node1.x = 462.08693213516
-node1.y = 180.36755881834
-node1.scale = 0.75131480090158
+node1.x = 478.83518788354
+node1.y = 203.10474617019
+node1.scale = 0.62092132305916
 node1.speed = 0.01
 
 _editor.add_node(node1, 52.805128088071, 98.56134396387)
@@ -23,8 +23,7 @@ _editor.add_node(node2, -197.3, 172.5)
 
 var node3 = ::blueprint::nodes::subgraph::Subgraph()
 node3.load_from_file(_editor, "../../assets/blueprints/wallpaper_groups/cmm.ves")
-node3.set_prop_value("sub_x", true)
-node3.set_prop_value("sub_y", true)
+node3.set_prop_value("frame_inc_y", false)
 
 _editor.add_node(node3, 29, 231)
 

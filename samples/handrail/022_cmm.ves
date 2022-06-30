@@ -5,12 +5,12 @@ _editor.add_node(node0, 206.81629843198, 172.23543406226)
 
 var node1 = ::blueprint::nodes::camera2d::Camera2d()
 
-node1.x = 450.07332365448
-node1.y = 101.1929533255
-node1.scale = 0.56447393005378
+node1.x = 489.63520332225
+node1.y = 250.93223029591
+node1.scale = 0.62092132305916
 node1.speed = 0.01
 
-_editor.add_node(node1, 53.805128088071, 98.56134396387)
+_editor.add_node(node1, 53.805128088071, 97.56134396387)
 
 var node2 = ::lattice::nodes::canvas::Canvas()
 node2.query_param("type").value = "quad"
@@ -23,8 +23,7 @@ _editor.add_node(node2, -195.2509596339, 227.82408988457)
 
 var node3 = ::blueprint::nodes::subgraph::Subgraph()
 node3.load_from_file(_editor, "../../assets/blueprints/wallpaper_groups/cmm.ves")
-node3.set_prop_value("sub_x", true)
-node3.set_prop_value("sub_y", false)
+node3.set_prop_value("frame_inc_y", true)
 
 _editor.add_node(node3, 5.0819083395941, 215.17994740796)
 
@@ -36,7 +35,7 @@ _editor.add_node(node4, -192.45274467348, 19.3387676693)
 
 var node5 = ::blueprint::nodes::number2::Number2()
 
-node5.value.set(3, 2)
+node5.value.set(4, 3)
 
 _editor.add_node(node5, -194.6280078125, 110.05452392578)
 
