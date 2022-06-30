@@ -5,12 +5,12 @@ _editor.add_node(node0, 248.24379655369, 169.23843932147)
 
 var node1 = ::blueprint::nodes::camera2d::Camera2d()
 
-node1.x = 363.2757589
-node1.y = 159.8073144
-node1.scale = 1
+node1.x = 409.01333860549
+node1.y = 311.56318901304
+node1.scale = 0.68301345536507
 node1.speed = 0.01
 
-_editor.add_node(node1, 44.909734703367, 83.794723452357)
+_editor.add_node(node1, 44.909734703367, 82.794723452357)
 
 var node2 = ::lattice::nodes::canvas::Canvas()
 node2.query_param("type").value = "tri8"
@@ -29,7 +29,7 @@ _editor.add_node(node3, 39, 211)
 
 var node4 = ::blueprint::nodes::number2::Number2()
 
-node4.value.set(3, 3)
+node4.value.set(3, 4)
 
 _editor.add_node(node4, -186.61989013672, 54.542085037231)
 

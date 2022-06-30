@@ -5,19 +5,19 @@ _editor.add_node(node0, 131.80743291733, 29.822984776013)
 
 var node1 = ::blueprint::nodes::camera2d::Camera2d()
 
-node1.x = 452.80785176033
-node1.y = 176.13703887603
-node1.scale = 1.21
+node1.x = 463.73953971074
+node1.y = 148.4644508595
+node1.scale = 1
 node1.speed = 0.01
 
-_editor.add_node(node1, -8.5148719119302, -57.69865603613)
+_editor.add_node(node1, -8.5148719119302, -56.789565127039)
 
 var node2 = ::lattice::nodes::canvas::Canvas()
 node2.query_param("type").value = "tri6"
 node2.query_param("size").value.set(16, 16)
 node2.query_param("unit").value = 8
 
-node2.conn_segs = [ ::maths::vector::Vector3(2, -0, 0), ::maths::vector::Vector3(9, 12, 0), ::maths::vector::Vector3(14, 1, 0), ::maths::vector::Vector3(4, 7, 0), ::maths::vector::Vector3(14, 1, 0), ::maths::vector::Vector3(15, 1, 0) ]
+node2.conn_segs = [ ::maths::vector::Vector3(14, 1, 0), ::maths::vector::Vector3(4, 7, 0), ::maths::vector::Vector3(16, 1, 1), ::maths::vector::Vector3(16, 1, 1), ::maths::vector::Vector3(16, 1, 1), ::maths::vector::Vector3(14, 1, 1), ::maths::vector::Vector3(2, -0, 0), ::maths::vector::Vector3(9, 12, 0) ]
 
 _editor.add_node(node2, -420.05806912096, 55.652133734037)
 
@@ -32,7 +32,7 @@ _editor.add_node(node4, -51.17809275592, 72.213551854478)
 
 var node5 = ::blueprint::nodes::number2::Number2()
 
-node5.value.set(5, 2)
+node5.value.set(7, 3)
 
 _editor.add_node(node5, -272.27854911409, -152.39788916951)
 
