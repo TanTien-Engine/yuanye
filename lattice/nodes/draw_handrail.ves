@@ -1,0 +1,116 @@
+import "blueprint.node" for Node
+import "blueprint.pin" for Pin
+import "blueprint.blueprint" for Blueprint
+import "blueprint.variant" for VAR_TYPE_ARRAY, VAR_TYPE_PORT, VAR_TYPE_MATRIX4
+import "blueprint.input_proxy" for InputProxy
+import "geograph.variant" for VarGeo
+import "geograph.nodes.draw_geometry" for DrawGeometry
+import "graphics.camera2d" for Camera2D
+import "maths.vector" for Vector2, Vector3
+import "graphics" for Painter, Graphics
+import "geometry" for Rect
+import "math" for Math
+class DrawHandrail is Node
+{
+	init()
+	{
+		super.init()
+
+		this.imports = [
+			Pin(this, "prev",    VAR_TYPE_PORT),
+			Pin(this, "geos",    VAR_TYPE_ARRAY),
+			Pin(this, "cam_mat", VAR_TYPE_MATRIX4),
+		]
+		this.exports = [
+			Pin(this, "next", VAR_TYPE_PORT)
+		]
+
+		this.layout()
+
+		this.draw_node = DrawGeometry()
+	}
+
+	render_run()
+	{
+		var v_geos = Blueprint.calc_input_value(this, 1)
+		if (!v_geos or !v_geos.value) {
+			return
+		}
+
+		var mat = nil
+		var v_mat = Blueprint.calc_input_value(this, 2)
+		if (v_mat) {
+			mat = v_mat.value
+		}
+
+		var pt = Painter.init()
+		var color = Vector3(1, 0, 0)
+		//var color = Vector3(1, 1, 1)
+		this.draw_node.draw_geo(pt, v_geos, color, mat)
+
+		// scissor by frame's rect
+		var rect = this.get_frame_rect(v_geos.value)
+		if (rect and mat)
+		{
+			var r = rect.get()
+			var x_min = r[0]
+			var y_min = r[1]
+			var x_max = r[2] + x_min
+			var y_max = r[3] + y_min
+
+			var sw = Graphics.get_width()
+			var sh = Graphics.get_height()
+
+			var srt = mat.decompose()
+			var sx = srt[0]
+			var sy = srt[1]
+			var dx = srt[6] / sx
+			var dy = srt[7] / sy
+			var p_min = Camera2D.world2screen(Vector2(x_min, y_min), sw, sh, 1.0 / sx, 1.0 / sy, -dx, -dy)
+			var p_max = Camera2D.world2screen(Vector2(x_max, y_max), sw, sh, 1.0 / sx, 1.0 / sy, -dx, -dy)
+
+			var x0 = Math.floor(p_min.x)
+			var x1 = Math.ceil(p_max.x)
+			var y0 = Math.floor(sh - p_min.y)
+			var y1 = Math.ceil(sh - p_max.y)
+
+			var x = x0
+			var w = x1 - x0
+			var y = y0
+			var h = y1 - y0
+
+			//var screen_scale = 0.5
+			var screen_scale = 1.0
+			x = x * screen_scale
+			y = y * screen_scale
+			w = w * screen_scale
+			h = h * screen_scale
+
+			var line_w = 1.0
+			Graphics.draw_painter_regional(pt, [ x - line_w, y - line_w, w + line_w * 2, h + line_w * 2 ])
+		}
+		else
+		{
+			Graphics.draw_painter(pt)
+		}
+	}
+
+	get_frame_rect(geos)
+	{
+		if (!(geos is List) or geos.count != 2) {
+			return nil
+		}
+
+		var geo = geos[1].value
+		if (!(geo is VarGeo)) {
+			return nil
+		}
+
+		var shape = geo.shape
+		if (!(shape is Rect)) {
+			return nil
+		}
+
+		return shape
+	}
+}

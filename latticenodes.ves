@@ -4,5 +4,5 @@ import "lattice.nodes.crystal_system" for Oblique, Rectangular, Square, Rhombic,
 var LATTICE_NODES = [
 Reflect, Translate, Rotate, GlideReflect,
 Oblique, Rectangular, Square, Rhombic, Hexagonal,
-Canvas,
+Canvas, DrawHandrail,
 ]

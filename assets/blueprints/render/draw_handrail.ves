@@ -1,0 +1,35 @@
+var node0 = ::rendergraph::nodes::clear::Clear()
+
+node0.masks = [ "color" ]
+node0.values = { "color" : [ 128, 128, 128, 255 ], "scissor" : [ 0, 0, 0, 0 ] }
+
+_editor.add_node(node0, -326, 102.5)
+
+var node1 = ::geograph::nodes::draw_geometry::DrawGeometry()
+node1.query_param("skip").value = false
+
+_editor.add_node(node1, 69, -16.5)
+
+var node2 = ::blueprint::nodes::input::Input()
+
+node2.var_name = "geos"
+node2.var_type = [ "num2", "rect", "geo", "array" ]
+
+_editor.add_node(node2, -291, -79.5)
+
+var node3 = ::blueprint::nodes::input::Input()
+
+node3.var_name = "cam_mat"
+node3.var_type = "mat4"
+
+_editor.add_node(node3, -288, -151.5)
+
+var node4 = ::blueprint::nodes::rect::Rect()
+node4.query_param("min").value.set(784.22106933594, 795.33221435547)
+node4.query_param("max").value.set(1000, 1000)
+
+_editor.add_node(node4, -667.57988823275, 179.47323821632)
+
+Blueprint.connect(node0, "next", node1, "prev")
+Blueprint.connect(node2, "var", node1, "geos")
+Blueprint.connect(node3, "var", node1, "cam_mat")

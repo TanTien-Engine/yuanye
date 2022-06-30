@@ -1,5 +1,5 @@
-var node0 = ::geograph::nodes::draw_geometry::DrawGeometry()
-node0.query_param("skip").value = false
+var node0 = ::lattice::nodes::draw_handrail::DrawHandrail()
+
 
 _editor.add_node(node0, 242.24379655369, 193.96571204874)
 
