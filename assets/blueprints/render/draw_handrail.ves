@@ -1,35 +1,63 @@
-var node0 = ::rendergraph::nodes::clear::Clear()
+var node0 = ::geograph::nodes::draw_geometry::DrawGeometry()
+node0.query_param("skip").value = false
 
-node0.masks = [ "color" ]
-node0.values = { "color" : [ 128, 128, 128, 255 ], "scissor" : [ 0, 0, 0, 0 ] }
+_editor.add_node(node0, 490.273, -94.67)
 
-_editor.add_node(node0, -326, 102.5)
+var node1 = ::blueprint::nodes::input::Input()
 
-var node1 = ::geograph::nodes::draw_geometry::DrawGeometry()
-node1.query_param("skip").value = false
+node1.var_name = "geos"
+node1.var_type = [ "num2", "rect", "geo", "array" ]
 
-_editor.add_node(node1, 69, -16.5)
+_editor.add_node(node1, -563.34837411752, 108.62379929339)
 
 var node2 = ::blueprint::nodes::input::Input()
 
-node2.var_name = "geos"
-node2.var_type = [ "num2", "rect", "geo", "array" ]
+node2.var_name = "cam_mat"
+node2.var_type = "mat4"
 
-_editor.add_node(node2, -291, -79.5)
+_editor.add_node(node2, -288, -151.5)
 
-var node3 = ::blueprint::nodes::input::Input()
+var node3 = ::geograph::nodes::scissor::Scissor()
 
-node3.var_name = "cam_mat"
-node3.var_type = "mat4"
+_editor.add_node(node3, -24.90191926781, 257.63503176013)
 
-_editor.add_node(node3, -288, -151.5)
+var node4 = ::blueprint::nodes::merge::Merge()
 
-var node4 = ::blueprint::nodes::rect::Rect()
-node4.query_param("min").value.set(784.22106933594, 795.33221435547)
-node4.query_param("max").value.set(1000, 1000)
+_editor.add_node(node4, 132.09808073219, 199.63503176013)
 
-_editor.add_node(node4, -667.57988823275, 179.47323821632)
+var node5 = ::blueprint::nodes::cache::Cache()
+node5.query_param("disable").value = false
 
-Blueprint.connect(node0, "next", node1, "prev")
-Blueprint.connect(node2, "var", node1, "geos")
-Blueprint.connect(node3, "var", node1, "cam_mat")
+_editor.add_node(node5, 281.14712109829, 86.477255651936)
+
+var node6 = ::blueprint::nodes::fetch::Fetch()
+
+_editor.add_node(node6, -214.23108773928, 290.45707512644)
+
+var node7 = ::blueprint::nodes::integer::Integer()
+
+node7.value = 0
+
+_editor.add_node(node7, -385.6674870325, 291.82312518434)
+
+var node8 = ::blueprint::nodes::fetch::Fetch()
+
+_editor.add_node(node8, -199.65417111039, 174.7666106152)
+
+var node9 = ::blueprint::nodes::integer::Integer()
+
+node9.value = 1
+
+_editor.add_node(node9, -371.09057040361, 176.1326606731)
+
+Blueprint.connect(node1, "var", node8, "items")
+Blueprint.connect(node9, "v", node8, "index")
+Blueprint.connect(node1, "var", node6, "items")
+Blueprint.connect(node7, "v", node6, "index")
+Blueprint.connect(node6, "item", node3, "geo")
+Blueprint.connect(node8, "item", node3, "rect")
+Blueprint.connect(node3, "geo", node4, "in0")
+Blueprint.connect(node8, "item", node4, "in1")
+Blueprint.connect(node4, "list", node5, "var")
+Blueprint.connect(node5, "var", node0, "geos")
+Blueprint.connect(node2, "var", node0, "cam_mat")
