@@ -3,6 +3,7 @@ import "blueprint.pin" for Pin
 import "blueprint.node_param" for NodeParam
 import "blueprint.variant" for Variant, VAR_TYPE_NUMBER2
 import "blueprint.blackboard" for BLACKBOARD
+import "blueprint.blueprint" for Blueprint
 import "geograph.variant" for VAR_TYPE_GEO, VarGeo
 import "editor.colors" for Colors
 import "maths.vector" for Vector2, Vector3
@@ -242,6 +243,8 @@ class Canvas is Node
 
 			this.v_geo = nil
 		}
+
+		Blueprint.send_pin_dirty_root(this.exports[0])
 	}
 
 	on_mouse_released(x, y, btn) 
@@ -269,6 +272,8 @@ class Canvas is Node
 		this.last_sel = nil
 		this.curr_pos = nil
 		this.draw_arc = false
+
+		Blueprint.send_pin_dirty_root(this.exports[0])
 	}
 
 	on_mouse_dragged(x, y, btn) 
