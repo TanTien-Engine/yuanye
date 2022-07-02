@@ -45,9 +45,9 @@ _editor.add_node(node8, 1170.2298032925, 186.42104218939)
 
 var node9 = ::blueprint::nodes::camera3d::Camera3d()
 
-node9.cam.position.set(4.2098316489464, 6.2116934094777, 13.950438854679)
-node9.cam.yaw = -80
-node9.cam.pitch = -32.7
+node9.cam.position.set(4.9414093221068, 7.7831400577011, 7.8615840456932)
+node9.cam.yaw = -90.5
+node9.cam.pitch = -61.5
 node9.cam.zoom = 45
 node9.cam.update_vectors()
 node9.speed = 0.29681244492531
@@ -55,7 +55,7 @@ node9.speed = 0.29681244492531
 _editor.add_node(node9, 779.0462557706, -32.72521944913)
 
 var node10 = ::geograph::nodes::poly_expand::PolyExpand()
-node10.query_param("distance").value = 3.655476808548
+node10.query_param("distance").value = 2.988810300827
 
 _editor.add_node(node10, 299.1007087411, 195.49392272593)
 
@@ -72,6 +72,10 @@ var node13 = ::geograph::nodes::brush_merge::BrushMerge()
 
 _editor.add_node(node13, 759.33486818103, 240.44409133831)
 
+var node14 = ::geograph::nodes::shape_merge::ShapeMerge()
+
+_editor.add_node(node14, 226.71775330645, 283.24952620944)
+
 Blueprint.connect(node0, "var", node6, "items")
 Blueprint.connect(node7, "v", node6, "index")
 Blueprint.connect(node0, "var", node4, "items")
@@ -80,7 +84,8 @@ Blueprint.connect(node4, "item", node1, "geo")
 Blueprint.connect(node6, "item", node1, "rect")
 Blueprint.connect(node1, "geo", node2, "in0")
 Blueprint.connect(node6, "item", node2, "in1")
-Blueprint.connect(node2, "list", node10, "geo")
+Blueprint.connect(node2, "list", node14, "geo")
+Blueprint.connect(node14, "geo", node10, "geo")
 Blueprint.connect(node10, "geo", node11, "geo")
 Blueprint.connect(node11, "geo", node12, "list")
 Blueprint.connect(node12, "list", node13, "list")
