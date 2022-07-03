@@ -2,7 +2,6 @@ import "blueprint.node" for Node
 import "blueprint.pin" for Pin
 import "blueprint.blueprint" for Blueprint
 import "blueprint.variant" for VAR_TYPE_ARRAY, VAR_TYPE_PORT, VAR_TYPE_MATRIX4
-import "blueprint.input_proxy" for InputProxy
 import "geograph.variant" for VarGeo
 import "geograph.nodes.draw_geometry" for DrawGeometry
 import "graphics.camera2d" for Camera2D
