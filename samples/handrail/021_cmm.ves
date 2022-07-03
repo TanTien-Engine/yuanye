@@ -1,6 +1,5 @@
 var node0 = ::lattice::nodes::draw_handrail::DrawHandrail()
 
-
 _editor.add_node(node0, 206.81629843198, 172.23543406226)
 
 var node1 = ::blueprint::nodes::camera2d::Camera2d()
@@ -10,7 +9,7 @@ node1.y = 220.70710304509
 node1.scale = 0.62092132305916
 node1.speed = 0.01
 
-_editor.add_node(node1, 53.805128088071, 98.56134396387)
+_editor.add_node(node1, -365.19487191193, -73.43865603613)
 
 var node2 = ::lattice::nodes::canvas::Canvas()
 node2.query_param("type").value = "quad"
@@ -39,6 +38,7 @@ node5.value.set(4, 3)
 
 _editor.add_node(node5, -193.41799926758, 105.21450439453)
 
+Blueprint.connect(node1, "mat", node2, "cam_mat")
 Blueprint.connect(node2, "geo", node3, "geo")
 Blueprint.connect(node2, "size", node3, "size")
 Blueprint.connect(node5, "v2", node3, "grids")

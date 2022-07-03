@@ -5,7 +5,7 @@ node0.y = 312.22459818742
 node0.scale = 1.4641
 node0.speed = 0.15367764234543
 
-_editor.add_node(node0, -7.54987191193, -50.12765603613)
+_editor.add_node(node0, -297.54987191193, -118.12765603613)
 
 var node1 = ::lattice::nodes::canvas::Canvas()
 node1.query_param("type").value = "tri6"
@@ -14,27 +14,28 @@ node1.query_param("unit").value = 8
 
 node1.conn_segs = [ ::maths::vector::Vector3(1, 2, 0), ::maths::vector::Vector3(10, 2, 0), ::maths::vector::Vector3(8, 14, 0), ::maths::vector::Vector3(8, -0, 0) ]
 
-_editor.add_node(node1, -401.36627272727, 41.55572727273)
+_editor.add_node(node1, -110.36627272727, 78.55572727273)
 
 var node2 = ::blueprint::nodes::split::Split()
 
-_editor.add_node(node2, -242.71096115945, -8.95108536044)
+_editor.add_node(node2, 48.28903884055, 28.04891463956)
 
 var node3 = ::blueprint::nodes::subgraph::Subgraph()
 node3.load_from_file(_editor, "../../assets/blueprints/wallpaper_groups/p6m.ves")
 
-_editor.add_node(node3, -61, 60)
+_editor.add_node(node3, 230, 97)
 
 var node4 = ::blueprint::nodes::number2::Number2()
 
 node4.value.set(7, 3)
 
-_editor.add_node(node4, -245.23121632749, -114.08082678012)
+_editor.add_node(node4, 45.76878367251, -77.08082678012)
 
 var node5 = ::lattice::nodes::draw_handrail::DrawHandrail()
 
-_editor.add_node(node5, 138.27272727273, 53.818181818182)
+_editor.add_node(node5, 429.27272727273, 90.818181818182)
 
+Blueprint.connect(node0, "mat", node1, "cam_mat")
 Blueprint.connect(node1, "size", node2, "xy")
 Blueprint.connect(node1, "geo", node3, "geo")
 Blueprint.connect(node2, "x", node3, "size")

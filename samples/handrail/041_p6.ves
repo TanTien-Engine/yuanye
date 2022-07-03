@@ -1,7 +1,6 @@
 var node0 = ::lattice::nodes::draw_handrail::DrawHandrail()
 
-
-_editor.add_node(node0, 134.82843291733, 24.815984776013)
+_editor.add_node(node0, 345.82843291733, 20.815984776013)
 
 var node1 = ::blueprint::nodes::camera2d::Camera2d()
 
@@ -10,7 +9,7 @@ node1.y = 260.32575296831
 node1.scale = 1.61051
 node1.speed = 0.15367764234543
 
-_editor.add_node(node1, -7.54987191193, -50.12765603613)
+_editor.add_node(node1, -386.54987191193, -179.12765603613)
 
 var node2 = ::lattice::nodes::canvas::Canvas()
 node2.query_param("type").value = "tri6"
@@ -19,23 +18,24 @@ node2.query_param("unit").value = 8
 
 node2.conn_segs = [ ::maths::vector::Vector3(1, 2, 0), ::maths::vector::Vector3(1, 2, 0), ::maths::vector::Vector3(10, 0, 0), ::maths::vector::Vector3(10, 5, 0), ::maths::vector::Vector3(10, 5, 1), ::maths::vector::Vector3(13, 12, 1), ::maths::vector::Vector3(13, 12, 1), ::maths::vector::Vector3(7, 12, 1), ::maths::vector::Vector3(-0, 0, 0), ::maths::vector::Vector3(20, 0, 0) ]
 
-_editor.add_node(node2, -402.36627272727, 41.55572727273)
+_editor.add_node(node2, -191.36627272727, 37.55572727273)
 
 var node3 = ::blueprint::nodes::split::Split()
 
-_editor.add_node(node3, -242.71096115945, -70.558899034369)
+_editor.add_node(node3, -31.71096115945, -74.558899034369)
 
 var node4 = ::blueprint::nodes::subgraph::Subgraph()
 node4.load_from_file(_editor, "../../assets/blueprints/wallpaper_groups/p6.ves")
 
-_editor.add_node(node4, -57, 73)
+_editor.add_node(node4, 154, 69)
 
 var node5 = ::blueprint::nodes::number2::Number2()
 
 node5.value.set(7, 3)
 
-_editor.add_node(node5, -245.23119846633, 34.679491279539)
+_editor.add_node(node5, -34.23119846633, 30.679491279539)
 
+Blueprint.connect(node1, "mat", node2, "cam_mat")
 Blueprint.connect(node2, "size", node3, "xy")
 Blueprint.connect(node2, "geo", node4, "geo")
 Blueprint.connect(node5, "v2", node4, "grids")

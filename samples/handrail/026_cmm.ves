@@ -1,6 +1,5 @@
 var node0 = ::lattice::nodes::draw_handrail::DrawHandrail()
 
-
 _editor.add_node(node0, 253.24379655369, 171.96571204874)
 
 var node1 = ::blueprint::nodes::camera2d::Camera2d()
@@ -10,7 +9,7 @@ node1.y = 142.95037158431
 node1.scale = 2.14358881
 node1.speed = 0.01
 
-_editor.add_node(node1, 52.805128088071, 98.56134396387)
+_editor.add_node(node1, -379.19487191193, -140.43865603613)
 
 var node2 = ::lattice::nodes::canvas::Canvas()
 node2.query_param("type").value = "quad"
@@ -23,8 +22,7 @@ _editor.add_node(node2, -197.3, 172.5)
 
 var node3 = ::blueprint::nodes::subgraph::Subgraph()
 node3.load_from_file(_editor, "../../assets/blueprints/wallpaper_groups/cmm.ves")
-node3.set_prop_value("sub_x", false)
-node3.set_prop_value("sub_y", false)
+node3.set_prop_value("frame_inc_y", false)
 
 _editor.add_node(node3, 29, 231)
 
@@ -40,6 +38,7 @@ node5.value.set(5, 5)
 
 _editor.add_node(node5, -187.36799316406, 54.394519042969)
 
+Blueprint.connect(node1, "mat", node2, "cam_mat")
 Blueprint.connect(node2, "geo", node3, "geo")
 Blueprint.connect(node2, "size", node3, "size")
 Blueprint.connect(node5, "v2", node3, "grids")

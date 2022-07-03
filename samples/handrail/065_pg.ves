@@ -1,7 +1,6 @@
 var node0 = ::lattice::nodes::draw_handrail::DrawHandrail()
 
-
-_editor.add_node(node0, 210.57287243649, 206.79591490373)
+_editor.add_node(node0, 321.57287243649, 51.79591490373)
 
 var node1 = ::blueprint::nodes::camera2d::Camera2d()
 
@@ -10,7 +9,7 @@ node1.y = 96.938469743
 node1.scale = 0.68301345536507
 node1.speed = 0.015564945526421
 
-_editor.add_node(node1, 62.82090569889, 136.12708400895)
+_editor.add_node(node1, -238.17909430111, -92.87291599105)
 
 var node2 = ::lattice::nodes::canvas::Canvas()
 node2.query_param("type").value = "quad"
@@ -19,20 +18,21 @@ node2.query_param("unit").value = 8
 
 node2.conn_segs = [ ::maths::vector::Vector3(4, 2, 0), ::maths::vector::Vector3(4, -0, 0), ::maths::vector::Vector3(0, 6, 0), ::maths::vector::Vector3(4, 2, 0), ::maths::vector::Vector3(4, 2, 0), ::maths::vector::Vector3(8, 6, 0), ::maths::vector::Vector3(4, 16, 0), ::maths::vector::Vector3(4, 12, 0), ::maths::vector::Vector3(4, 12, 0), ::maths::vector::Vector3(0, 8, 0), ::maths::vector::Vector3(4, 12, 0), ::maths::vector::Vector3(8, 8, 0), ::maths::vector::Vector3(8, 10, 0), ::maths::vector::Vector3(7, 9, 0), ::maths::vector::Vector3(0, 10, 0), ::maths::vector::Vector3(1, 9, 0) ]
 
-_editor.add_node(node2, -195.2509596339, 229.92408988457)
+_editor.add_node(node2, -84.2509596339, 74.92408988457)
 
 var node3 = ::blueprint::nodes::subgraph::Subgraph()
 node3.load_from_file(_editor, "../../assets/blueprints/wallpaper_groups/pg.ves")
 node3.set_prop_value("vert", false)
 
-_editor.add_node(node3, 12, 258)
+_editor.add_node(node3, 123, 103)
 
 var node4 = ::blueprint::nodes::number2::Number2()
 
 node4.value.set(5, 1)
 
-_editor.add_node(node4, -191.13655043329, 113.56755048722)
+_editor.add_node(node4, -80.13655043329, -41.43244951278)
 
+Blueprint.connect(node1, "mat", node2, "cam_mat")
 Blueprint.connect(node2, "geo", node3, "geo")
 Blueprint.connect(node2, "size", node3, "size")
 Blueprint.connect(node4, "v2", node3, "grids")

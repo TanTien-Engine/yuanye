@@ -1,10 +1,12 @@
 import "blueprint.node" for Node
 import "blueprint.pin" for Pin
 import "blueprint.node_param" for NodeParam
-import "blueprint.variant" for Variant, VAR_TYPE_NUMBER2
-import "blueprint.blackboard" for BLACKBOARD
+import "blueprint.variant" for Variant, VAR_TYPE_NUMBER2, VAR_TYPE_MATRIX4
 import "blueprint.blueprint" for Blueprint
+import "blueprint.input_proxy" for InputProxy
+import "blueprint.variant_proxy" for VariantProxy
 import "geograph.variant" for VAR_TYPE_GEO, VarGeo
+import "editorgraph.nodes.coord_trans" for CoordTrans
 import "editor.colors" for Colors
 import "maths.vector" for Vector2, Vector3
 import "graphics" for Painter, Graphics
@@ -20,6 +22,9 @@ class Canvas is Node
 	{
 		super.init()
 
+		this.imports = [
+			Pin(this, "cam_mat", VAR_TYPE_MATRIX4),
+		]
 		this.exports = [
 			Pin(this, "geo",  VAR_TYPE_GEO),
 			Pin(this, "size", VAR_TYPE_NUMBER2),
@@ -38,6 +43,9 @@ class Canvas is Node
 		this.draw_arc = false
 
 		this.v_geo = nil
+
+		this.coord_trans_node = CoordTrans()
+		Blueprint.connect(InputProxy(this, "cam_mat"), "out", this.coord_trans_node, "cam_mat")
 	}
 
 	calc_value(idx)
@@ -68,6 +76,12 @@ class Canvas is Node
 
 	draw_editor() 
 	{
+		var mat = nil
+		var v_mat = Blueprint.calc_input_value(this, 0)
+		if (v_mat) {
+			mat = v_mat.value
+		}
+
 		var pt = Painter.init()
 
 		var size = this.query_param("size").value
@@ -75,116 +89,116 @@ class Canvas is Node
 
 		var type = this.query_param("type").value
 		if (type == "quad") {
-			this.draw_quad_canvas(pt, size, unit)
+			this.draw_quad_canvas(mat, pt, size, unit)
 		} else if (type == "tri3") {
-			this.draw_tri3_canvas(pt, size, unit)
+			this.draw_tri3_canvas(mat, pt, size, unit)
 		} else if (type == "tri4") {
-			this.draw_tri4_canvas(pt, size, unit)
+			this.draw_tri4_canvas(mat, pt, size, unit)
 		} else if (type == "tri6") {
-			this.draw_tri6_canvas(pt, size, unit)
+			this.draw_tri6_canvas(mat, pt, size, unit)
 		} else if (type == "tri8") {
-			this.draw_tri8_canvas(pt, size, unit)
+			this.draw_tri8_canvas(mat, pt, size, unit)
 		}
 
-		this.draw_edited_shapes(pt, unit)
+		this.draw_edited_shapes(mat, pt, unit)
 
 		Graphics.draw_painter(pt)
 	}
 
-	draw_quad_canvas(pt, size, unit)
+	draw_quad_canvas(mat, pt, size, unit)
 	{
 		// border
 		var width  = size.x * unit
 		var height = size.y * unit
-		pt.add_rect(nil, [0, 0, width, height], Colors.select_red(), 2)
+		pt.add_rect(mat, [0, 0, width, height], Colors.select_red(), 2)
 
 		// points
 		for (var y = 0; y <= size.y; y = y + 1) {
 			for (var x = 0; x <= size.x; x = x + 1) {
-				this.draw_ctrl_pos(pt, x * unit, y * unit)
+				this.draw_ctrl_pos(mat, pt, x * unit, y * unit)
 			}
 		}
 	}
 
-	draw_tri3_canvas(pt, size, unit)
+	draw_tri3_canvas(mat, pt, size, unit)
 	{
 		// border
 		var width  = size.x * unit
 		var hw = width / 2.0
 		var height = hw / 1.732
 		var verts = [ 0, 0, width, 0, hw, height ]
-		pt.add_polygon(nil, verts, Colors.select_red(), 2)
+		pt.add_polygon(mat, verts, Colors.select_red(), 2)
 
 		// points
 		var h = size.x / 2.0 / 1.5
 		for (var y = 0; y <= size.y; y = y + 1) {
 			for (var x = 0; x <= size.x; x = x + 1) {
 				if (y < h) {
-					this.draw_ctrl_pos(pt, x * unit, y * unit)
+					this.draw_ctrl_pos(mat, pt, x * unit, y * unit)
 				}
 			}
 		}
 	}
 
-	draw_tri4_canvas(pt, size, unit)
+	draw_tri4_canvas(mat, pt, size, unit)
 	{
 		// border
 		var width  = size.x * unit
 		var height = size.y * unit
 		var verts = [ 0, 0, width, 0, 0, height ]
-		pt.add_polygon(nil, verts, Colors.select_red(), 2)
+		pt.add_polygon(mat, verts, Colors.select_red(), 2)
 
 		// points
 		for (var y = 0; y <= size.y; y = y + 1) {
 			for (var x = 0; x <= size.x; x = x + 1) {
 				if ((size.x - x) >= y) {
-					this.draw_ctrl_pos(pt, x * unit, y * unit)
+					this.draw_ctrl_pos(mat, pt, x * unit, y * unit)
 				}
 			}
 		}
 	}
 
-	draw_tri6_canvas(pt, size, unit)
+	draw_tri6_canvas(mat, pt, size, unit)
 	{
 		// border
 		var width = size.x * unit
 		var hw = width / 2.0
 		var height = hw * Math.sqrt(3)
 		var verts = [ 0, 0, width, 0, hw, height ]
-		pt.add_polygon(nil, verts, Colors.select_red(), 2)
+		pt.add_polygon(mat, verts, Colors.select_red(), 2)
 
 		// points
 		for (var y = 0; y <= size.y; y = y + 1) {
 			for (var x = 0; x <= size.x; x = x + 1) {
-				this.draw_ctrl_pos(pt, x * unit, y * unit)
+				this.draw_ctrl_pos(mat, pt, x * unit, y * unit)
 			}
 		}
 	}
 
-	draw_tri8_canvas(pt, size, unit)
+	draw_tri8_canvas(mat, pt, size, unit)
 	{
 		// border
 		var width  = size.x * unit
 		var height = size.y * unit
 		var verts = [ 0, 0, width, 0, width, height ]
-		pt.add_polygon(nil, verts, Colors.select_red(), 2)
+		pt.add_polygon(mat, verts, Colors.select_red(), 2)
 
 		// points
 		for (var y = 0; y <= size.y; y = y + 1) {
 			for (var x = 0; x <= size.x; x = x + 1) {
 				if (x >= y) {
-					this.draw_ctrl_pos(pt, x * unit, y * unit)
+					this.draw_ctrl_pos(mat, pt, x * unit, y * unit)
 				}
 			}
 		}
 	}
 
-	draw_ctrl_pos(pt, x, y)
+	draw_ctrl_pos(mat, pt, x, y)
 	{
-		pt.add_circle_filled(nil, x, y, NODE_RADIUS, [255, 0, 0, 255], 8)
+		pt.add_circle_filled(mat, x, y, NODE_RADIUS, [255, 0, 0, 255], 8)
 	}
 
-	draw_edited_shapes(pt, unit)
+	draw_edited_shapes(mat, pt, unit)
 	{
 		// conn_segs
 		for (var i = 0; i < this.conn_segs.count; i = i + 2)
@@ -207,12 +221,12 @@ class Canvas is Node
 				var s = angle[0]
 				var e = angle[1]
 
-				pt.add_arc(nil, cx, cy, r, s, e, [255, 255, 255], 2, 12)
+				pt.add_arc(mat, cx, cy, r, s, e, [255, 255, 255], 2, 12)
 			}
 			else
 			{
 				var line = [ p0.x * unit, p0.y * unit, p1.x * unit, p1.y * unit ]
-				pt.add_line(nil, line, [255, 255, 255], 2)
+				pt.add_line(mat, line, [255, 255, 255], 2)
 			}
 		}
 
@@ -220,7 +234,7 @@ class Canvas is Node
 		if (this.last_sel and this.curr_pos) 
 		{
 			var line = [ this.last_sel.x * unit, this.last_sel.y * unit, this.curr_pos.x, this.curr_pos.y ]
-			pt.add_line(nil, line, [255, 255, 255], 2)
+			pt.add_line(mat, line, [255, 255, 255], 2)
 		}
 	}
 
@@ -228,7 +242,7 @@ class Canvas is Node
 	{
 		if (btn == MOUSE_LEFT or btn == MOUSE_MIDDLE)
 		{
-			var pos = BLACKBOARD.editor_cam.screen2world(Vector2(x, y))
+			var pos = this.screen2world(x, y)
 			this.last_sel = this.query_node_by_pos(pos)
 
 			if (btn == MOUSE_MIDDLE) {
@@ -237,7 +251,7 @@ class Canvas is Node
 		}
 		else if (btn == MOUSE_RIGHT)
 		{
-			var pos = BLACKBOARD.editor_cam.screen2world(Vector2(x, y))
+			var pos = this.screen2world(x, y)
 			var node = this.query_node_by_pos(pos)
 			this.remove_segment(node)
 
@@ -249,8 +263,7 @@ class Canvas is Node
 
 	on_mouse_released(x, y, btn) 
 	{
-		import "blueprint.blackboard" for BLACKBOARD
-		var pos = BLACKBOARD.editor_cam.screen2world(Vector2(x, y))
+		var pos = this.screen2world(x, y)
 
 		var ipos = this.query_node_by_pos(pos)
 		if (this.last_sel and ipos)
@@ -278,7 +291,7 @@ class Canvas is Node
 
 	on_mouse_dragged(x, y, btn) 
 	{
-		this.curr_pos = BLACKBOARD.editor_cam.screen2world(Vector2(x, y))
+		this.curr_pos = this.screen2world(x, y)
 	}
 
 	query_node_by_pos(pos)
@@ -416,5 +429,12 @@ class Canvas is Node
 			e = t + Math.pi() * 2
 		}
 		return [ s, e ]
+	}
+
+	screen2world(x, y)
+	{
+		Blueprint.connect(VariantProxy(Variant(Vector2(x, y))), "out", this.coord_trans_node, "screen")
+		var v_ret = Blueprint.calc_output_value(this.coord_trans_node, "world")
+		return v_ret.value
 	}
 }

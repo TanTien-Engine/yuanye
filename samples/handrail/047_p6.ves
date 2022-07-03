@@ -1,7 +1,6 @@
 var node0 = ::lattice::nodes::draw_handrail::DrawHandrail()
 
-
-_editor.add_node(node0, 134.82843291733, 24.815984776013)
+_editor.add_node(node0, 380.82843291733, 30.815984776013)
 
 var node1 = ::blueprint::nodes::camera2d::Camera2d()
 
@@ -10,7 +9,7 @@ node1.y = 310.45938696857
 node1.scale = 1.331
 node1.speed = 0.15367764234543
 
-_editor.add_node(node1, -7.54987191193, -50.12765603613)
+_editor.add_node(node1, -311.54987191193, -141.12765603613)
 
 var node2 = ::lattice::nodes::canvas::Canvas()
 node2.query_param("type").value = "tri6"
@@ -19,23 +18,24 @@ node2.query_param("unit").value = 8
 
 node2.conn_segs = [ ::maths::vector::Vector3(12, 4, 0), ::maths::vector::Vector3(12, 4, 0), ::maths::vector::Vector3(16, 7, 3), ::maths::vector::Vector3(4, 7, 3), ::maths::vector::Vector3(10, 10, 0), ::maths::vector::Vector3(13, 12, 0), ::maths::vector::Vector3(10, 10, 0), ::maths::vector::Vector3(7, 12, 0), ::maths::vector::Vector3(16, 7, 0), ::maths::vector::Vector3(13, 12, 0), ::maths::vector::Vector3(7, 4, 0), ::maths::vector::Vector3(7, -0, 0), ::maths::vector::Vector3(13, 4, 0), ::maths::vector::Vector3(13, -0, 0) ]
 
-_editor.add_node(node2, -404.36627272727, 42.729280991738)
+_editor.add_node(node2, -158.36627272727, 48.729280991738)
 
 var node3 = ::blueprint::nodes::split::Split()
 
-_editor.add_node(node3, -248.72147956666, -89.341769056909)
+_editor.add_node(node3, -2.72147956666, -83.341769056909)
 
 var node4 = ::blueprint::nodes::subgraph::Subgraph()
 node4.load_from_file(_editor, "../../assets/blueprints/wallpaper_groups/p6.ves")
 
-_editor.add_node(node4, -57, 73)
+_editor.add_node(node4, 189, 79)
 
 var node5 = ::blueprint::nodes::number2::Number2()
 
 node5.value.set(6, 3)
 
-_editor.add_node(node5, -254.24697098707, 30.171615222269)
+_editor.add_node(node5, -8.24697098707, 36.171615222269)
 
+Blueprint.connect(node1, "mat", node2, "cam_mat")
 Blueprint.connect(node2, "size", node3, "xy")
 Blueprint.connect(node2, "geo", node4, "geo")
 Blueprint.connect(node5, "v2", node4, "grids")

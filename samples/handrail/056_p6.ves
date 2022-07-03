@@ -1,7 +1,6 @@
 var node0 = ::lattice::nodes::draw_handrail::DrawHandrail()
 
-
-_editor.add_node(node0, 134.82843291733, 24.815984776013)
+_editor.add_node(node0, 352.82843291733, 35.815984776013)
 
 var node1 = ::blueprint::nodes::camera2d::Camera2d()
 
@@ -10,7 +9,7 @@ node1.y = 296.49346335198
 node1.scale = 1.61051
 node1.speed = 0.15367764234543
 
-_editor.add_node(node1, -7.54987191193, -50.12765603613)
+_editor.add_node(node1, -332.54987191193, -107.12765603613)
 
 var node2 = ::lattice::nodes::canvas::Canvas()
 node2.query_param("type").value = "tri6"
@@ -19,23 +18,24 @@ node2.query_param("unit").value = 8
 
 node2.conn_segs = [ ::maths::vector::Vector3(16, 8, 0), ::maths::vector::Vector3(16, 8, 0), ::maths::vector::Vector3(8, 13, 0), ::maths::vector::Vector3(8, 13, 0), ::maths::vector::Vector3(0, -0, 0), ::maths::vector::Vector3(20, 0, 0), ::maths::vector::Vector3(6, 8, 1), ::maths::vector::Vector3(8, 10, 1), ::maths::vector::Vector3(10, 12, 1), ::maths::vector::Vector3(8, 10, 1), ::maths::vector::Vector3(8, 10, 1), ::maths::vector::Vector3(8, 10, 1), ::maths::vector::Vector3(10, 12, 0), ::maths::vector::Vector3(12, 12, 0), ::maths::vector::Vector3(12, 12, 0), ::maths::vector::Vector3(13, 12, 0), ::maths::vector::Vector3(2, 2, 0), ::maths::vector::Vector3(6, 8, 0), ::maths::vector::Vector3(2, 2, 1), ::maths::vector::Vector3(0, 0, 1), ::maths::vector::Vector3(9, 11, 1), ::maths::vector::Vector3(7, 12, 1) ]
 
-_editor.add_node(node2, -402.36627272727, 41.55572727273)
+_editor.add_node(node2, -184.36627272727, 52.55572727273)
 
 var node3 = ::blueprint::nodes::split::Split()
 
-_editor.add_node(node3, -250.55622036306, -76.071250649696)
+_editor.add_node(node3, -32.55622036306, -65.071250649696)
 
 var node4 = ::blueprint::nodes::subgraph::Subgraph()
 node4.load_from_file(_editor, "../../assets/blueprints/wallpaper_groups/p6.ves")
 
-_editor.add_node(node4, -57, 73)
+_editor.add_node(node4, 161, 84)
 
 var node5 = ::blueprint::nodes::number2::Number2()
 
 node5.value.set(7, 3)
 
-_editor.add_node(node5, -258.75486745053, 33.928191748891)
+_editor.add_node(node5, -40.75486745053, 44.928191748891)
 
+Blueprint.connect(node1, "mat", node2, "cam_mat")
 Blueprint.connect(node2, "size", node3, "xy")
 Blueprint.connect(node2, "geo", node4, "geo")
 Blueprint.connect(node5, "v2", node4, "grids")
