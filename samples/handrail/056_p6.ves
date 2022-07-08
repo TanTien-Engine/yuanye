@@ -16,7 +16,7 @@ node2.query_param("type").value = "tri6"
 node2.query_param("size").value.set(20, 20)
 node2.query_param("unit").value = 8
 
-node2.conn_segs = [ ::maths::vector::Vector3(16, 8, 0), ::maths::vector::Vector3(16, 8, 0), ::maths::vector::Vector3(8, 13, 0), ::maths::vector::Vector3(8, 13, 0), ::maths::vector::Vector3(0, -0, 0), ::maths::vector::Vector3(20, 0, 0), ::maths::vector::Vector3(6, 8, 1), ::maths::vector::Vector3(8, 10, 1), ::maths::vector::Vector3(10, 12, 1), ::maths::vector::Vector3(8, 10, 1), ::maths::vector::Vector3(8, 10, 1), ::maths::vector::Vector3(8, 10, 1), ::maths::vector::Vector3(10, 12, 0), ::maths::vector::Vector3(12, 12, 0), ::maths::vector::Vector3(12, 12, 0), ::maths::vector::Vector3(13, 12, 0), ::maths::vector::Vector3(2, 2, 0), ::maths::vector::Vector3(6, 8, 0), ::maths::vector::Vector3(2, 2, 1), ::maths::vector::Vector3(0, 0, 1), ::maths::vector::Vector3(9, 11, 1), ::maths::vector::Vector3(7, 12, 1) ]
+node2.conn_segs = [ ::maths::vector::Vector3(16, 8, 0), ::maths::vector::Vector3(16, 8, 0), ::maths::vector::Vector3(8, 13, 0), ::maths::vector::Vector3(8, 13, 0), ::maths::vector::Vector3(0, -0, 0), ::maths::vector::Vector3(20, 0, 0), ::maths::vector::Vector3(12, 5, 0), ::maths::vector::Vector3(12, 5, 0), ::maths::vector::Vector3(7, 8, 0.5), ::maths::vector::Vector3(12, 14, 0.5), ::maths::vector::Vector3(10, 13, 0.5), ::maths::vector::Vector3(8, 14, 0.5), ::maths::vector::Vector3(7, 8, 0.5), ::maths::vector::Vector3(-0, 0, 0.5) ]
 
 _editor.add_node(node2, -184.36627272727, 52.55572727273)
 
