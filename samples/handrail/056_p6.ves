@@ -35,7 +35,21 @@ node5.value.set(7, 3)
 
 _editor.add_node(node5, -40.75486745053, 44.928191748891)
 
-Blueprint.connect(node1, "mat", node2, "cam_mat")
+var node6 = ::blueprint::nodes::multiply::Multiply()
+
+_editor.add_node(node6, -326.62, 90.695)
+
+var node7 = ::blueprint::nodes::translate::Translate()
+
+node7.dx = 0
+node7.dy = 554.1
+node7.dz = 0
+
+_editor.add_node(node7, -453.62, 40.695)
+
+Blueprint.connect(node1, "mat", node6, "a")
+Blueprint.connect(node7, "mat", node6, "b")
+Blueprint.connect(node6, "v", node2, "cam_mat")
 Blueprint.connect(node2, "size", node3, "xy")
 Blueprint.connect(node2, "geo", node4, "geo")
 Blueprint.connect(node5, "v2", node4, "grids")
