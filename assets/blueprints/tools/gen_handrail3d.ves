@@ -1,0 +1,78 @@
+var node0 = ::blueprint::nodes::input::Input()
+
+node0.var_name = "geos"
+node0.var_type = [ "num2", "rect", "geo", "array" ]
+
+_editor.add_node(node0, -563.34837411752, 108.62379929339)
+
+var node1 = ::geograph::nodes::scissor::Scissor()
+
+_editor.add_node(node1, -24.90191926781, 257.63503176013)
+
+var node2 = ::blueprint::nodes::merge::Merge()
+
+_editor.add_node(node2, 132.09808073219, 199.63503176013)
+
+var node3 = ::blueprint::nodes::fetch::Fetch()
+
+_editor.add_node(node3, -214.23108773928, 290.45707512644)
+
+var node4 = ::blueprint::nodes::integer::Integer()
+
+node4.value = 0
+
+_editor.add_node(node4, -385.6674870325, 291.82312518434)
+
+var node5 = ::blueprint::nodes::fetch::Fetch()
+
+_editor.add_node(node5, -199.65417111039, 174.7666106152)
+
+var node6 = ::blueprint::nodes::integer::Integer()
+
+node6.value = 1
+
+_editor.add_node(node6, -371.09057040361, 176.1326606731)
+
+var node7 = ::geograph::nodes::poly_expand::PolyExpand()
+node7.query_param("distance").value = 2.988810300827
+
+_editor.add_node(node7, 299.1007087411, 195.49392272593)
+
+var node8 = ::geograph::nodes::poly_extrude::PolyExtrude()
+node8.query_param("distance").value = 0.1
+
+_editor.add_node(node8, 472.48148818997, 193.45126402293)
+
+var node9 = ::blueprint::nodes::list_flatten::ListFlatten()
+
+_editor.add_node(node9, 642.50021644323, 198.26392823642)
+
+var node10 = ::geograph::nodes::brush_merge::BrushMerge()
+
+_editor.add_node(node10, 783.53486818103, 207.77409133831)
+
+var node11 = ::geograph::nodes::shape_merge::ShapeMerge()
+
+_editor.add_node(node11, 226.71775330645, 283.24952620944)
+
+var node12 = ::blueprint::nodes::output::Output()
+
+node12.var_name = "geos"
+node12.var_type = "array"
+
+_editor.add_node(node12, 930.80357062543, 208.0321031119)
+
+Blueprint.connect(node0, "var", node5, "items")
+Blueprint.connect(node6, "v", node5, "index")
+Blueprint.connect(node0, "var", node3, "items")
+Blueprint.connect(node4, "v", node3, "index")
+Blueprint.connect(node3, "item", node1, "geo")
+Blueprint.connect(node5, "item", node1, "rect")
+Blueprint.connect(node1, "geo", node2, "in0")
+Blueprint.connect(node5, "item", node2, "in1")
+Blueprint.connect(node2, "list", node11, "geo")
+Blueprint.connect(node11, "geo", node7, "geo")
+Blueprint.connect(node7, "geo", node8, "geo")
+Blueprint.connect(node8, "geo", node9, "list")
+Blueprint.connect(node9, "list", node10, "list")
+Blueprint.connect(node10, "brush", node12, "var")
